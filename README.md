@@ -14,4 +14,5 @@ Play it at https://neogio73.github.io/retro-reactions/
 - `crater-patrol-intro.mp4` is the moon buggy clip. It plays right before Crater Patrol when a student starts a new mission.
 - `river-run-intro.mp4` plays between Crater Patrol and River Run.
 - `bond-defender-intro.mp4` plays between River Run and Bond Defender.
+- `reaction-brawl-intro.mp4` plays between Bond Defender and Reaction Brawl.
 - Students can skip any of the clips.
