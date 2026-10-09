@@ -1847,8 +1847,9 @@ const PATROL_TRACK = "UklGRu4DBABXQVZFZm10IBAAAAABAAEAAH0AAAD6AAACABAATElTVBoAAA
 </script>
 <script>
 /* ===== Retro Reactions shell: stage order, progress, transitions, final report ===== */
-// Paste a video URL or data: URI here to replace a transition animation, e.g. { s1: "transition-moon-to-titan.mp4" }
-const TRANSITION_VIDEOS = { s1: "", s2: "", s3: "" };
+// Clip shown between stages, keyed by the stage just finished (s1 = before River Run). Put files next to this page.
+// "" or a missing file shows the built-in starfield animation instead.
+const TRANSITION_VIDEOS = { s1: "river-run-intro.mp4", s2: "", s3: "" };
 // Arcade intro on the title screen, before students enter their name. "" skips the title screen.
 const TITLE_VIDEO = "retro-reactions-intro.mp4";
 // Clips that play in order when a student starts a new mission, right before Crater Patrol.
@@ -2002,15 +2003,15 @@ window.RR = (() => {
     $("tCaption").textContent = TRANSITIONS[fromId] || "";
     show("transition");
     const v = $("tVideo"), src = TRANSITION_VIDEOS[fromId];
+    const warp = () => { v.onerror = null; v.hidden = true; v.controls = false; v.removeAttribute("src"); $("tCanvas").hidden = false; $("tCaption").hidden = false; startWarp(fromId); };
     if (src) {
-      v.hidden = false; $("tCanvas").hidden = true; $("tCaption").hidden = true;
-      v.src = src; v.currentTime = 0;
-      v.play().catch(() => { v.controls = true; });
+      v.hidden = false; $("tCanvas").hidden = true; $("tCaption").hidden = true; v.controls = false;
+      v.onerror = warp;
       v.onended = () => $("tGo").focus();
-    } else {
-      v.hidden = true; $("tCanvas").hidden = false; $("tCaption").hidden = false;
-      startWarp(fromId);
-    }
+      v.src = src;
+      const p = v.play();
+      if (p && p.catch) p.catch((err) => { if (err && err.name === "NotAllowedError") v.controls = true; });
+    } else warp();
     SND.tone(392, 0.12, "square", 0.08); setTimeout(() => SND.tone(523, 0.12, "square", 0.08), 120); setTimeout(() => SND.tone(784, 0.3, "square", 0.08), 240);
     $("tGo").focus({ preventScroll: true });
   }

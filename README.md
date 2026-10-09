@@ -12,4 +12,5 @@ Play it at https://neogio73.github.io/retro-reactions/
 - `index.html` is the whole game in one file.
 - `retro-reactions-intro.mp4` is the arcade intro. It plays on the title screen when a student presses Start, before the name page.
 - `crater-patrol-intro.mp4` is the moon buggy clip. It plays right before Crater Patrol when a student starts a new mission.
-- Both can be skipped.
+- `river-run-intro.mp4` plays between Crater Patrol and River Run.
+- Students can skip any of the clips.
