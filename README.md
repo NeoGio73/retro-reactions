@@ -10,4 +10,6 @@ A General Chemistry I review game in four retro arcade stages:
 Play it at https://neogio73.github.io/retro-reactions/
 
 - `index.html` is the whole game in one file.
-- `retro-reactions-intro.mp4` (arcade intro) and `crater-patrol-intro.mp4` (moon buggy clip) play in order when a student starts a new mission, right before Crater Patrol. Students can skip them.
+- `retro-reactions-intro.mp4` is the arcade intro. It plays on the title screen when a student presses Start, before the name page.
+- `crater-patrol-intro.mp4` is the moon buggy clip. It plays right before Crater Patrol when a student starts a new mission.
+- Both can be skipped.
