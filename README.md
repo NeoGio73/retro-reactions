@@ -9,7 +9,7 @@ A General Chemistry I review game in four retro arcade stages:
 
 Play it at https://neogio73.github.io/retro-reactions/
 
-- `index.html` is the whole game in one file.
+- `index.html` is the whole game in one file. After all four stages, students download a PNG completion certificate with a verification code and upload it to the assignment.
 - `retro-reactions-intro.mp4` is the arcade intro. It plays on the title screen when a student presses Start, before the name page.
 - `crater-patrol-intro.mp4` is the moon buggy clip. It plays right before Crater Patrol when a student starts a new mission.
 - `river-run-intro.mp4` plays between Crater Patrol and River Run.

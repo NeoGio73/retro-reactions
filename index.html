@@ -118,6 +118,21 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 .f-code strong{font-family:var(--f-display);font-size:clamp(1.2rem,3.4vw,1.8rem);letter-spacing:.08em;color:var(--accent-hi)}
 .final-card p{margin:0;color:var(--dim)}
 .final-card .note{color:var(--text)}
+/* completion certificate: name in, PNG out */
+.cert{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:start;border-top:1px solid var(--line);padding-top:16px}
+.cert-form{display:grid;gap:10px;align-content:start}
+.cert-form p{margin:0}
+.cert-form input{width:100%;font:inherit;font-size:1.05rem;background:var(--void);color:var(--text);border:1px solid var(--line-hi);border-radius:4px;padding:10px 12px}
+.cert-form input:focus{outline:2px solid var(--cyan);outline-offset:1px}
+.cert-form .sbtn{justify-self:start}
+.cert-status{font-size:.9rem;color:var(--dim)}
+.cert-status.ok{color:var(--good)}
+.cert-status.warn{color:#ff8a6a}
+.cert-fig{margin:0;display:grid;gap:6px;justify-items:center;text-align:center}
+.cert-fig img{width:100%;height:auto;border:1px solid var(--line-hi);border-radius:4px;background:#0b0812}
+.cert-fig b{font-family:var(--f-display);letter-spacing:.12em;color:var(--accent-hi)}
+.cert-fig small{color:var(--faint);font-size:.8rem}
+@media (max-width:820px){.cert{grid-template-columns:minmax(0,1fr)}}
 
 @media (max-width:820px){
   .stage-list{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -859,7 +874,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
         <li><b>Enter your name once.</b> It goes on every stage report and on the final mission report.</li>
         <li><b>Your progress saves after each stage</b> in this browser. If the tab closes, come back, type the same name and continue at the next stage.</li>
         <li><b>Keep a calculator handy</b> for River Run. Numeric answers within 5% count.</li>
-        <li><b>Plan on about an hour</b> for the whole mission. You can stop after any stage.</li>
+        <li><b>Plan on about 45 minutes</b> for the whole mission. You can stop after any stage.</li>
         <li><b>At the end you get one mission report</b> with every stage's score and a mission code. Screenshot it and upload it to the assignment.</li>
       </ul>
     </div>
@@ -918,8 +933,23 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
       </table>
     </div>
     <div class="f-code"><span>Mission code</span><strong id="fCode"></strong></div>
-    <p class="note">Take a screenshot of this whole report, including the mission code, and upload it to the assignment.</p>
+    <p class="note" id="fNote">Take a screenshot of this whole report, including the mission code, and upload it to the assignment.</p>
     <p id="fSoon"></p>
+    <section class="cert" id="certBox" hidden aria-label="Completion certificate">
+      <div class="cert-form">
+        <span class="eyebrow">Completion certificate</span>
+        <p>Type your name as it appears in your course, download your certificate (a PNG picture), and upload it to the assignment.</p>
+        <label class="field" for="certName">Name on the certificate</label>
+        <input type="text" id="certName" maxlength="60" autocomplete="name" spellcheck="false" placeholder="First and last name">
+        <button class="sbtn primary" id="certBtn" type="button" disabled>Download certificate</button>
+        <p class="cert-status" id="certStatus" role="status" aria-live="polite"></p>
+      </div>
+      <figure class="cert-fig">
+        <img id="certImg" alt="Preview of your completion certificate" hidden>
+        <b id="certCode"></b>
+        <small id="certTip">If the download doesn't start, right-click the picture and choose "Save image as…". On a phone, press and hold it.</small>
+      </figure>
+    </section>
     <div><button class="sbtn" id="fMenu" type="button">Back to menu</button></div>
   </section>
 </div>
@@ -1273,7 +1303,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
     <span class="eyebrow" id="s3-scNum">Sector 1 of 4</span>
     <h2 id="s3-scName">Conamara Chaos</h2>
     <p class="sc-sub" id="s3-scSub">Jumbled ice rafts on Europa · Single bonds</p>
-    <p id="s3-scMeta">Three molecules to defend. Shields restored.</p>
+    <p id="s3-scMeta">Two molecules to defend. Shields restored.</p>
     <button class="btn primary" id="s3-goBtn" type="button">Defend</button>
   </section>
 
@@ -2004,7 +2034,189 @@ window.RR = (() => {
     const soon = STAGES.filter((s) => !s.built).map((s) => s.name);
     $("fSoon").textContent = soon.length ? `${soon.join(" and ")} ${soon.length > 1 ? "are" : "is"} still being built and will be added to this game.` : "";
     show("final");
+    certShow(rec, done);
     SND.tone(523, 0.14, "square", 0.08); setTimeout(() => SND.tone(659, 0.14, "square", 0.08), 120); setTimeout(() => SND.tone(784, 0.14, "square", 0.08), 240); setTimeout(() => SND.tone(1047, 0.4, "square", 0.08), 360);
+  }
+
+  /* ---- completion certificate: unlocks after all four stages; the student types a name and downloads a PNG ---- */
+  // The verification code packs the completion minute, mission time and first-try counts, keyed to the name, into 12 characters.
+  const CERT_SALT = "retro-reactions/v1", CERT_EPOCH = Date.UTC(2026, 0, 1), CERT_B32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+  function certHash(str, seed = 0) {
+    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507); h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507); h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+  }
+  const certNorm = (n) => n.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+  function certCode(name, endMs, durMin, first, total) {
+    const mins = BigInt(Math.max(0, Math.min(4194303, Math.floor((endMs - CERT_EPOCH) / 60000))));
+    const d = (mins << 21n) | (BigInt(Math.min(511, durMin)) << 12n) | (BigInt(Math.min(63, first)) << 6n) | BigInt(Math.min(63, total));
+    const mac = BigInt(certHash(CERT_SALT + "|" + certNorm(name) + "|" + d.toString()) % 131072);
+    const ks = BigInt(certHash(CERT_SALT + "#" + mac.toString())) & ((1n << 43n) - 1n);
+    let v = (mac << 43n) | (d ^ ks), out = "";
+    for (let i = 0; i < 12; i++) { out = CERT_B32[Number(v & 31n)] + out; v >>= 5n; }
+    return `${out.slice(0, 4)}-${out.slice(4, 8)}-${out.slice(8)}`;
+  }
+  const CERT = { W: 1650, H: 1275, canvas: null, blob: null, blobName: "", url: "", timer: 0, seq: 0, ready: false, saving: false, fonts: null, data: null };
+  let certDlP = null;
+  // In the Claude preview the save goes through the page's downloads capability; on GitHub Pages, D2L or Canvas a plain link download is used.
+  const certGetDl = () => { if (!certDlP && window.claude && typeof window.claude.use === "function") certDlP = Promise.resolve(window.claude.use("downloads")).catch(() => null); return certDlP || Promise.resolve(null); };
+  const certClean = () => $("certName").value.replace(/\s+/g, " ").trim();
+  const certHasName = (n) => (n.match(/\p{L}/gu) || []).length >= 2;
+  const certWhen = (ms) => { const d = new Date(ms); return `${d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · ${d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`; };
+  const certDur = (m) => (m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${m % 60} min`);
+  function spaced(g, text, x, y, sp) {
+    const chars = [...text], ws = chars.map((c) => g.measureText(c).width), w = ws.reduce((a, b) => a + b, 0) + sp * (chars.length - 1);
+    let cx = x - w / 2; const al = g.textAlign; g.textAlign = "left";
+    chars.forEach((c, i) => { g.fillText(c, cx, y); cx += ws[i] + sp; });
+    g.textAlign = al; return w;
+  }
+  function fitFont(g, text, maxW, make, start, min) { let px = start; g.font = make(px); while (g.measureText(text).width > maxW && px > min) { px -= 2; g.font = make(px); } return px; }
+  function drawCert(g, info) {
+    const { W, H } = CERT, cx = W / 2, pink = "#ff5fae", pinkHi = "#ffa3d2", teal = "#4fe0d0", gold = "#ffd85a", ink = "#f6eef6", dim = "#b2a4c2";
+    const disp = (px) => `700 ${px}px Silkscreen, "Courier New", monospace`, body = (w, px) => `${w} ${px}px Oxanium, "Segoe UI", sans-serif`;
+    let gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, "#0b0812"); gr.addColorStop(0.62, "#1a0d2e"); gr.addColorStop(1, "#2a0f3a");
+    g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    gr = g.createRadialGradient(cx, 240, 30, cx, 240, 820); gr.addColorStop(0, "rgba(255,95,174,0.16)"); gr.addColorStop(1, "rgba(255,95,174,0)");
+    g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    // pixel stars
+    let seed = 11; const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    for (let i = 0; i < 260; i++) { const x = rnd() * W, y = rnd() * (H - 330), s = rnd() < 0.2 ? 4 : 2; g.fillStyle = `rgba(230,224,246,${(0.2 + rnd() * 0.6).toFixed(2)})`; g.fillRect(Math.round(x), Math.round(y), s, s); }
+    // neon grid floor
+    const hz = H - 300; g.save(); g.beginPath(); g.rect(0, hz, W, H - hz); g.clip();
+    g.strokeStyle = "rgba(255,95,174,0.28)"; g.lineWidth = 2;
+    for (let k = -14; k <= 14; k++) { g.beginPath(); g.moveTo(cx + k * 30, hz); g.lineTo(cx + k * 190, H); g.stroke(); }
+    for (let j = 1; j < 10; j++) { const y = hz + Math.pow(j / 9, 1.9) * (H - hz); g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+    g.restore();
+    g.fillStyle = "rgba(79,224,208,0.55)"; g.fillRect(60, hz, W - 120, 2);
+    // frame: pink neon outside, teal inside, pixel corner blocks
+    g.save(); g.shadowColor = pink; g.shadowBlur = 22; g.strokeStyle = pink; g.lineWidth = 5; g.strokeRect(40, 40, W - 80, H - 80); g.restore();
+    g.strokeStyle = "rgba(79,224,208,0.6)"; g.lineWidth = 2; g.strokeRect(60, 60, W - 120, H - 120);
+    g.fillStyle = teal; for (const [x, y] of [[40, 40], [W - 64, 40], [40, H - 64], [W - 64, H - 64]]) { g.fillRect(x, y, 24, 24); g.fillStyle = "#0b0812"; g.fillRect(x + 8, y + 8, 8, 8); g.fillStyle = teal; }
+    g.textAlign = "center"; g.textBaseline = "alphabetic";
+    g.fillStyle = dim; g.font = disp(22); spaced(g, "RETRO REACTIONS  ·  A CHEMISTRY REVIEW IN FOUR ARCADE STAGES", cx, 140, 4);
+    g.font = disp(fitFont(g, "CERTIFICATE OF COMPLETION", 1380, disp, 66, 40));
+    g.fillStyle = "#5a1238"; spaced(g, "CERTIFICATE OF COMPLETION", cx + 5, 242 + 5, 4);
+    g.save(); g.shadowColor = pink; g.shadowBlur = 18; g.fillStyle = pinkHi; spaced(g, "CERTIFICATE OF COMPLETION", cx, 242, 4); g.restore();
+    g.fillStyle = dim; g.font = body(500, 32); g.fillText("This certifies that", cx, 322);
+    const name = info.name || "Your name";
+    fitFont(g, name, 1320, (px) => body(700, px), 104, 44);
+    g.save(); if (info.name) { g.shadowColor = teal; g.shadowBlur = 16; } g.fillStyle = info.name ? "#ffffff" : "rgba(246,238,246,0.28)"; g.fillText(name, cx, 440); g.restore();
+    gr = g.createLinearGradient(cx - 560, 0, cx + 560, 0); gr.addColorStop(0, "rgba(255,95,174,0)"); gr.addColorStop(0.5, "rgba(255,95,174,0.95)"); gr.addColorStop(1, "rgba(255,95,174,0)");
+    g.fillStyle = gr; g.fillRect(cx - 560, 474, 1120, 4);
+    g.fillStyle = ink; g.font = body(500, 31); g.fillText("cleared all four stages of Retro Reactions and every chemistry challenge in", cx, 540);
+    const topics = "BALANCING EQUATIONS  ·  STOICHIOMETRY  ·  LEWIS STRUCTURES";
+    g.font = disp(fitFont(g, topics, 1300, disp, 34, 20)); g.fillStyle = teal; spaced(g, topics, cx, 604, 2);
+    // the four stages, each checked off
+    const stops = info.stages, x0 = 290, x1 = W - 290, ry = 700, step = (x1 - x0) / (stops.length - 1);
+    g.strokeStyle = "rgba(79,224,208,0.5)"; g.lineWidth = 3; g.beginPath(); g.moveTo(x0, ry); g.lineTo(x1, ry); g.stroke();
+    stops.forEach((st, i) => {
+      const x = x0 + i * step;
+      g.fillStyle = gold; g.fillRect(x - 18, ry - 18, 36, 36);
+      g.strokeStyle = "#140a18"; g.lineWidth = 5; g.lineCap = "square"; g.beginPath(); g.moveTo(x - 9, ry + 1); g.lineTo(x - 2, ry + 8); g.lineTo(x + 10, ry - 7); g.stroke();
+      g.fillStyle = ink; g.font = disp(20); spaced(g, st.name.toUpperCase(), x, ry + 56, 1.5);
+      g.fillStyle = dim; g.font = body(500, 20); g.fillText(st.topic, x, ry + 84);
+      g.fillStyle = pinkHi; g.font = body(600, 20); g.fillText(`Score ${st.score.toLocaleString()}`, x, ry + 110);
+    });
+    // stats
+    const stats = [["COMPLETED", certWhen(info.end)], ["MISSION TIME", certDur(info.dur)], ["TOTAL SCORE", info.score.toLocaleString()], ["FIRST TRY", `${info.first} of ${info.total}`]];
+    const bw = 330, gap = 22, bx0 = cx - (4 * bw + 3 * gap) / 2, by = 860, bh = 104;
+    stats.forEach(([label, value], i) => {
+      const bx = bx0 + i * (bw + gap);
+      g.fillStyle = "rgba(11,8,18,0.82)"; g.fillRect(bx, by, bw, bh);
+      g.strokeStyle = "rgba(255,95,174,0.45)"; g.lineWidth = 2; g.strokeRect(bx, by, bw, bh);
+      g.fillStyle = dim; g.font = disp(16); spaced(g, label, bx + bw / 2, by + 36, 3);
+      fitFont(g, value, bw - 30, (px) => body(700, px), 30, 16); g.fillStyle = ink; g.fillText(value, bx + bw / 2, by + 80);
+    });
+    g.fillStyle = dim; g.font = disp(18); spaced(g, "VERIFICATION CODE", cx, 1034, 5);
+    g.save(); g.fillStyle = info.name ? gold : "rgba(255,216,90,0.3)"; if (info.name) { g.shadowColor = "#ff9a3a"; g.shadowBlur = 14; } g.font = disp(52); spaced(g, info.name ? info.code : "XXXX-XXXX-XXXX", cx, 1098, 8); g.restore();
+    g.fillStyle = dim; g.font = body(500, 23); g.fillText("Upload this image to your course assignment.", cx, 1170);
+  }
+  function certInfo() {
+    const d = CERT.data, name = certClean(), ok = certHasName(name);
+    return { ...d, name: ok ? name : "", code: ok ? certCode(name, d.end, d.dur, d.first, d.total) : "" };
+  }
+  async function certRender() {
+    const seq = ++CERT.seq;
+    try { await CERT.fonts; } catch (err) { /* system fonts */ }
+    if (seq !== CERT.seq || !CERT.data) return null;
+    if (!CERT.canvas) { CERT.canvas = document.createElement("canvas"); CERT.canvas.width = CERT.W; CERT.canvas.height = CERT.H; }
+    const info = certInfo();
+    drawCert(CERT.canvas.getContext("2d"), info);
+    const blob = await new Promise((res) => CERT.canvas.toBlob(res, "image/png"));
+    if (seq !== CERT.seq || !blob) return null;
+    if (CERT.url) URL.revokeObjectURL(CERT.url);
+    CERT.blob = blob; CERT.blobName = info.name; CERT.url = URL.createObjectURL(blob);
+    $("certImg").src = CERT.url; $("certImg").hidden = false;
+    $("certCode").textContent = info.name ? info.code : "";
+    return { blob, info };
+  }
+  function certStatus(text, kind = "") { $("certStatus").textContent = text; $("certStatus").className = `cert-status ${kind}`; }
+  function certRefresh() {
+    const ok = certHasName(certClean());
+    $("certBtn").disabled = !ok || CERT.saving;
+    if (!CERT.saving) certStatus(ok ? "Check the spelling, then download. The file is a PNG picture." : "Type your first and last name to unlock the download.");
+    clearTimeout(CERT.timer); CERT.timer = setTimeout(certRender, 220);
+  }
+  function certFile(name) { const safe = name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 60) || "Student"; return `Retro_Reactions_Certificate_${safe}.png`; }
+  // iPhone and iPad: the share sheet is the dependable way to keep the picture (Save Image or Save to Files)
+  const CERT_IOS = /iP(hone|od|ad)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  function certShare(name) {
+    if (!CERT_IOS || !navigator.share || !navigator.canShare || !CERT.blob || CERT.blobName !== name) return false;
+    let file;
+    try { file = new File([CERT.blob], certFile(name), { type: "image/png" }); if (!navigator.canShare({ files: [file] })) return false; } catch (err) { return false; }
+    CERT.saving = true; $("certBtn").disabled = true;
+    navigator.share({ files: [file] })
+      .then(() => certStatus("Done. Upload the picture to your course assignment.", "ok"))
+      .catch((err) => certStatus(err && err.name === "AbortError" ? "Cancelled. Tap Download certificate again and choose Save Image, or press and hold the picture." : "Press and hold the certificate picture, then choose Save to Photos.", err && err.name === "AbortError" ? "" : "warn"))
+      .finally(() => { CERT.saving = false; $("certBtn").disabled = !certHasName(certClean()); });
+    return true;
+  }
+  async function certDownload() {
+    const name = certClean();
+    if (!CERT.ready || CERT.saving || !certHasName(name)) return;
+    if (!(window.claude && typeof window.claude.use === "function") && certShare(name)) return;
+    CERT.saving = true; $("certBtn").disabled = true; certStatus("Preparing your certificate…");
+    try {
+      const r = await certRender();
+      if (!r) throw new Error("render");
+      const filename = certFile(name);
+      const dl = await Promise.race([certGetDl(), new Promise((res) => setTimeout(() => res(null), 3000))]);
+      if (dl) {
+        try { await dl.save({ filename, data: r.blob }); certStatus(`Saved as ${filename}. Upload it to your course assignment.`, "ok"); }
+        catch (err) {
+          const c = err && err.code;
+          if (c === "declined") certStatus("Download cancelled. Click Download certificate when you're ready.");
+          else if (c === "rate_limited") certStatus("A save prompt is already open. Finish that one first.");
+          else certStatus("The download didn't start here. Right-click the certificate picture and choose \"Save image as…\".", "warn");
+        }
+      } else {
+        const a = document.createElement("a"); a.href = CERT.url; a.download = filename; a.rel = "noopener";
+        document.body.appendChild(a); a.click(); a.remove();
+        certStatus(`Downloading ${filename}. If nothing appears, right-click the picture (or press and hold it) and save it.`, "ok");
+      }
+    } catch (err) { certStatus("Something went wrong drawing the certificate. Try again, or take a screenshot of this screen.", "warn"); }
+    finally { CERT.saving = false; $("certBtn").disabled = !certHasName(certClean()); }
+  }
+  function certShow(rec, done) {
+    const complete = done.length === ORDER.length;
+    $("certBox").hidden = !complete;
+    $("fNote").textContent = complete ? "Mission complete! Download your completion certificate below and upload it to the assignment." : "Take a screenshot of this whole report, including the mission code, and upload it to the assignment.";
+    CERT.ready = complete;
+    if (!complete) return;
+    const res = rec.results;
+    const end = Math.floor(Math.max(...done.map((id) => res[id].date)) / 60000) * 60000;
+    CERT.data = {
+      end, dur: Math.max(1, Math.round(done.reduce((a, id) => a + (res[id].seconds || 0), 0) / 60)),
+      first: done.reduce((a, id) => a + (res[id].firstTry || 0), 0), total: done.reduce((a, id) => a + (res[id].total || 0), 0),
+      score: done.reduce((a, id) => a + res[id].score, 0),
+      stages: STAGES.filter((s) => s.built).map((s) => ({ name: s.name, topic: s.topic, score: res[s.id].score }))
+    };
+    if (!CERT.fonts) CERT.fonts = Promise.race([Promise.all(["700 66px Silkscreen", "700 104px Oxanium", "500 32px Oxanium", "600 20px Oxanium"].map((f) => document.fonts.load(f))), new Promise((r) => setTimeout(r, 2500))]);
+    certGetDl();
+    if (!$("certName").value) $("certName").value = rec.name || player.name || "";
+    certRefresh();
   }
 
   /* ---- marquee ---- */
@@ -2036,6 +2248,9 @@ window.RR = (() => {
     $("mReset").addEventListener("click", resetProgress);
     $("mReport").addEventListener("click", () => { const rec = record($("mName").value); if (rec) { player = { name: rec.name, mode: rec.mode }; showFinal(); } });
     $("fMenu").addEventListener("click", () => { renderMenu(); show("menu"); });
+    $("certName").addEventListener("input", certRefresh);
+    $("certName").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); certDownload(); } });
+    $("certBtn").addEventListener("click", certDownload);
     $("sStart").addEventListener("click", (e) => { e.stopPropagation(); startTitle(); });
     $("sMedia").addEventListener("click", startTitle);
     $("sSkip").addEventListener("click", toMenu);
@@ -2053,7 +2268,7 @@ const SECTORS = [
     id: 1, name: "Mare Tranquillitatis", english: "Sea of Tranquility",
     topic: "Synthesis and decomposition",
     tip: "Tally each element on both sides before you change anything.",
-    pick: [["syn", 2], ["dec", 2]],
+    pick: [["syn", 2], ["dec", 1]],
     pool: [
       { t: "syn", r: ["H2", "O2"], p: ["H2O"], a: [2, 1, 2], note: "Hydrogen fuel cells and the Space Shuttle's main engines both run on this reaction." },
       { t: "syn", r: ["N2", "H2"], p: ["NH3"], a: [1, 3, 2], note: "The Haber process makes most of the world's nitrogen fertilizer from this reaction." },
@@ -2082,7 +2297,7 @@ const SECTORS = [
     id: 2, name: "Mare Imbrium", english: "Sea of Showers",
     topic: "Single and double replacement",
     tip: "In replacement reactions atoms trade partners, but no atom appears or disappears.",
-    pick: [["single", 2], ["double", 2]],
+    pick: [["single", 2], ["double", 1]],
     pool: [
       { t: "single", r: ["Zn", "HCl"], p: ["ZnCl2", "H2"], a: [1, 2, 1, 1], note: "Bubbles of hydrogen rise as zinc dissolves in hydrochloric acid." },
       { t: "single", r: ["Al", "HCl"], p: ["AlCl3", "H2"], a: [2, 6, 2, 3] },
@@ -2108,7 +2323,7 @@ const SECTORS = [
     id: 3, name: "Oceanus Procellarum", english: "Ocean of Storms",
     topic: "Combustion",
     tip: "Combustion order: balance C with CO₂, then H with H₂O, and O last with O₂.",
-    pick: [["even", 2], ["odd", 2]],
+    pick: [["even", 2], ["odd", 1]],
     pool: [
       { t: "even", r: ["CH4", "O2"], p: ["CO2", "H2O"], a: [1, 2, 1, 2], note: "Natural gas burning on a kitchen stove." },
       { t: "even", r: ["C3H8", "O2"], p: ["CO2", "H2O"], a: [1, 5, 3, 4], note: "Propane burning in a gas grill." },
@@ -2144,7 +2359,7 @@ const SECTORS = [
   }
 ];
 
-const CHECKPOINTS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P"];
+const CHECKPOINTS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg"];
 const IONS = ["SO4", "NO3", "PO4", "CO3", "NH4", "OH", "ClO3", "ClO4"];
 
 function parseFormula(f) {
@@ -3554,9 +3769,9 @@ function bossProblems() {
 }
 
 const SECTIONS = [
-  { id: 1, name: "Elivagar Flumina", sub: "River channels of liquid methane", topic: "Molar mass and moles", depot: depotGrams, bridges: [bridgeMolarMass, bridgeMolGrams], layout: ["depot", "bridge", "depot", "bridge"] },
-  { id: 2, name: "Vid Flumina", sub: "A deep canyon draining into Ligeia Mare", topic: "Molecules and mole ratios", depot: depotParticles, bridges: [bridgeMolMol, bridgeMolMol], layout: ["depot", "bridge", "depot", "bridge"] },
-  { id: 3, name: "Ligeia Mare", sub: "Titan's second-largest sea, mostly methane", topic: "Grams to grams", depot: depotKilograms, bridges: [bridgeGramsGrams, bridgeGramsGrams], layout: ["depot", "bridge", "depot", "bridge"] },
+  { id: 1, name: "Elivagar Flumina", sub: "River channels of liquid methane", topic: "Molar mass and moles", depot: depotGrams, bridges: [bridgeMolarMass, bridgeMolGrams], layout: ["depot", "bridge", "bridge"] },
+  { id: 2, name: "Vid Flumina", sub: "A deep canyon draining into Ligeia Mare", topic: "Molecules and mole ratios", depot: depotParticles, bridges: [bridgeMolMol, bridgeMolMol], layout: ["depot", "bridge", "bridge"] },
+  { id: 3, name: "Ligeia Mare", sub: "Titan's second-largest sea, mostly methane", topic: "Grams to grams", depot: depotKilograms, bridges: [bridgeGramsGrams, bridgeGramsGrams], layout: ["depot", "bridge", "bridge"] },
   { id: 4, name: "Kraken Mare", sub: "Titan's largest sea", topic: "Limiting reactant and yield", depot: depotGrams, boss: true, layout: ["depot", "boss"] }
 ];
 const CHECKPOINTS2 = ["S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr"];
@@ -4690,12 +4905,12 @@ function buildHint(m) {
 }
 
 const SECTORS3 = [
-  { id: 1, name: "Conamara Chaos", sub: "Jumbled ice rafts on Europa", topic: "Single bonds", pick: [["single", 3]] },
-  { id: 2, name: "Thera Macula", sub: "A dark, low region of melted and refrozen ice", topic: "Double and triple bonds", pick: [["multiple", 3]] },
-  { id: 3, name: "Pwyll Crater", sub: "One of Europa's youngest craters", topic: "Ions and formal charge", pick: [["ion", 3]] },
+  { id: 1, name: "Conamara Chaos", sub: "Jumbled ice rafts on Europa", topic: "Single bonds", pick: [["single", 2]] },
+  { id: 2, name: "Thera Macula", sub: "A dark, low region of melted and refrozen ice", topic: "Double and triple bonds", pick: [["multiple", 2]] },
+  { id: 3, name: "Pwyll Crater", sub: "One of Europa's youngest craters", topic: "Ions and formal charge", pick: [["ion", 2]] },
   { id: 4, name: "Tyre", sub: "An ancient impact scar", topic: "Exceptions and resonance", boss: true, pick: [["exception", 1], ["O3", 1], ["CO3-2", 1]] }
 ];
-const CHECKPOINTS3 = ["Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr"];
+const CHECKPOINTS3 = ["Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As"];
 function pickWaves(sec) {
   const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   return sec.pick.flatMap(([tag, n]) => shuffle(MOLECULES.filter((m) => m.t === tag || m.id === tag)).slice(0, n));
@@ -5003,7 +5218,7 @@ function startSector(i) {
   $("scNum").textContent = `Sector ${sec.id} of ${SECTORS3.length}`;
   $("scName").textContent = sec.name;
   $("scSub").textContent = `${sec.sub} · ${sec.topic}`;
-  $("scMeta").textContent = sec.boss ? "An octet exception, ozone's two resonance forms, then the carbonate carrier. Shields restored." : `Three molecules to defend. Shields restored.`;
+  $("scMeta").textContent = sec.boss ? "An octet exception, ozone's two resonance forms, then the carbonate carrier. Shields restored." : `Two molecules to defend. Shields restored.`;
   showPanel("sector");
   SND.tone(392, 0.12, "square", 0.09); setTimeout(() => SND.tone(523, 0.12, "square", 0.09), 120); setTimeout(() => SND.tone(784, 0.3, "square", 0.09), 240);
   updateHUD(); renderCheckpoints();
@@ -5661,12 +5876,12 @@ function buildHint(m) {
 }
 
 const SECTORS3 = [
-  { id: 1, name: "Conamara Chaos", sub: "Jumbled ice rafts on Europa", topic: "Single bonds", pick: [["single", 3]] },
-  { id: 2, name: "Thera Macula", sub: "A dark, low region of melted and refrozen ice", topic: "Double and triple bonds", pick: [["multiple", 3]] },
-  { id: 3, name: "Pwyll Crater", sub: "One of Europa's youngest craters", topic: "Ions and formal charge", pick: [["ion", 3]] },
+  { id: 1, name: "Conamara Chaos", sub: "Jumbled ice rafts on Europa", topic: "Single bonds", pick: [["single", 2]] },
+  { id: 2, name: "Thera Macula", sub: "A dark, low region of melted and refrozen ice", topic: "Double and triple bonds", pick: [["multiple", 2]] },
+  { id: 3, name: "Pwyll Crater", sub: "One of Europa's youngest craters", topic: "Ions and formal charge", pick: [["ion", 2]] },
   { id: 4, name: "Tyre", sub: "An ancient impact scar", topic: "Exceptions and resonance", boss: true, pick: [["exception", 1], ["O3", 1], ["CO3-2", 1]] }
 ];
-const CHECKPOINTS3 = ["Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr"];
+const CHECKPOINTS3 = ["Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As"];
 function pickWaves(sec) {
   const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   return sec.pick.flatMap(([tag, n]) => shuffle(MOLECULES.filter((m) => m.t === tag || m.id === tag)).slice(0, n));
