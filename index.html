@@ -1831,8 +1831,9 @@ const PATROL_TRACK = "UklGRu4DBABXQVZFZm10IBAAAAABAAEAAH0AAAD6AAACABAATElTVBoAAA
 /* ===== Retro Reactions shell: stage order, progress, transitions, final report ===== */
 // Paste a video URL or data: URI here to replace a transition animation, e.g. { s1: "transition-moon-to-titan.mp4" }
 const TRANSITION_VIDEOS = { s1: "", s2: "", s3: "" };
-// Intro video that plays when a student starts a new mission. Put the file next to this page, or use a full URL; "" turns the intro off.
-const INTRO_VIDEO = "retro-reactions-intro.mp4";
+// Intro videos that play in order when a student starts a new mission, right before Crater Patrol.
+// Put the files next to this page (or use full URLs). A missing file is skipped; [] turns the intro off.
+const INTRO_VIDEOS = ["retro-reactions-intro.mp4", "crater-patrol-intro.mp4"];
 window.RR = (() => {
   const STAGES = [
     { id: "s1", name: "Crater Patrol", topic: "Balancing equations", style: "In the style of Moon Patrol", built: true },
@@ -1926,16 +1927,23 @@ window.RR = (() => {
 
   /* ---- intro video: plays once before Stage 1, skippable; a missing file goes straight to the stage ---- */
   function playIntro() {
-    if (!INTRO_VIDEO) { play(ORDER[0]); return; }
+    const list = INTRO_VIDEOS.filter(Boolean);
+    if (!list.length) { play(ORDER[0]); return; }
     const v = $("iVideo");
-    let done = false;
-    const go = () => { if (done) return; done = true; play(ORDER[0]); };
+    let done = false, i = -1;
+    const go = () => { if (done) return; done = true; v.removeAttribute("src"); v.load(); play(ORDER[0]); };
+    const nextClip = () => {
+      if (done) return;
+      i++;
+      if (i >= list.length) { go(); return; }
+      v.src = list[i]; v.controls = false;
+      const p = v.play();
+      if (p && p.catch) p.catch((err) => { if (!done && err && err.name === "NotAllowedError") v.controls = true; });
+    };
     show("intro");
-    v.onended = go; v.onerror = go;
+    v.onended = nextClip; v.onerror = nextClip;
     $("iSkip").onclick = go;
-    v.src = INTRO_VIDEO; v.currentTime = 0; v.controls = false;
-    const p = v.play();
-    if (p && p.catch) p.catch(() => { if (!done) v.controls = true; });
+    nextClip();
     $("iSkip").focus({ preventScroll: true });
   }
   function stopIntro() { const v = $("iVideo"); if (v && !v.paused) v.pause(); }
