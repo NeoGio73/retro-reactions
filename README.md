@@ -5,7 +5,7 @@ A General Chemistry I review game in four retro arcade stages:
 1. **Crater Patrol** (Moon Patrol style): balancing equations
 2. **River Run** (River Raid style): stoichiometry
 3. **Bond Defender** (Defender style): Lewis structures
-4. **Reaction Brawl** (Streets of Rage style): all three skills together
+4. **Reaction Brawl** (Street Fighter-style showdown): five one-on-one fights with the Reaction Gang, then Mr. X, using all three skills
 
 Play it at https://neogio73.github.io/retro-reactions/
 

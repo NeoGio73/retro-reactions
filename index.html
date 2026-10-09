@@ -659,7 +659,6 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 #s4{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
 #s4 *{box-sizing:border-box}
 #s4 [hidden]{display:none!important}
-#s4 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 #s4 button{font:inherit;color:inherit}
 #s4 :focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 #s4 sub{font-size:.65em;line-height:0;vertical-align:-.25em}
@@ -681,13 +680,12 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 #s4 .snd{font-family:var(--f-display);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;background:none;color:var(--faint);border:1px solid var(--line);border-radius:3px;padding:5px 8px;cursor:pointer}
 #s4 .snd[aria-pressed="true"]{color:var(--text);border-color:var(--line-hi)}
 #s4 .checkpoints{list-style:none;margin:0;padding:0;display:flex;gap:3px}
-#s4 .checkpoints li{flex:1 1 0;min-width:0;text-align:center;font-weight:700;font-size:.76rem;color:var(--faint);padding-block:2px;border-bottom:2px solid var(--line)}
-#s4 .checkpoints li.gap{margin-left:8px}
+#s4 .checkpoints li{flex:1 1 0;min-width:0;text-align:center;font-weight:700;font-size:.8rem;color:var(--faint);padding-block:2px;border-bottom:2px solid var(--line)}
 #s4 .checkpoints li.done{color:var(--accent);border-color:var(--accent)}
 #s4 .checkpoints li.now{color:var(--teal);border-color:var(--teal);animation:blink 1s steps(2) infinite}
 @keyframes blink{50%{opacity:.35}}
 #s4 .screen{position:relative;aspect-ratio:16/7;max-width:100%;border:2px solid var(--line-hi);border-radius:6px;overflow:hidden;background:#07050c}
-#s4 .screen canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+#s4 .screen canvas#s4-cv{display:block;width:100%;height:100%;image-rendering:pixelated}
 #s4 .screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.12) 2px 3px);box-shadow:inset 0 0 40px rgba(0,0,0,.5)}
 #s4 .logo{position:absolute;left:0;right:0;top:16%;display:grid;justify-items:center;gap:4px;pointer-events:none;text-align:center;padding-inline:12px}
 #s4 .logo .eyebrow{color:var(--text);text-shadow:2px 2px 0 #000}
@@ -698,11 +696,23 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 #s4 .stripes i:nth-child(2){background:#ff5fae}
 #s4 .stripes i:nth-child(3){background:#4fe0d0}
 #s4 .stripes i:nth-child(4){background:#2a8a8a}
-#s4 .touch{display:none;grid-template-columns:repeat(4,1fr) 1.4fr;gap:6px}
-#s4 .touch .btn{min-height:50px;font-size:1rem;user-select:none;-webkit-user-select:none;touch-action:none}
-@media (pointer:coarse),(max-width:760px){#s4 .touch.on{display:grid}}
+#s4 .vs{position:absolute;inset:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:4% 6%;background:linear-gradient(100deg,rgba(79,224,208,.22) 0 48%,rgba(255,95,174,.25) 52% 100%),#0b0812;z-index:2}
+#s4 .vs-side{display:grid;justify-items:center;gap:4px;text-align:center;min-width:0}
+#s4 .vs-side.hero{animation:vsL .45s ease-out both}
+#s4 .vs-side.opp{animation:vsR .45s ease-out both}
+#s4 .vs-pic{height:clamp(84px,24vw,210px);aspect-ratio:3/4;border:3px solid var(--line-hi);border-radius:6px;background:#140e22;overflow:hidden;display:grid;place-items:center}
+#s4 .vs-side.hero .vs-pic{border-color:var(--teal)}
+#s4 .vs-side.opp .vs-pic{border-color:var(--accent)}
+#s4 .vs-pic img,#s4 .vs-pic canvas{width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
+#s4 .vs-side b{font-family:var(--f-display);font-size:clamp(.7rem,2vw,1.15rem);letter-spacing:.06em;color:var(--text);text-shadow:2px 2px 0 #000;line-height:1.15}
+#s4 .vs-side small{font-size:clamp(.66rem,1.6vw,.85rem);color:var(--dim)}
+#s4 .vs-mid{font-family:var(--f-display);font-weight:700;font-size:clamp(1.6rem,7vw,4.4rem);color:var(--pair);text-shadow:3px 3px 0 #8a2a5e,6px 6px 0 #000;animation:vsPop .5s .3s ease-out both}
+@keyframes vsL{from{transform:translateX(-60%);opacity:0}}
+@keyframes vsR{from{transform:translateX(60%);opacity:0}}
+@keyframes vsPop{from{transform:scale(2.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){#s4 .vs-side.hero,#s4 .vs-side.opp,#s4 .vs-mid{animation:none}}
 #s4 .panel,#s4 .console{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px}
-#s4 .btn{font-family:var(--f-display);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;background:var(--panel-2);border:1px solid var(--line-hi);border-radius:4px;color:var(--text);min-height:42px;padding:0 12px;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+#s4 .btn{font-family:var(--f-display);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;background:var(--panel-2);border:1px solid var(--line-hi);border-radius:4px;color:var(--text);min-height:42px;padding:0 14px;cursor:pointer;touch-action:manipulation;white-space:nowrap}
 #s4 .btn:hover{border-color:var(--accent)}
 #s4 .btn:active{transform:translateY(1px)}
 #s4 .btn:disabled{opacity:.4;cursor:not-allowed}
@@ -729,105 +739,69 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 #s4 .m-name{font-family:var(--f-display);font-weight:700;font-size:.9rem;letter-spacing:.06em}
 #s4 .mode:has(input:checked) .m-name{color:var(--accent)}
 #s4 .m-desc{font-size:.82rem;color:var(--dim);line-height:1.35}
-#s4 .stagemap{list-style:none;margin:18px 0 0;padding:14px 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-#s4 .stagemap li{display:grid;gap:2px;font-family:var(--f-display);font-size:.68rem;letter-spacing:.06em;color:var(--faint);text-transform:uppercase}
-#s4 .stagemap li small{font-family:var(--f-body);font-size:.78rem;letter-spacing:0;text-transform:none}
-#s4 .stagemap li.done{color:var(--dim)}
-#s4 .stagemap li.on{color:var(--accent)}
+#s4 .ladder{display:grid;gap:14px}
+#s4 .ladder-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px}
+#s4 .ladder-head h2{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(1.15rem,3vw,1.6rem);color:var(--accent);letter-spacing:.03em}
+#s4 .ladder-head p{margin:0;color:var(--dim)}
+#s4 .gang{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+#s4 .fighter{position:relative;display:grid;gap:4px;align-content:start;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:8px;min-width:0}
+#s4 .fighter .pic{aspect-ratio:3/4;border-radius:4px;overflow:hidden;background:#140e22;display:grid;place-items:center}
+#s4 .fighter .pic img,#s4 .fighter .pic canvas{width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
+#s4 .fighter b{font-family:var(--f-display);font-size:.7rem;letter-spacing:.04em;line-height:1.2;overflow-wrap:anywhere}
+#s4 .fighter .fm{font-weight:700;color:var(--teal)}
+#s4 .fighter small{font-size:.76rem;color:var(--dim);line-height:1.3}
+#s4 .fighter.done{opacity:.55}
+#s4 .fighter.done .pic{filter:grayscale(1)}
+#s4 .fighter.done::after{content:"K.O.";position:absolute;top:30%;left:50%;transform:translate(-50%,-50%) rotate(-12deg);font-family:var(--f-display);font-weight:700;font-size:1.2rem;color:var(--bad);text-shadow:2px 2px 0 #000;border:2px solid var(--bad);padding:0 6px;background:rgba(11,8,18,.7)}
+#s4 .fighter.next{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 18px rgba(255,95,174,.35)}
+#s4 .fighter.boss .fm{color:var(--pair)}
+#s4 .ladder-go{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+#s4 .ladder-go p{margin:0;color:var(--dim);max-width:60ch}
+#s4 .ladder-go .btn{min-width:200px}
 #s4 .card-panel{display:grid;gap:6px;justify-items:start}
-#s4 .card-panel h2{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(1.3rem,3.6vw,2rem);color:var(--accent);letter-spacing:.03em;line-height:1.15;text-wrap:balance}
+#s4 .card-panel h2{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(1.3rem,3.6vw,2rem);color:var(--accent);letter-spacing:.03em;line-height:1.15}
 #s4 .card-panel p{margin:0;color:var(--dim);max-width:62ch}
-#s4 .card-panel .sc-sub{color:var(--text);font-size:1.05rem}
 #s4 .card-panel .btn{margin-top:10px;min-width:180px}
-#s4 .console{display:grid;gap:14px}
-#s4 .roundhead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px}
-#s4 .roundhead h2{margin:0;font-size:1.2rem;font-weight:700;line-height:1.25}
+#s4 .console{display:grid;gap:12px}
+#s4 .duelhead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px}
+#s4 .duelhead h2{margin:0;font-size:1.1rem;font-weight:700;line-height:1.25}
+#s4 .duelhead h2 .fm{color:var(--teal)}
 #s4 .tag{font-family:var(--f-display);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);border:1px solid #2a7a74;border-radius:3px;padding:1px 6px}
-#s4 .steps{list-style:none;margin:0;padding:0;display:flex;gap:6px}
-#s4 .steps li{flex:1 1 0;min-width:0;font-family:var(--f-display);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border-bottom:2px solid var(--line);padding-bottom:4px}
-#s4 .steps li.now{color:var(--teal);border-color:var(--teal)}
-#s4 .steps li.done{color:var(--accent);border-color:var(--accent-deep)}
-#s4 .comms{display:flex;gap:10px;align-items:baseline;min-height:2.6em;background:var(--void);border:1px solid var(--line);border-radius:4px;padding:8px 12px}
-#s4 .mc{flex:none;font-family:var(--f-display);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding-top:2px}
-#s4 .comms-text{min-width:0;font-size:.95rem}
-#s4 .comms[data-type=good] .comms-text{color:var(--good)}
-#s4 .comms[data-type=bad] .comms-text{color:var(--bad)}
-#s4 .comms[data-type=warn] .comms-text{color:var(--warn)}
-#s4 .comms .note{display:block;color:var(--dim);margin-top:2px}
+#s4 .taunt{display:flex;gap:10px;align-items:baseline;background:var(--void);border:1px solid var(--line);border-radius:4px;padding:8px 12px}
+#s4 .taunt .who{flex:none;font-family:var(--f-display);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+#s4 .taunt span:last-child{color:var(--dim);font-style:italic}
+#s4 .qtext{margin:0;font-size:1.12rem;line-height:1.45}
+#s4 .qtext .eq,#s4 .qtext .given{display:block;margin-top:6px;font-style:normal}
+#s4 .qtext .eq{font-size:1.25rem;font-weight:600;color:var(--pair);letter-spacing:.02em}
+#s4 .qtext .given{font-size:.92rem;color:var(--dim)}
+#s4 .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#s4 .choice{display:flex;align-items:center;gap:10px;min-height:56px;text-align:left;background:var(--panel-2);border:1px solid var(--line-hi);border-radius:6px;padding:10px 12px;cursor:pointer;font-size:1.05rem;font-weight:600;min-width:0}
+#s4 .choice:hover:not(:disabled){border-color:var(--accent);background:#271d3c}
+#s4 .choice .key{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:4px;background:var(--void);border:1px solid var(--line-hi);font-family:var(--f-display);font-size:.72rem;color:var(--dim)}
+#s4 .choice .ct{min-width:0;overflow-wrap:anywhere}
+#s4 .choice:disabled{cursor:default}
+#s4 .choice.right{border-color:var(--good);background:#16301c}
+#s4 .choice.right .key{background:var(--good);color:#062a0c;border-color:var(--good)}
+#s4 .choice.wrong{border-color:var(--bad);background:#3a1a16}
+#s4 .choice.wrong .key{background:var(--bad);color:#2a0806;border-color:var(--bad)}
+#s4 .choices.pics .choice{flex-direction:column;align-items:stretch;padding:8px}
+#s4 .choices.pics .choice .key{align-self:flex-start}
+#s4 .mini{display:block;width:100%;height:auto;max-height:150px}
+#s4 .mini line{stroke:var(--text);stroke-width:3;stroke-linecap:round}
+#s4 .mini circle.atom{fill:#140e22;stroke:var(--line-hi);stroke-width:2}
+#s4 .mini text{fill:var(--text);font-family:var(--f-body);font-weight:700;font-size:17px;text-anchor:middle;dominant-baseline:central}
+#s4 .mini circle.dot{fill:var(--pair)}
+#s4 .qfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
 #s4 .tools{display:flex;flex-wrap:wrap;gap:8px}
 #s4 .tools .btn{font-size:.68rem}
-#s4 .bal-eq{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 8px;padding-block:4px}
-#s4 .bal-term{display:inline-flex;align-items:center;gap:6px}
-#s4 .bal-term input{width:3.2rem;height:2.6rem;text-align:center;font:inherit;font-size:1.25rem;font-weight:700;background:var(--void);color:var(--pair);border:1px solid var(--line-hi);border-radius:4px}
-#s4 .bal-term input:focus{outline:2px solid var(--teal);outline-offset:1px}
-#s4 .bal-term input.locked{color:var(--teal);border-color:#2a7a74}
-#s4 .bal-f{font-weight:600;font-size:clamp(1.15rem,2.6vw,1.5rem);white-space:nowrap}
-#s4 .bal-op{font-family:var(--f-display);color:var(--faint)}
-#s4 .bal-arrow{font-size:1.6rem;color:var(--accent)}
-#s4 .lamps{display:flex;flex-wrap:wrap;gap:6px}
-#s4 .lamp{display:grid;grid-template-columns:auto auto auto;align-items:center;gap:8px;padding:5px 10px;background:var(--panel-2);border:1px solid var(--line);border-radius:4px}
-#s4 .lamp b{font-weight:700}
-#s4 .lamp .lr{font-variant-numeric:tabular-nums;color:var(--dim)}
-#s4 .bulb{width:10px;height:10px;border-radius:50%;background:#2a2538}
-#s4 .lamp.on .bulb{background:var(--good);box-shadow:0 0 8px var(--good)}
-#s4 .lamp.off .bulb{background:var(--bad)}
-#s4 .bal-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
-#s4 .pred-q{margin:0;font-size:1.08rem}
-#s4 .pred-q b{color:var(--pair);font-weight:600}
-#s4 .pred-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-#s4 .pred-item{display:grid;gap:6px;align-content:start;background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px;min-width:0}
-#s4 .pred-item.ok{border-color:#2f5a33}
-#s4 .pred-item.no{border-color:var(--bad)}
-#s4 .pred-item label,#s4 .pred-item .lbl{font-family:var(--f-display);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-#s4 .choice{display:flex;gap:6px}
-#s4 .choice button{flex:1;min-height:40px;font-weight:700;font-size:1.05rem;background:var(--void);border:1px solid var(--line-hi);border-radius:4px;cursor:pointer}
-#s4 .choice button[aria-pressed="true"]{background:var(--teal);color:#062a26;border-color:var(--teal)}
-#s4 .num-in{display:flex;align-items:center;min-width:0;background:var(--void);border:1px solid var(--line-hi);border-radius:4px}
-#s4 .num-in:focus-within{outline:2px solid var(--teal);outline-offset:1px}
-#s4 .num-in input{flex:1 1 0;width:0;min-width:0;background:none;border:0;color:var(--text);font:inherit;font-size:1.15rem;font-weight:600;padding:7px 10px;font-variant-numeric:tabular-nums}
-#s4 .num-in input:focus{outline:none}
-#s4 .num-in span{padding-right:10px;color:var(--dim);font-size:.9rem}
-#s4 .refs{display:flex;flex-wrap:wrap;gap:6px}
-#s4 .refs span{font-size:.82rem;color:var(--dim);background:var(--panel-2);border:1px solid var(--line);border-radius:3px;padding:2px 8px}
-#s4 .refs b{color:var(--text);margin-right:4px}
-#s4 .meter{display:grid;gap:8px}
-#s4 .mrow{display:grid;grid-template-columns:5.5em minmax(0,1fr) 5em;gap:10px;align-items:center}
-#s4 .mrow b{font-weight:700}
-#s4 .mbar{height:12px;background:var(--void);border:1px solid var(--line-hi);border-radius:3px;overflow:hidden;position:relative}
-#s4 .mbar i{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent);transition:width .25s}
-#s4 .mrow.prod .mbar i{background:var(--good)}
-#s4 .mrow span{text-align:right;color:var(--dim);font-variant-numeric:tabular-nums}
-#s4 .brawl-note{margin:0;color:var(--dim);font-size:.9rem}
-#s4 .build{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,250px);gap:16px;align-items:start}
-#s4 .lw-q{margin:0;font-size:1.05rem}
-#s4 .editor{background:var(--void);border:1px solid var(--line);border-radius:6px;min-width:0;overflow:hidden}
-#s4 .editor svg{display:block;width:100%;height:auto;max-height:340px;touch-action:manipulation}
-#s4 .editor .bond,#s4 .editor .atom{cursor:pointer;outline:none}
-#s4 .editor .bond .hit{fill:transparent;stroke:none}
-#s4 .editor .bond:hover .hit,#s4 .editor .bond:focus .hit{fill:rgba(79,224,208,.14)}
-#s4 .editor .bond line.ln{stroke:var(--text);stroke-width:3;stroke-linecap:round}
-#s4 .editor .bond line.empty{stroke:var(--faint);stroke-width:2;stroke-dasharray:4 5}
-#s4 .editor .atom circle.body{fill:var(--panel-2);stroke:var(--line-hi);stroke-width:2}
-#s4 .editor .atom:hover circle.body,#s4 .editor .atom:focus circle.body{stroke:var(--teal)}
-#s4 .editor .atom.bad circle.body{stroke:var(--bad)}
-#s4 .editor .atom text.sym{fill:var(--text);font-family:var(--f-body);font-weight:700;font-size:17px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
-#s4 .editor .dot{fill:var(--pair);pointer-events:none}
-#s4 .editor .badge{font-family:var(--f-body);font-weight:700;font-size:11px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
-#s4 .editor .badge.e{fill:var(--good)}
-#s4 .editor .badge.e.off{fill:var(--warn)}
-#s4 .editor .badge.fc{fill:var(--accent-hi)}
-#s4 .side{display:grid;gap:10px;align-content:start}
-#s4 .inv{background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:10px 12px;display:grid;gap:2px}
-#s4 .inv .num{font-family:var(--f-display);font-size:1.8rem;color:var(--pair);line-height:1.1;font-variant-numeric:tabular-nums}
-#s4 .inv small{color:var(--dim)}
-#s4 .seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-hi);border-radius:4px;overflow:hidden}
-#s4 .seg button{font-family:var(--f-display);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;background:var(--panel-2);border:0;min-height:38px;color:var(--dim);cursor:pointer}
-#s4 .seg button[aria-pressed="true"]{background:var(--teal);color:#062a26;font-weight:700}
-#s4 .side .btn{width:100%}
-#s4 .how{margin:0;font-size:.82rem;color:var(--faint)}
-#s4 .hint{background:var(--panel-2);border:1px dashed var(--line-hi);border-radius:4px;padding:10px 14px}
-#s4 .hint ul{margin:6px 0 0;padding-left:18px;display:grid;gap:4px}
-#s4 .hint .chip{font-family:var(--f-display);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+#s4 .hint{background:var(--panel-2);border:1px dashed var(--line-hi);border-radius:4px;padding:10px 14px;color:var(--text)}
+#s4 .hint .chip{display:block;font-family:var(--f-display);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:2px}
+#s4 .fb{border-radius:4px;padding:10px 14px;border:1px solid var(--line)}
+#s4 .fb b{display:block;font-family:var(--f-display);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+#s4 .fb.good{border-color:#2f5a33;background:#112515}
+#s4 .fb.good b{color:var(--good)}
+#s4 .fb.bad{border-color:#6a2a22;background:#2a1210}
+#s4 .fb.bad b{color:var(--bad)}
 #s4 .report{display:grid;gap:14px}
 #s4 .report h2{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(1.3rem,3.4vw,1.9rem);color:var(--accent);letter-spacing:.03em}
 #s4 .rp-grid{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
@@ -839,14 +813,18 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 #s4 .rp-code strong{font-family:var(--f-display);font-size:clamp(1.2rem,3.4vw,1.7rem);letter-spacing:.08em;color:var(--accent-hi)}
 #s4 .report p{margin:0;color:var(--dim)}
 #s4 .report .rp-note{color:var(--text)}
-@media (max-width:760px){#s4 .tp-grid,#s4 .build,#s4 .pred-grid{grid-template-columns:minmax(0,1fr)}
-#s4 .rp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-#s4 .stagemap{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){#s4 .steps li{font-size:.54rem;letter-spacing:.03em}
-#s4 .comms{flex-direction:column;gap:2px}
+@media (max-width:860px){#s4 .gang{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){#s4 .tp-grid{grid-template-columns:minmax(0,1fr)}
+#s4 .choices{grid-template-columns:minmax(0,1fr)}
+#s4 .choices.pics{grid-template-columns:repeat(3,minmax(0,1fr))}
+#s4 .rp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){#s4 .taunt{flex-direction:column;gap:2px}
 #s4 .modes{grid-template-columns:1fr}
-#s4 .checkpoints li{font-size:.58rem}
-#s4 .checkpoints li.gap{margin-left:4px}}
+#s4 .choices.pics{grid-template-columns:minmax(0,1fr)}
+#s4 .mini{max-height:120px}
+#s4 .gang{gap:6px}
+#s4 .fighter{padding:6px}
+#s4 .fighter small{display:none}}
 @media (prefers-reduced-motion:reduce){#s4 .checkpoints li.now{animation:none}}
 </style>
 </head>
@@ -1377,7 +1355,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
       <div class="snd-row"><button class="snd" id="s4-sfxBtn" type="button" aria-pressed="true">Sound on</button><button class="snd" id="s4-musBtn" type="button" aria-pressed="true">Music on</button></div>
     </div>
   </header>
-  <ol class="checkpoints" id="s4-cps" aria-label="Tasks"></ol>
+  <ol class="checkpoints" id="s4-cps" aria-label="Fights"></ol>
 
   <div class="screen" id="s4-screen">
     <canvas id="s4-cv" aria-hidden="true"></canvas>
@@ -1386,26 +1364,24 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
       <h1 id="s4-logoTitle">Reaction Brawl</h1>
       <span class="stripes" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     </div>
-  </div>
-  <div class="touch" id="s4-touch">
-    <button class="btn" type="button" id="s4-tLeft" aria-label="Walk left">◀</button>
-    <button class="btn" type="button" id="s4-tUp" aria-label="Walk up">▲</button>
-    <button class="btn" type="button" id="s4-tDown" aria-label="Walk down">▼</button>
-    <button class="btn" type="button" id="s4-tRight" aria-label="Walk right">▶</button>
-    <button class="btn primary" type="button" id="s4-tPunch">Punch</button>
+    <div class="vs" id="s4-vs" hidden aria-live="polite">
+      <div class="vs-side hero"><div class="vs-pic"><canvas id="s4-vsHero" width="36" height="48"></canvas></div><b>The Titrator</b><small>That's you</small></div>
+      <div class="vs-mid" aria-hidden="true">VS</div>
+      <div class="vs-side opp"><div class="vs-pic" id="s4-vsOppPic"></div><b id="s4-vsName"></b><small id="s4-vsTopic"></small></div>
+    </div>
   </div>
 
   <section class="panel" id="s4-titlePanel">
     <div class="tp-grid">
       <div>
-        <p class="lede">Back on Earth, the Reaction Gang has taken over the city. Every round is one reaction, and it takes all three skills to win it.</p>
+        <p class="lede">Back on Earth, Mr. X and the Reaction Gang have taken over the city. Beat them one at a time in a chemistry showdown.</p>
         <ul class="rules">
-          <li><b>Balance</b> the gang's reaction.</li>
-          <li><b>Predict</b> the limiting reactant, how much product forms, and how much excess is left over.</li>
-          <li><b>Brawl.</b> Each thug is one molecule. Knocked-out thugs react in the balanced ratio, and the excess walks away.</li>
-          <li><b>Draw</b> a Lewis structure from the round to claim it. Mr. X waits on the rooftop.</li>
+          <li><b>Five gang members, five topics.</b> Balancing, atoms and molar mass, moles, Lewis structures and mole ratios.</li>
+          <li><b>Answer to attack.</b> A right answer lands a combo. Two combos knock a gang member out.</li>
+          <li><b>A wrong answer costs a shield.</b> You get 3 per fight, and you always see why the right answer is right.</li>
+          <li><b>Mr. X is last.</b> He takes three hits: one balancing, one mole question, one Lewis structure.</li>
         </ul>
-        <p class="keys"><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd> walk · <kbd>Space</kbd> or <kbd>J</kbd> punch (press quickly for a combo). Getting knocked down costs points, not shields.</p>
+        <p class="keys">Click an answer, or press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>. <kbd>Enter</kbd> moves on. Keep a calculator handy.</p>
       </div>
       <form class="tp-form" id="s4-startForm" novalidate>
         <label class="field" for="s4-pilotName">Your name, for the mission report</label>
@@ -1413,76 +1389,35 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
         <p class="err" id="s4-nameErr" hidden>Enter your name so it appears on your mission report.</p>
         <fieldset class="modes">
           <legend>Mode</legend>
-          <label class="mode"><input type="radio" name="s4-mode" id="s4-modeCadet" value="cadet" checked><span class="m-name">Cadet</span><span class="m-desc">No timers. Live atom counts while you balance and draw.</span></label>
-          <label class="mode"><input type="radio" name="s4-mode" id="s4-modePatrol" value="patrol"><span class="m-name">Patrol</span><span class="m-desc">Timed chemistry steps, counts hidden until you submit. Time bonus.</span></label>
+          <label class="mode"><input type="radio" name="s4-mode" id="s4-modeCadet" value="cadet" checked><span class="m-name">Cadet</span><span class="m-desc">No timer. Take your time on every question.</span></label>
+          <label class="mode"><input type="radio" name="s4-mode" id="s4-modePatrol" value="patrol"><span class="m-name">Patrol</span><span class="m-desc">30 seconds per question, with a time bonus.</span></label>
         </fieldset>
-        <button class="btn primary" id="s4-launchBtn" type="submit">Start the brawl</button>
+        <button class="btn primary" id="s4-launchBtn" type="submit">Enter the city</button>
       </form>
     </div>
-    <ol class="stagemap" aria-label="Retro Reactions stages">
-      <li class="done">1 · Crater Patrol<small>Balancing equations</small></li>
-      <li class="done">2 · River Run<small>Stoichiometry</small></li>
-      <li class="done">3 · Bond Defender<small>Lewis structures</small></li>
-      <li class="on">Final · Reaction Brawl<small>All three skills</small></li>
-    </ol>
   </section>
 
-  <section class="panel card-panel" id="s4-roundPanel" hidden>
-    <span class="eyebrow" id="s4-rdNum">Round 1 of 4</span>
-    <h2 id="s4-rdName">Downtown</h2>
-    <p class="sc-sub" id="s4-rdSub">The Reaction Gang's home turf</p>
-    <p id="s4-rdMeta">Shields restored.</p>
-    <button class="btn primary" id="s4-goBtn" type="button">Fight</button>
+  <section class="panel ladder" id="s4-ladderPanel" hidden>
+    <div class="ladder-head"><h2>The Reaction Gang</h2><p id="s4-ladderSub">Beat all five, then take on Mr. X.</p></div>
+    <ol class="gang" id="s4-gang"></ol>
+    <div class="ladder-go"><p id="s4-ladderNote"></p><button class="btn primary" id="s4-fightBtn" type="button">Fight</button></div>
   </section>
 
-  <section class="panel card-panel" id="s4-disabledPanel" hidden>
+  <section class="panel card-panel" id="s4-koPanel" hidden>
     <span class="eyebrow">Shields: 0</span>
-    <h2>Knocked out</h2>
-    <p id="s4-dsText">All four shields are gone.</p>
-    <button class="btn primary" id="s4-restartBtn" type="button">Restart round</button>
+    <h2>K.O.!</h2>
+    <p id="s4-koText">You ran out of shields.</p>
+    <button class="btn primary" id="s4-rematchBtn" type="button">Rematch</button>
   </section>
 
-  <section class="console" id="s4-console" hidden aria-label="Round console">
-    <div class="roundhead"><h2 id="s4-eqTitle"></h2><span class="tag" id="s4-roundTag">Round 1</span></div>
-    <ol class="steps" id="s4-steps"><li>1 · Balance</li><li>2 · Predict</li><li>3 · Brawl</li><li id="s4-step4">4 · Lewis</li></ol>
-    <div class="comms" id="s4-comms" role="status" aria-live="polite"><span class="mc">Mission control</span><span class="comms-text" id="s4-commsText"></span></div>
-
-    <div id="s4-balCard" class="count-card" hidden>
-      <div class="bal-eq" id="s4-balEq"></div>
-      <div class="bal-row"><div class="lamps" id="s4-lamps"></div><button class="btn primary" id="s4-balGo" type="button">Lock in</button></div>
-      <div class="tools"><button class="btn" type="button" id="s4-balHint">Hint −10</button><button class="btn" type="button" id="s4-balBackup">Call backup −30</button></div>
-    </div>
-
-    <div id="s4-predCard" hidden>
-      <p class="pred-q" id="s4-predQ"></p>
-      <div class="refs" id="s4-predRefs"></div>
-      <div class="pred-grid">
-        <div class="pred-item" id="s4-piLim"><span class="lbl">Limiting reactant</span><div class="choice" id="s4-limChoice"></div></div>
-        <div class="pred-item" id="s4-piProd"><label for="s4-prodIn" id="s4-prodLbl">Product formed</label><div class="num-in"><input id="s4-prodIn" type="text" inputmode="decimal" autocomplete="off"><span id="s4-prodUnit"></span></div></div>
-        <div class="pred-item" id="s4-piLeft"><label for="s4-leftIn" id="s4-leftLbl">Excess left over</label><div class="num-in"><input id="s4-leftIn" type="text" inputmode="decimal" autocomplete="off"><span id="s4-leftUnit"></span></div></div>
-      </div>
-      <div class="bal-row"><div class="tools"><button class="btn" type="button" id="s4-predHint">Hint −10</button><button class="btn" type="button" id="s4-predBackup">Call backup −30</button></div><button class="btn primary" id="s4-predGo" type="button">Lock in prediction</button></div>
-    </div>
-
-    <div id="s4-brawlCard" class="meter" hidden>
-      <div id="s4-meterRows"></div>
-      <p class="brawl-note">Knock the thugs out in any order. Once enough of each reactant is down, they react in the balanced ratio.</p>
-    </div>
-
-    <div id="s4-lewisCard" hidden>
-      <p class="lw-q" id="s4-lwQ"></p>
-      <div class="build">
-        <div class="editor" id="s4-editor"></div>
-        <div class="side">
-          <div class="inv"><span class="eyebrow">Pairs left</span><span class="num" id="s4-pairsLeft">0</span><small id="s4-pairsNote"></small></div>
-          <div class="seg" role="group" aria-label="Click mode"><button type="button" id="s4-modeAdd" aria-pressed="true">Add pair</button><button type="button" id="s4-modeRemove" aria-pressed="false">Remove</button></div>
-          <button class="btn primary" type="button" id="s4-lwGo">Claim it</button>
-          <div class="tools"><button class="btn" type="button" id="s4-lwHint">Hint −10</button><button class="btn" type="button" id="s4-lwBackup">Backup −30</button><button class="btn" type="button" id="s4-lwClear">Clear</button></div>
-          <p class="how">Click a dashed line to add a bond; click again for double or triple. Click an atom for a lone pair. Right-click or Remove takes pairs back.</p>
-        </div>
-      </div>
-    </div>
+  <section class="console" id="s4-console" hidden aria-label="Fight console">
+    <div class="duelhead"><h2 id="s4-duelTitle"></h2><span class="tag" id="s4-duelTag">Hits to win: 2</span></div>
+    <div class="taunt" id="s4-taunt"><span class="who" id="s4-tauntWho"></span><span id="s4-tauntText"></span></div>
+    <p class="qtext" id="s4-qText"></p>
+    <div class="choices" id="s4-choices" role="group" aria-label="Answers"></div>
     <div class="hint" id="s4-hintBox" hidden></div>
+    <div class="fb" id="s4-fb" hidden role="status" aria-live="polite"></div>
+    <div class="qfoot"><div class="tools"><button class="btn" type="button" id="s4-hintBtn">Hint −10</button></div><button class="btn primary" type="button" id="s4-nextBtn" hidden>Next question</button></div>
   </section>
 
   <section class="panel report" id="s4-reportPanel" hidden>
@@ -1491,15 +1426,15 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
       <div><dt>Pilot</dt><dd id="s4-rpName"></dd></div>
       <div><dt>Mode</dt><dd id="s4-rpMode"></dd></div>
       <div><dt>Score</dt><dd id="s4-rpScore"></dd></div>
-      <div><dt>First-try tasks</dt><dd id="s4-rpAcc"></dd></div>
-      <div><dt>Hints · backups</dt><dd id="s4-rpHints"></dd></div>
+      <div><dt>Correct answers</dt><dd id="s4-rpAcc"></dd></div>
+      <div><dt>Hints used</dt><dd id="s4-rpHints"></dd></div>
       <div><dt>Shields lost</dt><dd id="s4-rpShields"></dd></div>
-      <div><dt>Knockouts · knockdowns</dt><dd id="s4-rpKO"></dd></div>
+      <div><dt>Perfect fights</dt><dd id="s4-rpPerfect"></dd></div>
       <div><dt>Mission time</dt><dd id="s4-rpTime"></dd></div>
     </dl>
     <div class="rp-code"><span>Completion code</span><strong id="s4-rpCode"></strong></div>
     <p class="rp-note">Take a screenshot of this report, including the completion code, and upload it to the assignment.</p>
-    <p>You balanced the reactions, ran the numbers and drew the bonds. The city is safe.</p>
+    <p>Mr. X and the Reaction Gang are finished. The city is safe.</p>
     <div><button class="btn" id="s4-againBtn" type="button">Play again</button></div>
   </section>
 </div>
@@ -1860,7 +1795,7 @@ window.RR = (() => {
     { id: "s1", name: "Crater Patrol", topic: "Balancing equations", style: "In the style of Moon Patrol", built: true },
     { id: "s2", name: "River Run", topic: "Stoichiometry", style: "In the style of River Raid", built: true },
     { id: "s3", name: "Bond Defender", topic: "Lewis structures", style: "In the style of Defender", built: true },
-    { id: "s4", name: "Reaction Brawl", topic: "All three skills", style: "In the style of Streets of Rage", built: true }
+    { id: "s4", name: "Reaction Brawl", topic: "All three skills", style: "In the style of Street Fighter", built: true }
   ];
   const TRANSITIONS = { s1: "Leaving the Moon · course set for Titan", s2: "Leaving Titan · course set for Europa", s3: "Leaving Europa · on to the final reaction" };
   // Planet pairs for the placeholder interlude: [base, shade, band] for the world you leave and the one ahead
@@ -5526,251 +5461,6 @@ else start();
 </script>
 <script>
 (() => {
-const BANK = (() => { const module = { exports: {} };
-/* ===== Crater Patrol: equation bank and chemistry helpers ===== */
-const SECTORS = [
-  {
-    id: 1, name: "Mare Tranquillitatis", english: "Sea of Tranquility",
-    topic: "Synthesis and decomposition",
-    tip: "Tally each element on both sides before you change anything.",
-    pick: [["syn", 2], ["dec", 2]],
-    pool: [
-      { t: "syn", r: ["H2", "O2"], p: ["H2O"], a: [2, 1, 2], note: "Hydrogen fuel cells and the Space Shuttle's main engines both run on this reaction." },
-      { t: "syn", r: ["N2", "H2"], p: ["NH3"], a: [1, 3, 2], note: "The Haber process makes most of the world's nitrogen fertilizer from this reaction." },
-      { t: "syn", r: ["Na", "Cl2"], p: ["NaCl"], a: [2, 1, 2], note: "A soft metal and a toxic green gas combine to make table salt." },
-      { t: "syn", r: ["Mg", "O2"], p: ["MgO"], a: [2, 1, 2], note: "Burning magnesium gives the brilliant white light of road flares." },
-      { t: "syn", r: ["Al", "O2"], p: ["Al2O3"], a: [4, 3, 2], note: "A thin layer of Al₂O₃ protects aluminum from corroding." },
-      { t: "syn", r: ["Fe", "O2"], p: ["Fe2O3"], a: [4, 3, 2], note: "Rust is mostly iron(III) oxide." },
-      { t: "syn", r: ["Li", "N2"], p: ["Li3N"], a: [6, 1, 2] },
-      { t: "syn", r: ["Al", "Cl2"], p: ["AlCl3"], a: [2, 3, 2] },
-      { t: "syn", r: ["P4", "O2"], p: ["P4O10"], a: [1, 5, 1], note: "White phosphorus glows in the dark as it slowly reacts with oxygen." },
-      { t: "syn", r: ["Ca", "N2"], p: ["Ca3N2"], a: [3, 1, 1] },
-      { t: "syn", r: ["SO2", "O2"], p: ["SO3"], a: [2, 1, 2], note: "This step is part of making sulfuric acid, and it also feeds acid rain." },
-      { t: "syn", r: ["P4", "Cl2"], p: ["PCl3"], a: [1, 6, 4] },
-      { t: "syn", r: ["H2", "Cl2"], p: ["HCl"], a: [1, 1, 2] },
-      { t: "dec", r: ["KClO3"], p: ["KCl", "O2"], a: [2, 2, 3], note: "Heating potassium chlorate is a classic way to make oxygen in the lab." },
-      { t: "dec", r: ["H2O2"], p: ["H2O", "O2"], a: [2, 2, 1], note: "The fizz when peroxide touches a cut is an enzyme speeding up this reaction." },
-      { t: "dec", r: ["HgO"], p: ["Hg", "O2"], a: [2, 2, 1], note: "Joseph Priestley discovered oxygen in 1774 by heating mercury(II) oxide." },
-      { t: "dec", r: ["NaN3"], p: ["Na", "N2"], a: [2, 2, 3], note: "The nitrogen from this reaction inflated early car airbags." },
-      { t: "dec", r: ["CaCO3"], p: ["CaO", "CO2"], a: [1, 1, 1], note: "Already balanced! Checking before you change anything is part of the skill." },
-      { t: "dec", r: ["N2O5"], p: ["NO2", "O2"], a: [2, 4, 1] },
-      { t: "dec", r: ["Al2O3"], p: ["Al", "O2"], a: [2, 4, 3], note: "Aluminum metal is made by running electricity through molten Al₂O₃." },
-      { t: "dec", r: ["NH4NO3"], p: ["N2O", "H2O"], a: [1, 1, 2], note: "Gently heating ammonium nitrate is how nitrous oxide is made." }
-    ]
-  },
-  {
-    id: 2, name: "Mare Imbrium", english: "Sea of Showers",
-    topic: "Single and double replacement",
-    tip: "In replacement reactions atoms trade partners, but no atom appears or disappears.",
-    pick: [["single", 2], ["double", 2]],
-    pool: [
-      { t: "single", r: ["Zn", "HCl"], p: ["ZnCl2", "H2"], a: [1, 2, 1, 1], note: "Bubbles of hydrogen rise as zinc dissolves in hydrochloric acid." },
-      { t: "single", r: ["Al", "HCl"], p: ["AlCl3", "H2"], a: [2, 6, 2, 3] },
-      { t: "single", r: ["Na", "H2O"], p: ["NaOH", "H2"], a: [2, 2, 2, 1], note: "Sodium skates across water, releasing hydrogen gas." },
-      { t: "single", r: ["Al", "CuSO4"], p: ["Al2(SO4)3", "Cu"], a: [2, 3, 1, 3], note: "Copper metal coats the aluminum as the blue color fades." },
-      { t: "single", r: ["Cu", "AgNO3"], p: ["Cu(NO3)2", "Ag"], a: [1, 2, 1, 2], note: "A copper wire in silver nitrate grows a 'silver tree' of crystals." },
-      { t: "single", r: ["Cl2", "NaBr"], p: ["NaCl", "Br2"], a: [1, 2, 2, 1], note: "Chlorine is more reactive than bromine, so it takes bromine's place." },
-      { t: "single", r: ["Al", "Fe2O3"], p: ["Al2O3", "Fe"], a: [2, 1, 1, 2], note: "The thermite reaction gets hot enough to weld railroad rails." },
-      { t: "double", r: ["BaCl2", "Na2SO4"], p: ["BaSO4", "NaCl"], a: [1, 1, 1, 2], note: "Insoluble BaSO₄ drops out of solution as a white solid." },
-      { t: "double", r: ["Pb(NO3)2", "KI"], p: ["PbI2", "KNO3"], a: [1, 2, 1, 2], note: "Bright yellow PbI₂ is the 'golden rain' demonstration." },
-      { t: "double", r: ["AgNO3", "NaCl"], p: ["AgCl", "NaNO3"], a: [1, 1, 1, 1], note: "Already balanced! The white AgCl solid is a classic test for chloride ions." },
-      { t: "double", r: ["H2SO4", "NaOH"], p: ["Na2SO4", "H2O"], a: [1, 2, 1, 2], note: "Acid plus base gives a salt plus water: a neutralization." },
-      { t: "double", r: ["Ca(OH)2", "HCl"], p: ["CaCl2", "H2O"], a: [1, 2, 1, 2] },
-      { t: "double", r: ["H3PO4", "KOH"], p: ["K3PO4", "H2O"], a: [1, 3, 1, 3] },
-      { t: "double", r: ["FeCl3", "NaOH"], p: ["Fe(OH)3", "NaCl"], a: [1, 3, 1, 3], note: "Rust-brown Fe(OH)₃ settles out of the solution." },
-      { t: "double", r: ["Na3PO4", "CaCl2"], p: ["Ca3(PO4)2", "NaCl"], a: [2, 3, 1, 6], note: "Calcium phosphate is the main mineral in bones and teeth." },
-      { t: "double", r: ["Al2(SO4)3", "Ca(OH)2"], p: ["Al(OH)3", "CaSO4"], a: [1, 3, 2, 3], note: "Sticky Al(OH)₃ flakes trap dirt in water-treatment plants." },
-      { t: "double", r: ["Na2CO3", "HCl"], p: ["NaCl", "H2O", "CO2"], a: [1, 2, 2, 1, 1], note: "The fizz is carbon dioxide escaping." },
-      { t: "double", r: ["(NH4)2SO4", "NaOH"], p: ["Na2SO4", "NH3", "H2O"], a: [1, 2, 1, 2, 2], note: "The sharp smell of ammonia gives away the ammonium ion." }
-    ]
-  },
-  {
-    id: 3, name: "Oceanus Procellarum", english: "Ocean of Storms",
-    topic: "Combustion",
-    tip: "Combustion order: balance C with CO₂, then H with H₂O, and O last with O₂.",
-    pick: [["even", 2], ["odd", 2]],
-    pool: [
-      { t: "even", r: ["CH4", "O2"], p: ["CO2", "H2O"], a: [1, 2, 1, 2], note: "Natural gas burning on a kitchen stove." },
-      { t: "even", r: ["C3H8", "O2"], p: ["CO2", "H2O"], a: [1, 5, 3, 4], note: "Propane burning in a gas grill." },
-      { t: "even", r: ["C2H4", "O2"], p: ["CO2", "H2O"], a: [1, 3, 2, 2] },
-      { t: "even", r: ["C5H12", "O2"], p: ["CO2", "H2O"], a: [1, 8, 5, 6] },
-      { t: "even", r: ["C7H16", "O2"], p: ["CO2", "H2O"], a: [1, 11, 7, 8], note: "Heptane is the zero point of the octane rating scale." },
-      { t: "even", r: ["C2H5OH", "O2"], p: ["CO2", "H2O"], a: [1, 3, 2, 3], note: "Ethanol is the alcohol blended into gasoline." },
-      { t: "even", r: ["C6H12O6", "O2"], p: ["CO2", "H2O"], a: [1, 6, 6, 6], note: "Your cells run this same overall equation in cellular respiration." },
-      { t: "even", r: ["C3H6O", "O2"], p: ["CO2", "H2O"], a: [1, 4, 3, 3], note: "Acetone, the solvent in nail-polish remover, is very flammable." },
-      { t: "even", r: ["C12H22O11", "O2"], p: ["CO2", "H2O"], a: [1, 12, 12, 11], note: "Burning table sugar (sucrose)." },
-      { t: "odd", r: ["C2H6", "O2"], p: ["CO2", "H2O"], a: [2, 7, 4, 6], note: "The odd-oxygen trap: 7/2 O₂ became 7 O₂ once everything was doubled." },
-      { t: "odd", r: ["C4H10", "O2"], p: ["CO2", "H2O"], a: [2, 13, 8, 10], note: "Butane, the fuel in disposable lighters." },
-      { t: "odd", r: ["C2H2", "O2"], p: ["CO2", "H2O"], a: [2, 5, 4, 2], note: "An oxyacetylene torch burns at over 3000 °C." },
-      { t: "odd", r: ["C6H6", "O2"], p: ["CO2", "H2O"], a: [2, 15, 12, 6] },
-      { t: "odd", r: ["C8H18", "O2"], p: ["CO2", "H2O"], a: [2, 25, 16, 18], note: "Octane is a main component of gasoline." },
-      { t: "odd", r: ["CH3OH", "O2"], p: ["CO2", "H2O"], a: [2, 3, 2, 4], note: "Methanol has been used as racing fuel." }
-    ]
-  },
-  {
-    id: 4, name: "Tycho Crater", english: "The mothership",
-    topic: "Propellant reactions",
-    tip: "Big equations use the same routine: one element at a time, single elements last.",
-    boss: true,
-    pick: [["p1", 1], ["p2", 1], ["p3", 1]],
-    pool: [
-      { t: "p1", r: ["N2H4"], p: ["NH3", "N2"], a: [3, 4, 1], note: "Satellites steer with thrusters that break down hydrazine over a catalyst." },
-      { t: "p1", r: ["N2H4", "N2O4"], p: ["N2", "H2O"], a: [2, 1, 3, 4], note: "Hydrazine and N₂O₄ ignite on contact, so the engine needs no spark." },
-      { t: "p2", r: ["C12H26", "O2"], p: ["CO2", "H2O"], a: [2, 37, 24, 26], note: "RP-1 rocket kerosene is roughly C₁₂H₂₆." },
-      { t: "p2", r: ["NH4ClO4"], p: ["N2", "Cl2", "O2", "H2O"], a: [2, 1, 1, 2, 4], note: "Ammonium perchlorate is the oxidizer in solid rocket boosters." },
-      { t: "p3", r: ["CH3NHNH2", "N2O4"], p: ["CO2", "H2O", "N2"], a: [4, 5, 4, 12, 9], note: "MMH and N₂O₄ fueled the Space Shuttle's orbital maneuvering engines." },
-      { t: "p3", r: ["Al", "NH4ClO4"], p: ["Al2O3", "AlCl3", "NO", "H2O"], a: [3, 3, 1, 1, 3, 6], note: "Aluminum powder and ammonium perchlorate made up the Shuttle's solid boosters." }
-    ]
-  }
-];
-
-const CHECKPOINTS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P"];
-const IONS = ["SO4", "NO3", "PO4", "CO3", "NH4", "OH", "ClO3", "ClO4"];
-
-function parseFormula(f) {
-  const stack = [{}];
-  let i = 0;
-  const readNum = () => { let n = ""; while (i < f.length && /\d/.test(f[i])) n += f[i++]; return n ? parseInt(n, 10) : 1; };
-  while (i < f.length) {
-    const ch = f[i];
-    if (ch === "(") { stack.push({}); i++; }
-    else if (ch === ")") {
-      i++;
-      const m = readNum();
-      const g = stack.pop();
-      const top = stack[stack.length - 1];
-      for (const k in g) top[k] = (top[k] || 0) + g[k] * m;
-    } else if (/[A-Z]/.test(ch)) {
-      let el = ch; i++;
-      while (i < f.length && /[a-z]/.test(f[i])) el += f[i++];
-      const n = readNum();
-      const top = stack[stack.length - 1];
-      top[el] = (top[el] || 0) + n;
-    } else throw new Error("Bad character " + ch + " in " + f);
-  }
-  if (stack.length !== 1) throw new Error("Unbalanced parentheses in " + f);
-  return stack[0];
-}
-
-const fmt = (f) => f.replace(/(\d+)/g, "<sub>$1</sub>");
-const fmtPlain = (f) => f.replace(/\d/g, (d) => "₀₁₂₃₄₅₆₇₈₉"[d]);
-const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
-
-function elementOrder(eq) {
-  const seen = [];
-  [...eq.r, ...eq.p].forEach((f) => Object.keys(parseFormula(f)).forEach((e) => { if (!seen.includes(e)) seen.push(e); }));
-  return seen;
-}
-
-function tally(eq, coeffs) {
-  const els = elementOrder(eq), L = {}, R = {};
-  els.forEach((e) => { L[e] = 0; R[e] = 0; });
-  eq.r.forEach((f, i) => { const p = parseFormula(f); for (const e in p) L[e] += p[e] * (coeffs[i] || 0); });
-  eq.p.forEach((f, j) => { const p = parseFormula(f); const c = coeffs[eq.r.length + j] || 0; for (const e in p) R[e] += p[e] * c; });
-  return { els, L, R };
-}
-
-function diagnose(eq, coeffs) {
-  const t = tally(eq, coeffs);
-  const bad = t.els.filter((e) => t.L[e] !== t.R[e]);
-  const g = coeffs.reduce((a, b) => gcd(a, b || 0), 0);
-  return { balanced: bad.length === 0, gcd: g, bad, els: t.els, L: t.L, R: t.R };
-}
-
-function sideHasIon(forms, ion) {
-  return forms.some((f) => {
-    if (f.includes("(" + ion + ")")) return true;
-    if (ion === "NH4") return f.startsWith("NH4");
-    if (ion === "OH" && /C(?![a-z])/.test(f)) return false;
-    return f.endsWith(ion) && f !== ion;
-  });
-}
-
-/* Strategy hint lines (HTML) generated from the equation itself */
-function strategyHint(eq, sector) {
-  const forms = [...eq.r, ...eq.p], nR = eq.r.length, P = forms.map(parseFormula);
-  const els = elementOrder(eq);
-  const lines = [sector.tip];
-  const inSide = (el, side) => (side === "r" ? P.slice(0, nR) : P.slice(nR)).filter((p) => p[el]).length;
-  const freeIdx = forms.map((f, i) => (Object.keys(P[i]).length === 1 ? i : -1)).filter((i) => i >= 0);
-  const freeEls = new Set(freeIdx.map((i) => Object.keys(P[i])[0]));
-  const ions = sector.id !== 3 ? IONS.filter((ion) => sideHasIon(eq.r, ion) && sideHasIon(eq.p, ion)) : [];
-  const ionEls = new Set(ions.flatMap((ion) => Object.keys(parseFormula(ion))));
-  if (ions.length) {
-    const many = ions.length > 1;
-    lines.push(`Treat ${ions.map(fmt).join(" and ")} as ${many ? "units" : "one unit"}. ${many ? "They appear" : "It appears"} unchanged on both sides, so balance ${many ? "each one" : "it"} as a single piece.`);
-  }
-  const compounds = forms.map((f, i) => (Object.keys(P[i]).length > 1 ? i : -1)).filter((i) => i >= 0);
-  if (compounds.length === 1) {
-    // Everything except one compound is a single element: build around the compound
-    const c = compounds[0];
-    const clash = freeIdx.find((i) => { const el = Object.keys(P[i])[0]; return (P[c][el] || 0) % P[i][el] !== 0; });
-    if (clash !== undefined) {
-      const el = Object.keys(P[clash])[0], k = P[clash][el];
-      lines.push(`${fmt(forms[clash])} supplies ${el} in ${k === 2 ? "pairs" : "groups of " + k}, but one ${fmt(forms[c])} has only ${P[c][el]}. Pick a coefficient for ${fmt(forms[c])} that makes its ${el} count a multiple of ${k}, then fill in the single elements.`);
-    } else {
-      lines.push(`Put 1 in front of ${fmt(forms[c])}, then work out the single elements from there.`);
-    }
-    return lines;
-  }
-  const once = (el) => !freeEls.has(el) && !ionEls.has(el) && inSide(el, "r") === 1 && inSide(el, "p") === 1;
-  let start = els.filter((el) => once(el) && el !== "O" && el !== "H");
-  if (!start.length) start = els.filter(once);
-  if (start.length && sector.id !== 3) {
-    const s = start.slice(0, 2);
-    lines.push(`Start with ${s.join(" and ")}: ${s.length > 1 ? "each appears" : "it appears"} in only one formula on each side.`);
-  }
-  if (freeIdx.length && sector.id !== 3) {
-    const many = freeIdx.length > 1;
-    lines.push(`Save ${joinList(freeIdx.map((i) => fmt(forms[i])))} for last. ${many ? "Each is" : "It is"} a single element, so changing ${many ? "those craters" : "that crater"} won't throw off any other element.`);
-  }
-  if (sector.id === 3) {
-    if (P[0].O) lines.push(`${fmt(forms[0])} already contains oxygen. Subtract its O atoms from the right-side total before you split the rest into O<sub>2</sub>.`);
-    else lines.push("Once C and H are done, count the O atoms on the right. Half that number goes in front of O<sub>2</sub>.");
-  }
-  if (freeIdx.length && eq.a[0] > 1) lines.push("If a fraction shows up (like 7/2), multiply every coefficient by the bottom number.");
-  return lines;
-}
-
-function joinList(items) {
-  if (items.length < 3) return items.join(" and ");
-  return items.slice(0, -1).join(", ") + " and " + items[items.length - 1];
-}
-
-/* Feedback lines (HTML) for an unbalanced fill */
-function wrongFeedback(eq, coeffs, d) {
-  const lines = [];
-  if (coeffs.every((c) => c === 1)) lines.push("Every crater holds 1. Count the atoms on each side before filling.");
-  const forms = [...eq.r, ...eq.p], nR = eq.r.length;
-  // Group-size trap: a single-element formula (O2, P4...) is the only source of that element on its side
-  for (let i = 0; i < forms.length; i++) {
-    const p = parseFormula(forms[i]);
-    const keys = Object.keys(p);
-    if (keys.length !== 1) continue;
-    const el = keys[0], k = p[el];
-    if (k < 2) continue;
-    const onLeft = i < nR;
-    const sameSide = onLeft ? forms.slice(0, nR) : forms.slice(nR);
-    const sources = sameSide.filter((f) => parseFormula(f)[el]).length;
-    if (sources !== 1) continue;
-    const other = onLeft ? d.R[el] : d.L[el];
-    if (other % k !== 0) {
-      const word = k === 2 ? "pairs" : `groups of ${k}`;
-      lines.push(`${fmt(forms[i])} supplies ${el} atoms in ${word}, so the ${onLeft ? "right" : "left"} side needs a multiple of ${k}. It has ${other} right now. ${k === 2 ? "Try doubling the other coefficients." : "Adjust the other coefficients until it does."}`);
-      break;
-    }
-  }
-  if (d.bad.length === 1 && lines.length < 2) {
-    const el = d.bad[0];
-    const freeHere = forms.find((f) => { const k = Object.keys(parseFormula(f)); return k.length === 1 && k[0] === el; });
-    if (freeHere) lines.push(`Only ${el} is off. Adjust the ${fmt(freeHere)} crater.`);
-  }
-  return lines;
-}
-
-if (typeof module !== "undefined") module.exports = { SECTORS, CHECKPOINTS, parseFormula, fmt, fmtPlain, gcd, elementOrder, tally, diagnose, strategyHint, wrongFeedback, sideHasIon };
-
-return module.exports; })();
 const LEWIS = (() => { const module = { exports: {} };
 /* ===== Bond Defender: Lewis structure engine ===== */
 const VAL = { H: 1, Be: 2, B: 3, C: 4, N: 5, O: 6, F: 7, P: 5, S: 6, Cl: 7, Br: 7, I: 7, Xe: 8 };
@@ -5985,383 +5675,245 @@ function pickWaves(sec) {
 if (typeof module !== "undefined") module.exports = { VAL, MOLECULES, allowed, analyze, enumerate, bestStructures, checkStructure, valenceTotal, pairsTotal, countChecks, countHint, countSteps, buildHint, blank, SECTORS3, CHECKPOINTS3, pickWaves, formulaText, sameStructure };
 
 return module.exports; })();
-const STOICH = (() => { const module = { exports: {} };
-/* ===== River Run: stoichiometry problem engine ===== */
-const AM = { H: 1.008, C: 12.01, N: 14.01, O: 16.00, Al: 26.98, Cl: 35.45, Fe: 55.85, K: 39.10 };
-const NA = 6.022e23;
-const TOL = 0.05; // answers within 5% count as correct
-
-function parseFormula(f) {
-  const stack = [{}];
-  let i = 0;
-  const readNum = () => { let n = ""; while (i < f.length && /\d/.test(f[i])) n += f[i++]; return n ? parseInt(n, 10) : 1; };
-  while (i < f.length) {
-    const ch = f[i];
-    if (ch === "(") { stack.push({}); i++; }
-    else if (ch === ")") { i++; const m = readNum(), g = stack.pop(), top = stack[stack.length - 1]; for (const k in g) top[k] = (top[k] || 0) + g[k] * m; }
-    else if (/[A-Z]/.test(ch)) { let el = ch; i++; while (i < f.length && /[a-z]/.test(f[i])) el += f[i++]; const n = readNum(), top = stack[stack.length - 1]; top[el] = (top[el] || 0) + n; }
-    else throw new Error("Bad character " + ch + " in " + f);
-  }
-  return stack[0];
+const SHOW = (() => { const module = { exports: {} };
+/* ===== Reaction Brawl: Showdown — one-step multiple-choice questions =====
+   Every generator returns { topic, q, choices[3], answer, explain, hint } with HTML strings.
+   Distractors come from common intro-chemistry mistakes, never from random noise. */
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+function shuffle(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+const F = (f) => String(f).replace(/(\d+)/g, "<sub>$1</sub>");
+function parse(f) { const out = {}; for (const [, el, n] of String(f).matchAll(/([A-Z][a-z]?)(\d*)/g)) out[el] = (out[el] || 0) + (n ? +n : 1); return out; }
+const elems = (f) => Object.keys(parse(f));
+const term = (c, f) => `${c === 1 ? "" : c}${F(f)}`;
+const eqHTML = (r, p, a) => `${r.map((f, i) => term(a[i], f)).join(" + ")} → ${p.map((f, j) => term(a[r.length + j], f)).join(" + ")}`;
+const blankEq = (r, p) => `${r.map((f) => `__${F(f)}`).join(" + ")} → ${p.map((f) => `__${F(f)}`).join(" + ")}`;
+function tally(r, p, a) {
+  const L = {}, R = {};
+  r.forEach((f, i) => { const m = parse(f); for (const e in m) L[e] = (L[e] || 0) + m[e] * a[i]; });
+  p.forEach((f, j) => { const m = parse(f); for (const e in m) R[e] = (R[e] || 0) + m[e] * a[r.length + j]; });
+  return { L, R };
 }
-const molarMass = (f) => Object.entries(parseFormula(f)).reduce((s, [e, n]) => s + AM[e] * n, 0);
-const molarMassOnce = (f) => Object.keys(parseFormula(f)).reduce((s, e) => s + AM[e], 0);
-const fmt = (f) => f.replace(/(\d+)/g, "<sub>$1</sub>");
-const fmtPlain = (f) => f.replace(/\d/g, (d) => "₀₁₂₃₄₅₆₇₈₉"[d]);
-const rnd = (a, b) => a + Math.random() * (b - a);
-const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-// Round to n significant figures (as a number)
-function sig(x, n = 3) { if (x === 0) return 0; const p = Math.pow(10, n - 1 - Math.floor(Math.log10(Math.abs(x)))); return Math.round(x * p) / p; }
-// Display with n significant figures, never in e-notation for our ranges
-function sf(x, n = 3) {
-  if (!isFinite(x)) return "—";
-  if (x === 0) return "0";
-  const d = n - 1 - Math.floor(Math.log10(Math.abs(x)));
-  return d > 0 ? sig(x, n).toFixed(d) : String(Math.round(sig(x, n)));
+function balanced(r, p, a) { const { L, R } = tally(r, p, a); const ks = new Set([...Object.keys(L), ...Object.keys(R)]); for (const k of ks) if ((L[k] || 0) !== (R[k] || 0)) return false; return true; }
+// Shuffle three choices and remember which is right
+function mc(topic, q, right, wrongs, explain, hint) {
+  const all = shuffle([{ t: right, ok: true }, ...wrongs.slice(0, 2).map((t) => ({ t, ok: false }))]);
+  return { topic, q, choices: all.map((c) => c.t), answer: all.findIndex((c) => c.ok), explain, hint };
 }
-const mm = (f) => sf(molarMass(f), 4);
-function sci(x) { const e = Math.floor(Math.log10(x)); return { m: x / Math.pow(10, e), e }; }
-const sciHTML = (m, e) => `${m.toFixed(2)} × 10<sup>${e}</sup>`;
-
-function parseAnswer(str) {
-  if (str == null) return NaN;
-  let s = String(str).trim().replace(/\s+/g, "").replace(/−/g, "-");
-  s = s.replace(/(mol|g\/mol|grams?|g|%|molecules?)$/i, "");
-  s = s.replace(/[x×*]10\^?\(?([+-]?\d+)\)?$/i, "e$1");
-  if (/^-?\d+,\d{1,3}$/.test(s) && !/\./.test(s) && !/^\-?\d{1,3},\d{3}$/.test(s)) s = s.replace(",", ".");
-  s = s.replace(/,/g, "");
-  if (!/^-?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i.test(s)) return NaN;
-  return parseFloat(s);
-}
-const close = (a, b, tol = TOL) => Math.abs(a - b) <= Math.abs(b) * tol;
-
-/* ---------- reactions (balanced; verified by test) ---------- */
-const REACTIONS = [
-  { id: "methalox", r: [["CH4", 1], ["O2", 2]], p: [["CO2", 1], ["H2O", 2]], name: "Methane burning in oxygen" },
-  { id: "hydrolox", r: [["H2", 2], ["O2", 1]], p: [["H2O", 2]], name: "Hydrogen burning in oxygen" },
-  { id: "propane", r: [["C3H8", 1], ["O2", 5]], p: [["CO2", 3], ["H2O", 4]], name: "Propane combustion" },
-  { id: "ethane", r: [["C2H6", 2], ["O2", 7]], p: [["CO2", 4], ["H2O", 6]], name: "Ethane combustion" },
-  { id: "octane", r: [["C8H18", 2], ["O2", 25]], p: [["CO2", 16], ["H2O", 18]], name: "Octane combustion" },
-  { id: "hydrazine", r: [["N2H4", 2], ["N2O4", 1]], p: [["N2", 3], ["H2O", 4]], name: "Hydrazine and N₂O₄ thrusters" },
-  { id: "haber", r: [["N2", 1], ["H2", 3]], p: [["NH3", 2]], name: "Ammonia synthesis" },
-  { id: "alox", r: [["Al", 4], ["O2", 3]], p: [["Al2O3", 2]], name: "Aluminum burning" },
-  { id: "thermite", r: [["Al", 2], ["Fe2O3", 1]], p: [["Al2O3", 1], ["Fe", 2]], name: "Thermite" },
-  { id: "blast", r: [["Fe2O3", 1], ["CO", 3]], p: [["Fe", 2], ["CO2", 3]], name: "Iron smelting" },
-  { id: "chlorate", r: [["KClO3", 2]], p: [["KCl", 2], ["O2", 3]], name: "Oxygen from potassium chlorate" },
-  { id: "perchlorate", r: [["NH4ClO4", 2]], p: [["N2", 1], ["Cl2", 1], ["O2", 2], ["H2O", 4]], name: "Ammonium perchlorate breakdown" }
-];
-const COMPOUNDS = ["N2H4", "N2O4", "NH4ClO4", "C8H18", "CH3NHNH2", "Al2O3", "KClO3", "C3H8", "Fe2O3", "C2H6", "NH3", "C12H26", "CO2", "H2O"];
-// Two-reactant reactions used for the limiting-reactant boss
-const LIMITING = ["methalox", "hydrolox", "haber", "alox", "thermite", "hydrazine", "propane", "blast"];
-
-function eqHTML(rx) {
-  const side = (arr) => arr.map(([f, c]) => `${c > 1 ? c + "&nbsp;" : ""}${fmt(f)}`).join(" + ");
-  return `${side(rx.r)} → ${side(rx.p)}`;
-}
-const elementsOf = (formulas) => { const s = []; formulas.forEach((f) => Object.keys(parseFormula(f)).forEach((e) => { if (!s.includes(e)) s.push(e); })); return s; };
-function mmSteps(f) {
-  const p = parseFormula(f);
-  const ents = Object.entries(p);
-  if (ents.length === 1 && ents[0][1] === 1) return `Molar mass of ${fmt(f)} = ${mm(f)} g/mol`;
-  const parts = Object.entries(p).map(([e, n]) => (n > 1 ? `${n}(${AM[e].toFixed(AM[e] < 10 ? 3 : 2)})` : AM[e].toFixed(AM[e] < 10 ? 3 : 2)));
-  return `Molar mass of ${fmt(f)} = ${parts.join(" + ")} = ${mm(f)} g/mol`;
-}
-// Keep only misconception values that are clearly different from the answer
-function cleanChecks(answer, checks) {
-  const out = [];
-  checks.forEach((c) => { if (isFinite(c.v) && c.v > 0 && !close(c.v, answer, TOL * 1.5) && !out.some((o) => close(o.v, c.v))) out.push(c); });
+// Numeric distractors: keep only values that differ from the answer and from each other
+function numWrongs(ans, cands, fmt) {
+  const seen = new Set([fmt(ans)]), out = [];
+  for (const c of cands) { if (!(c > 0) || !isFinite(c)) continue; const s = fmt(c); if (!seen.has(s)) { seen.add(s); out.push(s); } if (out.length === 2) break; }
+  let k = 1;
+  while (out.length < 2) { const s = fmt(ans + k * (ans >= 4 ? 2 : 1)); if (!seen.has(s)) { seen.add(s); out.push(s); } k = k > 0 ? -k : -k + 1; if (Math.abs(k) > 12) break; }
   return out;
 }
+const fx = (v, d = 1) => (+v).toFixed(d);
+const gfmt = (v) => { const r = Math.round(v * 100) / 100; return Number.isInteger(r) ? String(r) : String(+r.toFixed(2)); };
 
-/* ---------- generators ---------- */
-// Depot problems: what the jet takes on board, always ending in moles of CH4 or O2
-const TANK = { CH4: { lo: 1.5, hi: 3.0 }, O2: { lo: 3.0, hi: 6.0 } };
-
-function depotGrams(sp) {
-  const M = molarMass(sp), m = sig(rnd(TANK[sp].lo, TANK[sp].hi) * M), ans = m / M;
-  return {
-    kind: "depot", type: "Grams to moles", species: sp, unit: "mol", answer: ans, fuel: ans,
-    q: `This depot holds <b>${sf(m)} g</b> of ${fmt(sp)}. How many moles go into the tank?`,
-    refs: elementsOf([sp]),
-    checks: cleanChecks(ans, [
-      { v: m * M, msg: "You multiplied by the molar mass. To go from grams to moles, divide by it." },
-      { v: M / m, msg: "Your division is upside down. Grams ÷ (grams per mole) gives moles." },
-      { v: m, msg: "That's the mass in grams. Divide by the molar mass to get moles." },
-      { v: m / molarMassOnce(sp), msg: `Check the molar mass of ${fmt(sp)}: count every atom, using the subscripts.` }
-    ]),
-    road: ["grams → <b>÷ molar mass</b> → moles", `Add up the atomic masses of every atom in ${fmt(sp)} to get its molar mass.`],
-    steps: [mmSteps(sp), `${sf(m)} g × (1 mol ÷ ${mm(sp)} g) = <b>${sf(ans)} mol</b>`]
-  };
+/* ---------- 1 · Balancing ---------- */
+const BAL = [
+  { r: ["H2", "O2"], p: ["H2O"], a: [2, 1, 2] },
+  { r: ["H2", "Cl2"], p: ["HCl"], a: [1, 1, 2] },
+  { r: ["N2", "H2"], p: ["NH3"], a: [1, 3, 2] },
+  { r: ["Mg", "O2"], p: ["MgO"], a: [2, 1, 2] },
+  { r: ["Na", "Cl2"], p: ["NaCl"], a: [2, 1, 2] },
+  { r: ["C", "O2"], p: ["CO"], a: [2, 1, 2] },
+  { r: ["CO", "O2"], p: ["CO2"], a: [2, 1, 2] },
+  { r: ["K", "Br2"], p: ["KBr"], a: [2, 1, 2] },
+  { r: ["Ca", "O2"], p: ["CaO"], a: [2, 1, 2] },
+  { r: ["H2O2"], p: ["H2O", "O2"], a: [2, 2, 1] },
+  { r: ["CH4", "O2"], p: ["CO2", "H2O"], a: [1, 2, 1, 2] }
+];
+const BAL_BOSS = [
+  { r: ["Al", "O2"], p: ["Al2O3"], a: [4, 3, 2] },
+  { r: ["C3H8", "O2"], p: ["CO2", "H2O"], a: [1, 5, 3, 4] },
+  { r: ["Fe", "O2"], p: ["Fe2O3"], a: [4, 3, 2] },
+  { r: ["C2H4", "O2"], p: ["CO2", "H2O"], a: [1, 3, 2, 2] }
+];
+const balHint = "Count each element on both sides. Change only the coefficients in front, never the subscripts.";
+function balExplain(e) {
+  const { L } = tally(e.r, e.p, e.a);
+  return `Balanced: ${eqHTML(e.r, e.p, e.a)}. Each side has ${Object.keys(L).map((k) => `${L[k]} ${k}`).join(", ")}.`;
+}
+function balCoeffSet(e) {
+  const n = e.a.length, wrongs = [], seen = new Set([e.a.join(",")]);
+  const tryAdd = (c) => { const k = c.join(","); if (c.every((v) => v >= 1 && v <= 9) && !seen.has(k) && !balanced(e.r, e.p, c)) { seen.add(k); wrongs.push(c); } };
+  tryAdd(e.a.map(() => 1));
+  // balances only the first element: a common "fix one atom and stop" mistake
+  for (let i = 0; i < n && wrongs.length < 6; i++) for (const d of [1, -1, 2]) { const c = e.a.slice(); c[i] += d; tryAdd(c); }
+  for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) { const c = e.a.slice(); [c[i], c[j]] = [c[j], c[i]]; tryAdd(c); }
+  const pickW = shuffle(wrongs).slice(0, 2);
+  const show = (c) => c.join(", ");
+  return mc("balance", `Which coefficients balance this equation?<span class="eq">${blankEq(e.r, e.p)}</span>`, show(e.a), pickW.map(show), balExplain(e), balHint);
+}
+function balOneBlank(e) {
+  const idx = e.a.map((v, i) => i).filter((i) => e.a[i] > 1);
+  const k = pick(idx), forms = [...e.r, ...e.p], nR = e.r.length;
+  const shown = `${e.r.map((f, i) => (i === k ? `__${F(f)}` : term(e.a[i], f))).join(" + ")} → ${e.p.map((f, j) => (nR + j === k ? `__${F(f)}` : term(e.a[nR + j], f))).join(" + ")}`;
+  const ans = e.a[k];
+  const wr = numWrongs(ans, [ans === 2 ? 1 : ans - 1, ans + 1, ans * 2, 3, 4], (v) => String(Math.round(v)));
+  return mc("balance", `What coefficient goes in the blank?<span class="eq">${shown}</span>`, String(ans), wr, balExplain(e), `Look at ${elems(forms[k]).join(" and ")}: count it on both sides and make the totals match.`);
+}
+function balAtomCount(e) {
+  const forms = [...e.r, ...e.p], nR = e.r.length;
+  const candidates = [...new Set(forms.flatMap(elems))].filter((el) => tally(e.r, e.p, e.a).L[el] > 1);
+  const el = pick(candidates.length ? candidates : forms.flatMap(elems));
+  const ans = tally(e.r, e.p, e.a).L[el];
+  const subsOnly = e.r.reduce((s, f) => s + (parse(f)[el] || 0), 0);
+  const coefOnly = e.r.reduce((s, f, i) => s + (parse(f)[el] ? e.a[i] : 0), 0);
+  const wr = numWrongs(ans, [subsOnly, coefOnly, ans * 2, ans + 1], (v) => String(Math.round(v)));
+  return mc("balance", `In the balanced equation below, how many ${el} atoms are on each side?<span class="eq">${eqHTML(e.r, e.p, e.a)}</span>`, String(ans), wr,
+    `Multiply the coefficient by the subscript for every formula that contains ${el}: ${e.r.filter((f) => parse(f)[el]).map((f) => `${e.a[e.r.indexOf(f)]} × ${parse(f)[el]}`).join(" + ")} = ${ans}. The products side has the same number.`,
+    "Atoms in a term = coefficient × subscript. Add them up for the reactant side.");
 }
 
-function depotParticles(sp) {
-  const target = rnd(TANK[sp].lo, TANK[sp].hi) * NA, s = sci(target), mant = Math.round(s.m * 100) / 100, N = mant * Math.pow(10, s.e), ans = N / NA;
-  return {
-    kind: "depot", type: "Molecules to moles", species: sp, unit: "mol", answer: ans, fuel: ans, avogadro: true,
-    q: `This depot holds <b>${sciHTML(mant, s.e)}</b> molecules of ${fmt(sp)}. How many moles go into the tank?`,
-    refs: [],
-    checks: cleanChecks(ans, [
-      { v: N * NA, msg: "You multiplied by Avogadro's number. To go from molecules to moles, divide by it." },
-      { v: mant, msg: "Don't forget the power of ten: divide the whole number of molecules by 6.022 × 10²³." },
-      { v: N / NA * molarMass(sp), msg: "The question asks for moles, not grams. Stop after dividing by Avogadro's number." }
-    ]),
-    road: ["molecules → <b>÷ 6.022 × 10²³</b> → moles", "One mole is 6.022 × 10²³ molecules, no matter what the substance is."],
-    steps: [`${sciHTML(mant, s.e)} molecules × (1 mol ÷ 6.022 × 10<sup>23</sup> molecules) = <b>${sf(ans)} mol</b>`]
-  };
+/* ---------- 2 · Counting atoms and molar mass ---------- */
+const AM = { H: 1.0, C: 12.0, N: 14.0, O: 16.0, Na: 23.0, Cl: 35.5, Mg: 24.3, S: 32.1, Ca: 40.1 };
+const MM_FORMS = ["H2O", "CO2", "NH3", "CH4", "O2", "NaCl", "C2H6", "N2", "HCl", "MgO", "CaO", "H2S"];
+const COUNT_FORMS = ["C6H12O6", "H2SO4", "C2H6O", "C3H8", "CH4", "NH3", "C2H4O2", "CH3OH", "HNO3"];
+const mass = (f) => Object.entries(parse(f)).reduce((s, [el, n]) => s + AM[el] * n, 0);
+const massList = (f) => elems(f).map((el) => `${el} = ${fx(AM[el])}`).join(", ");
+function molarMassQ() {
+  const f = pick(MM_FORMS), m = parse(f), ans = mass(f);
+  const distinct = elems(f).reduce((s, el) => s + AM[el], 0);
+  const multiEl = elems(f).find((el) => m[el] > 1) || elems(f)[0];
+  const oneOff = ans - AM[multiEl];
+  const wr = numWrongs(ans, [distinct, oneOff, ans + AM[multiEl], ans * 2], (v) => `${fx(v)} g/mol`);
+  return mc("mass", `What is the molar mass of ${F(f)}?<span class="given">Atomic masses: ${massList(f)}</span>`, `${fx(ans)} g/mol`, wr,
+    `Add up every atom: ${elems(f).map((el) => `${m[el]} × ${fx(AM[el])}`).join(" + ")} = ${fx(ans)} g/mol.`,
+    "Multiply each atomic mass by its subscript, then add. A missing subscript means 1.");
 }
-
-function depotKilograms(sp) {
-  const M = molarMass(sp), kg = sig((rnd(TANK[sp].lo, TANK[sp].hi) * M) / 1000), ans = (kg * 1000) / M;
-  return {
-    kind: "depot", type: "Kilograms to moles", species: sp, unit: "mol", answer: ans, fuel: ans,
-    q: `This depot holds <b>${sf(kg)} kg</b> of ${fmt(sp)}. How many moles go into the tank?`,
-    refs: elementsOf([sp]),
-    checks: cleanChecks(ans, [
-      { v: kg / M, msg: "You skipped the kilograms-to-grams step. 1 kg = 1000 g, then divide by the molar mass." },
-      { v: kg * 1000 * M, msg: "You multiplied by the molar mass. To go from grams to moles, divide by it." },
-      { v: kg * 1000, msg: "That's the mass in grams. Now divide by the molar mass to get moles." },
-      { v: (kg / 1000) / M, msg: "1 kg = 1000 g, so multiply by 1000 (don't divide) to get grams." }
-    ]),
-    road: ["kilograms → <b>× 1000</b> → grams → <b>÷ molar mass</b> → moles"],
-    steps: [`${sf(kg)} kg × (1000 g ÷ 1 kg) = ${sf(kg * 1000)} g`, mmSteps(sp), `${sf(kg * 1000)} g × (1 mol ÷ ${mm(sp)} g) = <b>${sf(ans)} mol</b>`]
-  };
-}
-
-function bridgeMolarMass() {
-  const f = pick(COMPOUNDS.filter((c) => Object.values(parseFormula(c)).some((n) => n > 1) && c !== "H2O" && c !== "CO2"));
-  const ans = molarMass(f);
-  return {
-    kind: "bridge", type: "Molar mass", unit: "g/mol", answer: ans, tol: 0.005,
-    q: `The bridge lock is coded to the molar mass of ${fmt(f)}. What is it?`,
-    refs: elementsOf([f]),
-    checks: cleanChecks(ans, [
-      { v: molarMassOnce(f), msg: `Count every atom. The subscripts in ${fmt(f)} tell you how many of each element there are.` }
-    ]),
-    road: ["Multiply each element's atomic mass by its subscript, then add them up.", "Watch for elements that appear in more than one place in the formula."],
-    steps: [mmSteps(f)]
-  };
-}
-
-function bridgeMolGrams() {
-  const f = pick(COMPOUNDS.filter((c) => c !== "H2O" && c !== "CO2")), M = molarMass(f);
+function atomCountQ() {
   if (Math.random() < 0.5) {
-    const n = sig(rnd(0.25, 4.5)), ans = n * M;
-    return {
-      kind: "bridge", type: "Moles to grams", unit: "g", answer: ans,
-      q: `The lock wants the mass of <b>${sf(n)} mol</b> of ${fmt(f)}. How many grams is that?`,
-      refs: elementsOf([f]),
-      checks: cleanChecks(ans, [
-        { v: n / M, msg: "You divided by the molar mass. To go from moles to grams, multiply by it." },
-        { v: M / n, msg: "Moles × (grams per mole) gives grams. Multiply, don't divide." },
-        { v: n * molarMassOnce(f), msg: `Check the molar mass of ${fmt(f)}: count every atom, using the subscripts.` }
-      ]),
-      road: ["moles → <b>× molar mass</b> → grams"],
-      steps: [mmSteps(f), `${sf(n)} mol × (${mm(f)} g ÷ 1 mol) = <b>${sf(ans)} g</b>`]
-    };
+    const f = pick(COUNT_FORMS), m = parse(f), ans = Object.values(m).reduce((a, b) => a + b, 0);
+    const distinct = Object.keys(m).length, subsOnly = (f.match(/\d+/g) || []).reduce((s, d) => s + +d, 0);
+    const wr = numWrongs(ans, [distinct, subsOnly, ans - 1, ans + 1], (v) => String(Math.round(v)));
+    return mc("mass", `How many atoms in total are in one molecule of ${F(f)}?`, String(ans), wr,
+      `${Object.entries(m).map(([el, n]) => `${n} ${el}`).join(" + ")} = ${ans} atoms.`, "Add the subscripts for every element. An element with no subscript counts as 1.");
   }
-  const m = sig(rnd(0.3, 4.0) * M), ans = m / M;
-  return {
-    kind: "bridge", type: "Grams to moles", unit: "mol", answer: ans,
-    q: `The lock wants the number of moles in <b>${sf(m)} g</b> of ${fmt(f)}.`,
-    refs: elementsOf([f]),
-    checks: cleanChecks(ans, [
-      { v: m * M, msg: "You multiplied by the molar mass. To go from grams to moles, divide by it." },
-      { v: M / m, msg: "Your division is upside down. Grams ÷ (grams per mole) gives moles." },
-      { v: m / molarMassOnce(f), msg: `Check the molar mass of ${fmt(f)}: count every atom, using the subscripts.` }
-    ]),
-    road: ["grams → <b>÷ molar mass</b> → moles"],
-    steps: [mmSteps(f), `${sf(m)} g × (1 mol ÷ ${mm(f)} g) = <b>${sf(ans)} mol</b>`]
-  };
+  const f = pick(["CO2", "H2O", "O2", "SO2", "NO2", "H2O2", "CaO"].filter((x) => parse(x).O)), n = pick([2, 3, 4]), per = parse(f).O, ans = n * per;
+  const wr = numWrongs(ans, [per, n, n + per], (v) => String(Math.round(v)));
+  return mc("mass", `How many oxygen atoms are in ${n} ${F(f)}?`, String(ans), wr,
+    `Each ${F(f)} has ${per} O, and there are ${n} of them: ${n} × ${per} = ${ans}.`, "The coefficient multiplies everything in the formula.");
 }
 
-function pickPair(rx, needDifferent = true) {
-  const all = [...rx.r.map(([f, c]) => ({ f, c, side: "r" })), ...rx.p.map(([f, c]) => ({ f, c, side: "p" }))];
-  for (let tries = 0; tries < 40; tries++) {
-    const a = pick(all.filter((x) => x.side === "r")), b = pick(all.filter((x) => x.f !== a.f));
-    if (!needDifferent || a.c !== b.c) return [a, b];
-  }
-  return null;
+/* ---------- 3 · Grams, moles and particles ---------- */
+const MOLES = [["H2O", 18.0], ["CO2", 44.0], ["O2", 32.0], ["N2", 28.0], ["CH4", 16.0], ["NH3", 17.0], ["NaCl", 58.5], ["HCl", 36.5]];
+function gramsToMoles() {
+  const [f, M] = pick(MOLES), n = pick([0.5, 1.5, 2, 3, 4]), g = n * M;
+  const wr = numWrongs(n, [g * M, M / g, g / 10], (v) => `${gfmt(v)} mol`);
+  return mc("moles", `How many moles are in ${gfmt(g)} g of ${F(f)}?<span class="given">Molar mass of ${F(f)} = ${fx(M)} g/mol</span>`, `${gfmt(n)} mol`, wr,
+    `Divide grams by molar mass: ${gfmt(g)} g ÷ ${fx(M)} g/mol = ${gfmt(n)} mol.`, "grams → moles: divide by the molar mass, so the grams cancel.");
 }
-const verb = (b) => (b.side === "p" ? "produced" : "needed");
-
-function bridgeMolMol() {
-  let rx, pair;
-  do { rx = pick(REACTIONS); pair = pickPair(rx); } while (!pair);
-  const [A, B] = pair, n = sig(rnd(0.4, 6.0)), ans = (n * B.c) / A.c;
-  return {
-    kind: "bridge", type: "Mole ratio", unit: "mol", answer: ans, rx,
-    q: `${rx.name}. How many moles of ${fmt(B.f)} are ${verb(B)} when <b>${sf(n)} mol</b> of ${fmt(A.f)} react${A.side === "r" ? "s" : ""}?`,
-    refs: [],
-    checks: cleanChecks(ans, [
-      { v: n, msg: "You skipped the mole ratio. Use the coefficients from the balanced equation." },
-      { v: (n * A.c) / B.c, msg: `Your mole ratio is upside down. Put mol ${fmt(B.f)} on top and mol ${fmt(A.f)} on the bottom.` },
-      { v: n * B.c, msg: `Divide by the coefficient of ${fmt(A.f)} too: the ratio is ${B.c} mol ${fmt(B.f)} per ${A.c} mol ${fmt(A.f)}.` }
-    ]),
-    road: [`mol ${fmt(A.f)} → <b>× (${B.c} mol ${fmt(B.f)} ÷ ${A.c} mol ${fmt(A.f)})</b> → mol ${fmt(B.f)}`, "The coefficients in the balanced equation are mole ratios."],
-    steps: [`${sf(n)} mol ${fmt(A.f)} × (${B.c} mol ${fmt(B.f)} ÷ ${A.c} mol ${fmt(A.f)}) = <b>${sf(ans)} mol ${fmt(B.f)}</b>`]
-  };
+function molesToGrams() {
+  const [f, M] = pick(MOLES), n = pick([0.5, 2, 3, 4, 5]), g = n * M;
+  const wr = numWrongs(g, [M / n, n + M, M], (v) => `${gfmt(v)} g`);
+  return mc("moles", `What is the mass of ${gfmt(n)} mol of ${F(f)}?<span class="given">Molar mass of ${F(f)} = ${fx(M)} g/mol</span>`, `${gfmt(g)} g`, wr,
+    `Multiply moles by molar mass: ${gfmt(n)} mol × ${fx(M)} g/mol = ${gfmt(g)} g.`, "moles → grams: multiply by the molar mass, so the moles cancel.");
+}
+const sci = (v) => { const e = Math.floor(Math.log10(v)), m = v / 10 ** e; return `${m.toFixed(2)} × 10<sup>${e}</sup>`; };
+function molesToParticles() {
+  const [f] = pick(MOLES.slice(0, 6)), n = pick([0.5, 2, 3]), NA = 6.02e23, ans = n * NA;
+  const wr = [sci(NA / n), sci(NA)].filter((s) => s !== sci(ans));
+  if (wr.length < 2) wr.push(sci(NA * (n + 1)));
+  return mc("moles", `How many molecules are in ${gfmt(n)} mol of ${F(f)}?`, sci(ans), wr,
+    `One mole is 6.02 × 10<sup>23</sup> molecules, so ${gfmt(n)} mol × 6.02 × 10<sup>23</sup> = ${sci(ans)}.`, "Multiply the moles by Avogadro's number, 6.02 × 10²³ per mole.");
 }
 
-function bridgeGramsGrams() {
-  let rx, pair;
-  do { rx = pick(REACTIONS); pair = pickPair(rx, false); } while (!pair);
-  const [A, B] = pair, MA = molarMass(A.f), MB = molarMass(B.f);
-  const m = sig(rnd(0.5, 5.0) * MA), molA = m / MA, molB = (molA * B.c) / A.c, ans = molB * MB;
-  return {
-    kind: "bridge", type: "Grams to grams", unit: "g", answer: ans, rx,
-    q: `${rx.name}. How many grams of ${fmt(B.f)} are ${verb(B)} when <b>${sf(m)} g</b> of ${fmt(A.f)} react${A.side === "r" ? "s" : ""}?`,
-    refs: elementsOf([A.f, B.f]),
-    checks: cleanChecks(ans, [
-      { v: molA * MB, msg: "You skipped the mole ratio. After converting to moles, use the coefficients from the balanced equation." },
-      { v: ((molA * A.c) / B.c) * MB, msg: `Your mole ratio is upside down. It should be ${B.c} mol ${fmt(B.f)} per ${A.c} mol ${fmt(A.f)}.` },
-      { v: molB, msg: `That's moles of ${fmt(B.f)}. Multiply by its molar mass to get grams.` },
-      { v: (m * B.c) / A.c, msg: "Coefficients relate moles, not grams. Convert grams to moles first." },
-      { v: molB * MA, msg: `For the last step, use the molar mass of ${fmt(B.f)}, not ${fmt(A.f)}.` }
-    ]),
-    road: [`g ${fmt(A.f)} → <b>÷ ${mm(A.f)}</b> → mol ${fmt(A.f)} → <b>× (${B.c} ÷ ${A.c})</b> → mol ${fmt(B.f)} → <b>× ${mm(B.f)}</b> → g ${fmt(B.f)}`, "Grams never go straight to grams. Always pass through moles."],
-    steps: [mmSteps(A.f), mmSteps(B.f), `${sf(m)} g ${fmt(A.f)} ÷ ${mm(A.f)} g/mol = ${sf(molA)} mol ${fmt(A.f)}`, `${sf(molA)} mol × (${B.c} ÷ ${A.c}) = ${sf(molB)} mol ${fmt(B.f)}`, `${sf(molB)} mol × ${mm(B.f)} g/mol = <b>${sf(ans)} g ${fmt(B.f)}</b>`]
-  };
+/* ---------- 4 · Lewis structures (uses the Lewis engine passed in) ---------- */
+const LEWIS_EASY = ["H2O", "NH3", "CH4", "CO2", "N2", "HCN", "HCl", "CH2O", "C2H2", "C2H4", "CCl4", "NF3", "O2"];
+function lewisValence(L) {
+  const id = pick(LEWIS_EASY), m = L.MOLECULES.find((x) => x.id === id), V = L.valenceTotal(m);
+  const miscon = L.countChecks(m).map((c) => c.v);
+  const wr = numWrongs(V, [...miscon, V + 2, V - 2], (v) => String(Math.round(v)));
+  const parts = [...new Set(m.atoms.map(([el]) => el))].map((el) => { const k = m.atoms.filter(([e]) => e === el).length; return `${k} ${el} × ${L.VAL[el]}`; });
+  return mc("lewis", `How many valence electrons are in ${F(m.f)}?`, String(V), wr,
+    `${parts.join(" + ")} = ${V} valence electrons.`, "Use each atom's group: H 1, C 4, N 5, O 6, F and Cl 7. Add one value per atom.");
+}
+function centerOf(m) { const deg = m.atoms.map((_, i) => m.bonds.filter(([a, b]) => a === i || b === i).length); return deg.indexOf(Math.max(...deg)); }
+function lewisLonePairs(L) {
+  const id = pick(["H2O", "NH3", "CH4", "NF3", "HCN", "CO2", "CH2O", "CCl4"]), m = L.MOLECULES.find((x) => x.id === id);
+  const best = L.bestStructures(m)[0], c = centerOf(m), ans = best.l[c], el = m.atoms[c][0];
+  const wrongs = shuffle([0, 1, 2, 3].filter((v) => v !== ans)).slice(0, 2).map(String);
+  return mc("lewis", `In the Lewis structure of ${F(m.f)}, how many lone pairs are on the central ${el} atom?`, String(ans), wrongs,
+    `${el} makes ${best.b.filter((x, k) => m.bonds[k].includes(c)).reduce((s, x) => s + x, 0)} bonds in ${F(m.f)}, and ${ans === 0 ? "uses all of its electrons in bonds, so it has no lone pairs" : `keeps ${ans} lone pair${ans > 1 ? "s" : ""} to complete its octet`}.`,
+    `Count ${el}'s valence electrons, subtract the ones it shares in bonds, then pair up what's left.`);
+}
+function lewisBondType(L) {
+  const id = pick(["N2", "O2", "CO2", "HCN", "C2H2", "C2H4", "CH2O", "CH4", "HCl"]), m = L.MOLECULES.find((x) => x.id === id), best = L.bestStructures(m)[0];
+  // pick the strongest bond in the molecule (the interesting one)
+  let k = 0; best.b.forEach((o, i) => { if (o > best.b[k]) k = i; });
+  const [a, b] = m.bonds[k], names = ["", "Single bond", "Double bond", "Triple bond"], ans = best.b[k];
+  return mc("lewis", `In ${F(m.f)}, what kind of bond joins ${m.atoms[a][0]} and ${m.atoms[b][0]}?`, names[ans], [1, 2, 3].filter((v) => v !== ans).map((v) => names[v]),
+    `${F(m.f)} has ${L.valenceTotal(m)} valence electrons. With single bonds only, ${m.atoms[a][0]}${ans > 1 ? ` and ${m.atoms[b][0]} can't both reach an octet, so they share ${ans} pairs: a ${names[ans].toLowerCase()}` : ` and ${m.atoms[b][0]} already reach their octets (or duet), so a single bond is enough`}.`,
+    "Place single bonds, fill the octets, and turn lone pairs into extra bonds only if you run out.");
+}
+// Picture question: the right structure plus two that break a rule
+function lewisPicture(L) {
+  const id = pick(["H2O", "NH3", "CO2", "HCN", "N2", "CH2O", "HCl", "C2H2"]), m = L.MOLECULES.find((x) => x.id === id);
+  const best = L.bestStructures(m)[0], c = centerOf(m);
+  const clone = (s) => ({ b: s.b.slice(), l: s.l.slice() });
+  const variants = [];
+  const bad = (s) => s.b.every((x) => x >= 1) && L.checkStructure(m, s, []).kind !== "ok";
+  const add = (s, why) => { if (bad(s) && !variants.some((v) => v.s.b.join() === s.b.join() && v.s.l.join() === s.l.join())) variants.push({ s, why }); };
+  // 1. lone pairs removed from the center (electron count too low)
+  { const s = clone(best); if (s.l[c] > 0) { s.l[c] = 0; add(s, "it leaves out lone pairs, so the electron count is too low"); } }
+  // 2. a multiple bond turned into single + lone pairs (an atom misses its octet... or too many electrons)
+  { const s = clone(best), k = s.b.findIndex((x) => x > 1); if (k >= 0) { s.b[k] -= 1; add(s, "an atom ends up without a full octet"); } }
+  // 3. an extra lone pair on the center (too many electrons)
+  { const s = clone(best); s.l[c] += 1; add(s, "it has more electrons than the molecule's valence total"); }
+  // 4. lone pair moved from a terminal atom to the center
+  { const t = best.l.findIndex((x, i) => i !== c && x > 0); if (t >= 0) { const s = clone(best); s.l[t] -= 1; s.l[c] += 1; add(s, "one atom has too many electrons and another too few"); } }
+  // 5. single bond made double (too many)
+  { const s = clone(best), k = s.b.findIndex((x, i) => x === 1 && !m.bonds[i].some((j) => m.atoms[j][0] === "H")); if (k >= 0) { s.b[k] += 1; add(s, "it uses more electrons than the molecule has"); } }
+  const two = shuffle(variants).slice(0, 2);
+  const all = shuffle([{ s: best, ok: true }, ...two.map((v) => ({ s: v.s, ok: false, why: v.why }))]);
+  return { topic: "lewis", q: `Which is the correct Lewis structure of ${F(m.f)}?`, picture: { mol: m.id }, choices: all.map((x) => ({ b: x.s.b, l: x.s.l })), answer: all.findIndex((x) => x.ok),
+    explain: `${F(m.f)} has ${L.valenceTotal(m)} valence electrons, and in the right structure every atom has an octet (H has 2). ${two.length ? `The others are wrong because ${two.map((v) => v.why).join("; and because ")}.` : ""}`,
+    hint: "Count the dots and lines: every structure must use exactly the valence electrons, with an octet on each atom except H." , variantsOK: two.length === 2 };
 }
 
-// Boss: one reaction, three parts (limiting reactant, theoretical yield, percent yield)
-function bossProblems() {
-  const id = pick(LIMITING), rx = REACTIONS.find((r) => r.id === id);
-  const [[fA, cA], [fB, cB]] = rx.r, MA = molarMass(fA), MB = molarMass(fB);
-  const [fP, cP] = rx.p.length > 1 && Math.random() < 0.5 ? rx.p[1] : rx.p[0], MP = molarMass(fP);
-  let mA, mB, xA, xB;
-  for (let i = 0; i < 60; i++) {
-    const base = rnd(0.6, 2.5), skew = Math.random() < 0.5 ? rnd(1.3, 1.9) : 1 / rnd(1.3, 1.9);
-    mA = sig(base * cA * MA); mB = sig(base * skew * cB * MB);
-    xA = mA / MA / cA; xB = mB / MB / cB;
-    if (Math.abs(xA - xB) / Math.min(xA, xB) > 0.2) break;
-  }
-  const limA = xA < xB, L = limA ? { f: fA, c: cA, m: mA, M: MA } : { f: fB, c: cB, m: mB, M: MB }, X = limA ? { f: fB, c: cB, m: mB, M: MB } : { f: fA, c: cA, m: mA, M: MA };
-  const theo = (L.m / L.M) * (cP / L.c) * MP, fromExcess = (X.m / X.M) * (cP / X.c) * MP;
-  const pct = rnd(62, 93), actual = sig((theo * pct) / 100), pctAns = (actual / theo) * 100;
-  const given = `${rx.name}: <b>${sf(mA)} g</b> of ${fmt(fA)} and <b>${sf(mB)} g</b> of ${fmt(fB)} are mixed.`;
-  const refs = elementsOf([fA, fB, fP]);
-  const molLine = (o) => `${fmt(o.f)}: ${sf(o.m)} g ÷ ${mm(o.f)} g/mol = ${sf(o.m / o.M)} mol; ÷ coefficient ${o.c} = ${sf(o.m / o.M / o.c)}`;
-  return [
-    {
-      kind: "boss", part: 1, type: "Limiting reactant", rx, choice: [fA, fB], answer: limA ? 0 : 1, given, refs,
-      q: `${given} Which one is the limiting reactant?`,
-      wrongMsg: `Compare moles, not grams. Divide each reactant's moles by its coefficient; the smaller result runs out first.`,
-      road: ["Convert each reactant to moles.", "Divide each by its coefficient in the balanced equation.", "The smaller number is the limiting reactant."],
-      steps: [molLine({ f: fA, c: cA, m: mA, M: MA }), molLine({ f: fB, c: cB, m: mB, M: MB }), `${fmt(L.f)} gives the smaller number, so <b>${fmt(L.f)} is limiting</b>.`]
-    },
-    {
-      kind: "boss", part: 2, type: "Theoretical yield", rx, unit: "g", answer: theo, given, refs,
-      q: `${given} ${fmt(L.f)} is limiting. What is the theoretical yield of ${fmt(fP)} in grams?`,
-      checks: cleanChecks(theo, [
-        { v: fromExcess, msg: `That's what the excess reactant, ${fmt(X.f)}, could make. ${fmt(L.f)} runs out first, so start from ${fmt(L.f)}.` },
-        { v: (L.m / L.M) * MP, msg: "You skipped the mole ratio between the limiting reactant and the product." },
-        { v: (L.m / L.M) * (cP / L.c), msg: `That's moles of ${fmt(fP)}. Multiply by its molar mass to get grams.` },
-        { v: (L.m / L.M) * (L.c / cP) * MP, msg: `Your mole ratio is upside down. It should be ${cP} mol ${fmt(fP)} per ${L.c} mol ${fmt(L.f)}.` }
-      ]),
-      road: [`g ${fmt(L.f)} → <b>÷ ${mm(L.f)}</b> → mol → <b>× (${cP} ÷ ${L.c})</b> → mol ${fmt(fP)} → <b>× ${mm(fP)}</b> → g ${fmt(fP)}`, "Start from the limiting reactant. The excess reactant doesn't set the yield."],
-      steps: [mmSteps(fP), `${sf(L.m)} g ${fmt(L.f)} ÷ ${mm(L.f)} = ${sf(L.m / L.M)} mol`, `× (${cP} ÷ ${L.c}) = ${sf((L.m / L.M) * (cP / L.c))} mol ${fmt(fP)}`, `× ${mm(fP)} g/mol = <b>${sf(theo)} g ${fmt(fP)}</b>`]
-    },
-    {
-      kind: "boss", part: 3, type: "Percent yield", rx, unit: "%", answer: pctAns, given, refs: [],
-      q: `The theoretical yield is <b>${sf(theo)} g</b> of ${fmt(fP)}, but only <b>${sf(actual)} g</b> was collected. What is the percent yield?`,
-      checks: cleanChecks(pctAns, [
-        { v: (theo / actual) * 100, msg: "That's over 100%, so the division is flipped. Percent yield = actual ÷ theoretical × 100." },
-        { v: actual / theo, msg: "Multiply by 100 to turn the fraction into a percent." }
-      ]),
-      road: ["Percent yield = (actual yield ÷ theoretical yield) × 100", "A percent yield should come out below 100%."],
-      steps: [`(${sf(actual)} g ÷ ${sf(theo)} g) × 100 = <b>${sf(pctAns)}%</b>`]
-    }
-  ];
-}
-
-const SECTIONS = [
-  { id: 1, name: "Elivagar Flumina", sub: "River channels of liquid methane", topic: "Molar mass and moles", depot: depotGrams, bridges: [bridgeMolarMass, bridgeMolGrams], layout: ["depot", "bridge", "depot", "bridge"] },
-  { id: 2, name: "Vid Flumina", sub: "A deep canyon draining into Ligeia Mare", topic: "Molecules and mole ratios", depot: depotParticles, bridges: [bridgeMolMol, bridgeMolMol], layout: ["depot", "bridge", "depot", "bridge"] },
-  { id: 3, name: "Ligeia Mare", sub: "Titan's second-largest sea, mostly methane", topic: "Grams to grams", depot: depotKilograms, bridges: [bridgeGramsGrams, bridgeGramsGrams], layout: ["depot", "bridge", "depot", "bridge"] },
-  { id: 4, name: "Kraken Mare", sub: "Titan's largest sea", topic: "Limiting reactant and yield", depot: depotGrams, boss: true, layout: ["depot", "boss"] }
+/* ---------- 5 · Mole ratios ---------- */
+const RATIO = [
+  { r: ["N2", "H2"], p: ["NH3"], a: [1, 3, 2] },
+  { r: ["H2", "O2"], p: ["H2O"], a: [2, 1, 2] },
+  { r: ["CH4", "O2"], p: ["CO2", "H2O"], a: [1, 2, 1, 2] },
+  { r: ["CO", "O2"], p: ["CO2"], a: [2, 1, 2] },
+  { r: ["H2", "Cl2"], p: ["HCl"], a: [1, 1, 2] },
+  { r: ["Mg", "O2"], p: ["MgO"], a: [2, 1, 2] }
 ];
-const CHECKPOINTS2 = ["S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr"];
-
-function checkAnswer(prob, raw) {
-  if (prob.choice) return raw === prob.answer ? { ok: true } : { ok: false, msg: prob.wrongMsg };
-  const v = parseAnswer(raw);
-  if (!isFinite(v)) return { ok: false, invalid: true, msg: "Enter a number, like 2.45 or 1.2e3." };
-  const tol = prob.tol || TOL;
-  if (close(v, prob.answer, tol)) return { ok: true, value: v };
-  const hit = (prob.checks || []).find((c) => close(v, c.v));
-  if (hit) return { ok: false, value: v, msg: hit.msg };
-  const ratio = v / prob.answer, k = Math.round(Math.log10(ratio));
-  if (k !== 0 && close(ratio, Math.pow(10, k), 0.03)) return { ok: false, value: v, msg: `Your answer is off by a factor of ${Math.pow(10, Math.abs(k)).toLocaleString()}. Check your decimal point and unit conversions.` };
-  if (prob.tol && close(v, prob.answer, 0.03)) return { ok: false, value: v, msg: "Close. Use the atomic masses shown, with all their decimal places." };
-  return { ok: false, value: v, msg: "Not quite. Work through the conversions one step at a time." };
+const RATIO_BOSS = [{ r: ["C3H8", "O2"], p: ["CO2", "H2O"], a: [1, 5, 3, 4] }, { r: ["Al", "O2"], p: ["Al2O3"], a: [4, 3, 2] }];
+function ratioQ(boss) {
+  const e = pick(boss ? RATIO_BOSS : RATIO), forms = [...e.r, ...e.p], nR = e.r.length;
+  let gi, ai; do { gi = Math.floor(Math.random() * forms.length); ai = Math.floor(Math.random() * forms.length); } while (gi === ai || e.a[gi] === e.a[ai] && Math.random() < 0.6);
+  const cg = e.a[gi], ca = e.a[ai], k = pick([1, 2, 3]), n = k * cg, ans = (n * ca) / cg;
+  const gR = gi < nR, aR = ai < nR;
+  const verb = gR && !aR ? "form from" : gR && aR ? "react with" : !gR && aR ? "are needed to make" : "form along with";
+  const q = `How many moles of ${F(forms[ai])} ${verb} ${n} mol of ${F(forms[gi])}?<span class="eq">${eqHTML(e.r, e.p, e.a)}</span>`;
+  const wr = numWrongs(ans, [n, (n * cg) / ca, n * ca, ans + ca], (v) => `${gfmt(v)} mol`);
+  return mc("ratio", q, `${gfmt(ans)} mol`, wr,
+    `Use the coefficients as a mole ratio: ${n} mol ${F(forms[gi])} × (${ca} ${F(forms[ai])} ÷ ${cg} ${F(forms[gi])}) = ${gfmt(ans)} mol ${F(forms[ai])}.`,
+    `The balanced equation says ${cg} ${F(forms[gi])} goes with ${ca} ${F(forms[ai])}. Scale that ratio.`);
 }
 
-if (typeof module !== "undefined") module.exports = { AM, NA, TOL, parseFormula, molarMass, molarMassOnce, sig, sf, parseAnswer, close, REACTIONS, COMPOUNDS, LIMITING, SECTIONS, CHECKPOINTS2, depotGrams, depotParticles, depotKilograms, bridgeMolarMass, bridgeMolGrams, bridgeMolMol, bridgeGramsGrams, bossProblems, checkAnswer, eqHTML };
-
-return module.exports; })();
-const BRAWL = (() => { const module = { exports: {} };
-/* ===== Reaction Brawl: rounds, gang sizes and predictions ===== */
-const ROUNDS4 = [
-  { id: 1, name: "Downtown", sub: "The Reaction Gang's home turf", pool: [
-    { r: ["H2", "O2"], p: ["H2O"], a: [2, 1, 2], lewis: ["H2O"], focus: "H2O", note: "Two hydrogens per oxygen: the same ratio as in the water you drew." },
-    { r: ["H2", "Cl2"], p: ["HCl"], a: [1, 1, 2], lewis: ["HCl"], focus: "HCl", note: "One H₂ and one Cl₂ make two HCl." },
-    { r: ["CO", "O2"], p: ["CO2"], a: [2, 1, 2], lewis: ["CO2"], focus: "CO2", note: "Catalytic converters run this reaction to clean car exhaust." }
-  ] },
-  { id: 2, name: "The Docks", sub: "Fuel tanks along the waterfront", pool: [
-    { r: ["CH4", "O2"], p: ["CO2", "H2O"], a: [1, 2, 1, 2], lewis: ["CH4"], focus: "H2O", note: "The methane engine from River Run, now as a street fight." },
-    { r: ["C2H2", "H2"], p: ["C2H6"], a: [1, 2, 1], lewis: ["C2H2"], focus: "C2H6", note: "Adding H₂ across a triple bond turns acetylene into ethane." },
-    { r: ["C2H4", "H2"], p: ["C2H6"], a: [1, 1, 1], lewis: ["C2H4"], focus: "C2H6", note: "Already balanced! Hydrogenation adds H₂ across the double bond." }
-  ] },
-  { id: 3, name: "The Factory", sub: "Smokestacks and furnaces", pool: [
-    { r: ["C2H2", "O2"], p: ["CO2", "H2O"], a: [2, 5, 4, 2], lewis: ["CO2"], focus: "CO2", note: "This is the oxyacetylene torch reaction." },
-    { r: ["NH3", "O2"], p: ["NO", "H2O"], a: [4, 5, 4, 6], lewis: ["NH3"], focus: "H2O", note: "The first step in making nitric acid." },
-    { r: ["C2H4", "O2"], p: ["CO2", "H2O"], a: [1, 3, 2, 2], lewis: ["C2H4"], focus: "CO2", note: "Ethylene burns with a bright, smoky flame." }
-  ] },
-  { id: 4, name: "The Rooftop", sub: "Mr. X's headquarters", boss: true, pool: [
-    { r: ["N2", "H2"], p: ["NH3"], a: [1, 3, 2], lewis: ["N2", "NH3"], focus: "NH3", note: "The Haber process: the reaction that feeds half the world through fertilizer." }
-  ] }
+/* ---------- the gang and their topics ---------- */
+const GANG = [
+  { key: "h2", formula: "H2", name: "Double Trouble", topic: "Balancing equations", gen: [balCoeffSet, balOneBlank, balAtomCount].map((g) => () => g(pick(BAL))) },
+  { key: "o2", formula: "O2", name: "The Oxidizer", topic: "Atoms and molar mass", gen: [atomCountQ, molarMassQ] },
+  { key: "n2", formula: "N2", name: "Triple Bond", topic: "Grams, moles, molecules", gen: [gramsToMoles, molesToGrams, molesToParticles] },
+  { key: "ch4", formula: "CH4", name: "The Tetrahedron", topic: "Lewis structures", lewis: true, gen: [lewisValence, lewisPicture, lewisLonePairs, lewisBondType] },
+  { key: "nh3", formula: "NH3", name: "Lone Pair", topic: "Mole ratios", gen: [() => ratioQ(false)] },
+  { key: "mrx", formula: "X", name: "Mr. X", topic: "All three skills", boss: true, gen: [() => balCoeffSet(pick(BAL_BOSS)), () => (Math.random() < 0.5 ? ratioQ(true) : gramsToMoles()), lewisPicture] }
 ];
-const CHECKPOINTS4 = ["Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In"];
-const MM4 = { H2: 2.016, O2: 32.0, N2: 28.02, Cl2: 70.9, CO: 28.01, CH4: 16.04, C2H2: 26.04, C2H4: 28.05, NH3: 17.03 };
-
-// Build one round: thug counts give whole reaction sets plus a little excess, at most 10 thugs
-function makeRound(def) {
-  const e = def.pool[Math.floor(Math.random() * def.pool.length)];
-  const cA = e.a[0], cB = e.a[1], cP = e.a[e.r.length + e.p.indexOf(e.focus)];
-  const options = [];
-  for (const lim of [0, 1]) for (let s = 1; s <= 3; s++) for (let x = 1; x <= 2; x++) {
-    const cL = lim ? cB : cA, cX = lim ? cA : cB, total = s * cL + s * cX + x;
-    if (total <= (def.boss ? 9 : 10) && total >= (def.boss ? 5 : 6)) options.push({ lim, s, x });
-  }
-  const o = options[Math.floor(Math.random() * options.length)];
-  const cL = o.lim ? cB : cA, cX = o.lim ? cA : cB;
-  const counts = o.lim ? [o.s * cX + o.x, o.s * cL] : [o.s * cL, o.s * cX + o.x];
-  const round = { def, eq: e, counts, limiting: o.lim, sets: o.s, product: e.focus, productCount: o.s * cP, excessLeft: o.x, excess: e.r[1 - o.lim] };
-  if (def.boss) round.masses = counts.map((n, i) => +(n * MM4[e.r[i]]).toPrecision(3));
-  return round;
+const HITS = { gang: 2, boss: 3 };
+// Make question n for an opponent (n counts correct answers so far, tries counts all questions asked)
+function makeQuestion(g, n, tries, L) {
+  const gen = g.boss ? g.gen[Math.min(n, g.gen.length - 1)] : g.gen[tries % g.gen.length];
+  for (let k = 0; k < 6; k++) { const q = gen(L); if (!q.picture || q.variantsOK) return q; }
+  return g.boss ? ratioQ(true) : lewisValence(L);
 }
 
-// Check the three predictions; numbers must be exact for counts, within 5% for the boss's moles
-function checkPrediction(round, lim, prod, left) {
-  const tol = round.def.boss ? 0.05 : 0;
-  const ok = (v, ans) => isFinite(v) && (tol ? Math.abs(v - ans) <= ans * tol : v === ans);
-  const [A, B] = round.eq.r, cA = round.eq.a[0], cB = round.eq.a[1];
-  const unit = round.def.boss ? "mol" : "";
-  const res = { lim: lim === round.limiting, prod: ok(prod, round.productCount), left: ok(left, round.excessLeft), msgs: [] };
-  if (!res.lim) res.msgs.push(`Limiting reactant: divide each reactant's ${round.def.boss ? "moles" : "count"} by its coefficient (${A} ÷ ${cA}, ${B} ÷ ${cB}). The smaller result runs out first.`);
-  if (!res.prod) {
-    const L = round.eq.r[round.limiting], cL = round.eq.a[round.limiting], cP = round.eq.a[round.eq.r.length + round.eq.p.indexOf(round.product)];
-    const fromExcess = (round.counts[1 - round.limiting] / round.eq.a[1 - round.limiting]) * cP;
-    if (ok(prod, fromExcess)) res.msgs.push(`Product: that's how much the excess reactant could make. Start from ${L}, the limiting reactant.`);
-    else res.msgs.push(`Product: use the limiting reactant. ${round.def.boss ? "Moles" : "Count"} of ${L} × (${cP} ${round.product} ÷ ${cL} ${L}).`);
-  }
-  if (!res.left) res.msgs.push(`Excess left over: start with all the ${round.excess}, then subtract what the limiting reactant used up.`);
-  res.all = res.lim && res.prod && res.left;
-  return res;
-}
-
-if (typeof module !== "undefined") module.exports = { ROUNDS4, CHECKPOINTS4, MM4, makeRound, checkPrediction };
+if (typeof module !== "undefined") module.exports = { GANG, HITS, makeQuestion, BAL, BAL_BOSS, RATIO, RATIO_BOSS, balanced, parse, mass, AM, balCoeffSet, balOneBlank, balAtomCount, molarMassQ, atomCountQ, gramsToMoles, molesToGrams, molesToParticles, lewisValence, lewisLonePairs, lewisBondType, lewisPicture, ratioQ, F };
 
 return module.exports; })();
 
@@ -6369,41 +5921,67 @@ return module.exports; })();
 "use strict";
 const $ = (id) => document.getElementById("s4-" + id);
 const RM = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-const LW = 320, LH = 140, WA = 480, YMIN = 100, YMAX = 134, SHIELDS = 4;
-const ROUNDS = BRAWL.ROUNDS4, CHECKS = BRAWL.CHECKPOINTS4;
-const TASKS = ROUNDS.map((d) => (d.boss ? 4 : 3));
-const TASK_OFFSETS = TASKS.map((_, i) => TASKS.slice(0, i).reduce((a, b) => a + b, 0));
-const TOTAL_TASKS = TASKS.reduce((a, b) => a + b, 0);
+const LW = 320, LH = 140, FLOOR = 126, HERO_X = 98, OPP_X = 222, MAXHP = 3;
+const GANG = SHOW.GANG;
+// Optional pixel portraits for the VS screen and ladder, keyed by fighter (filled in at build time)
+const PORTRAITS = {};
 const sub = (s) => String(s).replace(/([A-Za-z)])(\d+)/g, "$1<sub>$2</sub>");
-const COLORS = { H2: "#ececf4", O2: "#ff5a4a", N2: "#4a7aff", Cl2: "#b8e04a", CO: "#9a9ab4", CH4: "#4ad08a", C2H2: "#ff9a3a", C2H4: "#b06aff", NH3: "#4fe0d0" };
-const SIZES = { H2: 0.85, N2: 1.15, O2: 1, Cl2: 1.05 };
-const SPEEDS = { H2: 42, O2: 30, N2: 22 };
-const HP = { H2: 3, O2: 4, N2: 5 };
+
+/* ---------- looks: each fighter's pixel costume ---------- */
+const LOOKS = {
+  hero: { skin: "#f0c8a0", hair: "short", hairC: "#4a2c18", goggles: true, coat: true, shirt: "#f2f2f8", pants: "#2a3a6a", glove: "#ff5fae", label: "" },
+  h2: { skin: "#9a6a44", hair: "swept", hairC: "#4a4a52", hairHi: "#9a9aa2", glasses: "round", glassC: "#141018", beard: "stubble", beardC: "#c8c8cc", shirt: "#ececf4", vest: true, label: "H2" },
+  o2: { skin: "#d9a47e", hair: "short", hairC: "#b8b8bc", beard: "goatee", beardC: "#ececec", shirt: "#ff5a4a", vest: true, label: "O2" },
+  n2: { skin: "#f0c0a0", hair: "bangs", hairC: "#a07a50", glasses: "cat", glassC: "#d0305a", shirt: "#4a7aff", vest: true, label: "N2", lips: true },
+  ch4: { skin: "#f0c8b0", hair: "short", hairC: "#f4f4f4", beard: "full", beardC: "#f4f4f4", glasses: "thin", glassC: "#8a8a92", shirt: "#4ad08a", vest: true, label: "CH4" },
+  nh3: { skin: "#f0c4a8", hair: "curly", hairC: "#6a4a30", hairHi: "#b08a5a", glasses: "rect", glassC: "#2a2030", shirt: "#4fe0d0", vest: true, label: "NH3", lips: true },
+  mrx: { skin: "#e8b896", hair: "bald", hairC: "#a8a098", beard: "goatee", beardC: "#c8c0b8", suit: true, shirt: "#1c1c28", pants: "#14141e", label: "", big: true }
+};
+const SCENE_OF = { h2: 0, o2: 1, n2: 2, ch4: 0, nh3: 1, mrx: 3 };
+const TAUNTS = {
+  h2: "We always travel in pairs. Think you can balance us?",
+  o2: "I'll oxidize that score of yours. Count every atom, rookie.",
+  n2: "Three bonds and I never break. Hope you brought a calculator.",
+  ch4: "Four bonds, perfect angles. Draw me right or don't draw me at all.",
+  nh3: "I've got a lone pair and an attitude. Know your ratios?",
+  mrx: "So you beat my gang. Now face the Limiting Reagent!"
+};
+const OUCH = {
+  h2: "Not bad... we'll split up and regroup.", o2: "You've reduced me!", n2: "My triple bond... broken?!", ch4: "Bent out of shape at last.", nh3: "I'll be back... in solution.", mrx: "Impossible! You used up everything I had."
+};
 
 const S = {
-  phase: "title", step: null, mode: "cadet", name: "", round: 0, rd: null, cleared: 0,
-  shields: SHIELDS, score: 0, wrong: 0, hintUsed: false, backups: 0, timeLeft: 0, timeTotal: 0,
-  lewisIdx: 0, mol: null, struct: null, pairsTotal: 0, editMode: "add", revealed: false, limPick: null,
-  consumed: [0, 0], produced: 0, stats: null, startedAt: 0, finishedAt: 0, roundStart: null
+  phase: "title", mode: "cadet", name: "", opp: 0, beaten: [], hp: MAXHP, ohp: 2, correct: 0, tries: 0, q: null, answered: false, hintUsed: false,
+  score: 0, stats: null, duelStart: null, timeLeft: 0, timeTotal: 0, startedAt: 0, finishedAt: 0, autoNext: 0
 };
-const W = { t: 0, cam: 0, hero: null, foes: [], pops: [], parts: [], queue: [], shake: 0, flash: 0, flashColor: "#fff", boss: null, endT: 0, attract: 0 };
-const keys = { left: false, right: false, up: false, down: false, punch: false };
+const W = { t: 0, scene: 0, hero: { x: HERO_X, pose: "idle", t: 0 }, opp: { x: OPP_X, pose: "idle", t: 0 }, anim: null, pops: [], parts: [], shake: 0, flash: 0, flashColor: "#fff", banner: null, attract: 0 };
 
 /* ---------- pixel font ---------- */
 const FONT = {
+  A: [".#.", "#.#", "###", "#.#", "#.#"], B: ["##.", "#.#", "##.", "#.#", "##."], C: [".##", "#..", "#..", "#..", ".##"], D: ["##.", "#.#", "#.#", "#.#", "##."],
+  E: ["###", "#..", "##.", "#..", "###"], F: ["###", "#..", "##.", "#..", "#.."], G: [".##", "#..", "#.#", "#.#", ".##"], H: ["#.#", "#.#", "###", "#.#", "#.#"],
+  I: ["###", ".#.", ".#.", ".#.", "###"], J: ["..#", "..#", "..#", "#.#", ".#."], K: ["#.#", "#.#", "##.", "#.#", "#.#"], L: ["#..", "#..", "#..", "#..", "###"],
+  M: ["#...#", "##.##", "#.#.#", "#...#", "#...#"], N: ["#..#", "##.#", "#.##", "#..#", "#..#"], O: [".#.", "#.#", "#.#", "#.#", ".#."], P: ["##.", "#.#", "##.", "#..", "#.."],
+  Q: [".#.", "#.#", "#.#", "##.", ".##"], R: ["##.", "#.#", "##.", "#.#", "#.#"], S: [".##", "#..", ".#.", "..#", "##."], T: ["###", ".#.", ".#.", ".#.", ".#."],
+  U: ["#.#", "#.#", "#.#", "#.#", "###"], V: ["#.#", "#.#", "#.#", "#.#", ".#."], W: ["#...#", "#...#", "#.#.#", "##.##", "#...#"], X: ["#.#", "#.#", ".#.", "#.#", "#.#"],
+  Y: ["#.#", "#.#", ".#.", ".#.", ".#."], Z: ["###", "..#", ".#.", "#..", "###"],
   "0": ["###", "#.#", "#.#", "#.#", "###"], "1": [".#.", "##.", ".#.", ".#.", "###"], "2": ["##.", "..#", ".#.", "#..", "###"], "3": ["##.", "..#", ".#.", "..#", "##."],
   "4": ["#.#", "#.#", "###", "..#", "..#"], "5": ["###", "#..", "##.", "..#", "##."], "6": [".##", "#..", "###", "#.#", "###"], "7": ["###", "..#", ".#.", ".#.", ".#."],
-  "8": ["###", "#.#", "###", "#.#", "###"], "9": ["###", "#.#", "###", "..#", "##."], "+": ["...", ".#.", "###", ".#.", "..."],
-  C: [".##", "#..", "#..", "#..", ".##"], E: ["###", "#..", "##.", "#..", "###"], H: ["#.#", "#.#", "###", "#.#", "#.#"], N: ["#..#", "##.#", "#.##", "#..#", "#..#"],
-  O: [".#.", "#.#", "#.#", "#.#", ".#."], S: [".##", "#..", ".#.", "..#", "##."], X: ["#.#", "#.#", ".#.", "#.#", "#.#"], l: [".#.", ".#.", ".#.", ".#.", ".##"]
+  "8": ["###", "#.#", "###", "#.#", "###"], "9": ["###", "#.#", "###", "..#", "##."], "!": ["#", "#", "#", ".", "#"], ".": [".", ".", ".", ".", "#"], "+": ["...", ".#.", "###", ".#.", "..."], "-": ["...", "...", "###", "...", "..."]
 };
 let cv, ctx, scale = 1;
-function px(x, y, w, h, c) { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.max(1, Math.round(w)), Math.max(1, Math.round(h))); }
-function textW(s) { let w = 0; for (const ch of s) w += (FONT[ch] ? FONT[ch][0].length : 3) + 1; return Math.max(0, w - 1); }
-function text(s, x, y, c, subs = true) { let cx = Math.round(x); [...s].forEach((ch, i) => { const g = FONT[ch], dy = subs && /\d/.test(ch) && i > 0 && /[A-Za-z]/.test(s[i - 1]) ? 1 : 0; if (g) { for (let r = 0; r < g.length; r++) for (let k = 0; k < g[r].length; k++) if (g[r][k] === "#") px(cx + k, y + r + dy, 1, 1, c); cx += g[0].length + 1; } else cx += 4; }); }
+const rect = (g, x, y, w, h, c) => { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), Math.max(1, Math.round(w)), Math.max(1, Math.round(h))); };
+const px = (x, y, w, h, c) => rect(ctx, x, y, w, h, c);
+function textW(s, k = 1) { let w = 0; for (const ch of s) w += ((FONT[ch] ? FONT[ch][0].length : 3) + 1) * k; return Math.max(0, w - k); }
+function text(g, s, x, y, c, k = 1, subs = true) {
+  let cx = Math.round(x);
+  [...s].forEach((ch, i) => {
+    const gl = FONT[ch], dy = subs && /\d/.test(ch) && i > 0 && /[A-Z]/.test(s[i - 1]) ? k : 0;
+    if (gl) { for (let r = 0; r < gl.length; r++) for (let q = 0; q < gl[r].length; q++) if (gl[r][q] === "#") rect(g, cx + q * k, y + (r * k) + dy, k, k, c); cx += (gl[0].length + 1) * k; } else cx += 3 * k;
+  });
+}
 function hash(n) { n = (n ^ 61) ^ (n >>> 16); n = (n + (n << 3)) | 0; n ^= n >>> 4; n = Math.imul(n, 0x27d4eb2d); n ^= n >>> 15; return n >>> 0; }
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const sx = (x) => x - W.cam;
 
 function resize() {
   const r = cv.getBoundingClientRect();
@@ -6420,81 +5998,107 @@ const SCENES = [
   { sky: ["#05040e", "#0e0a24", "#1c1440"], far: "#120e26", near: "#1a1434", win: ["#ffd86a", "#ff5fae", "#4fe0d0"], street: "#2a2838", walk: "#3a3650", curb: "#585074", neon: ["#ff5fae", "#ffd86a"] }
 ];
 function drawBackdrop(si) {
-  const sc = SCENES[si];
-  for (let y = 0; y < 92; y += 2) { const k = y / 92; px(-4, y, LW + 8, 2, k < 0.4 ? sc.sky[0] : k < 0.75 ? sc.sky[1] : sc.sky[2]); }
-  if (si === 3) { for (let y = -12; y <= 12; y++) for (let x = -12; x <= 12; x++) if (x * x + y * y <= 144) px(250 - W.cam * 0.05 + x, 26 + y, 1, 1, x > 4 ? "#a8a2b8" : "#e6e0f0"); }
-  for (let i = 0; i < 40; i++) { const h = hash(i * 7 + si); px((h % 640 - W.cam * 0.05) % 340, 4 + (h >> 8) % 40, 1, 1, "#8a84b0"); }
-  // far skyline
-  for (let b = 0; b < 30; b++) {
-    const h = hash(b * 13 + si * 101), bw = 18 + (h % 16), bh = 30 + ((h >> 5) % 34), x = b * 26 - W.cam * 0.3;
-    if (x < -40 || x > LW + 10) continue;
-    px(x, 92 - bh, bw, bh, sc.far);
-    for (let wy = 92 - bh + 4; wy < 88; wy += 6) for (let wx = x + 3; wx < x + bw - 3; wx += 5) if (hash(Math.floor(wx * 3 + wy * 7 + si)) % 3 === 0) px(wx, wy, 2, 2, sc.win[hash(Math.floor(wx + wy)) % 3]);
-  }
-  if (si === 1) { px(-4, 74, LW + 8, 14, sc.water); for (let x = 0; x < LW; x += 6) px(x + (Math.floor(W.t * 8) % 6), 80 + (hash(x) % 6), 3, 1, "#2a5a7a");
-    for (let c = 0; c < 4; c++) { const x = c * 150 - W.cam * 0.5; px(x, 30, 3, 58, "#3a4a5a"); px(x - 20, 30, 60, 3, "#3a4a5a"); px(x + 30, 33, 1, 18, "#6a7a8a"); } }
-  if (si === 2) { for (let c = 0; c < 6; c++) { const x = c * 90 + 20 - W.cam * 0.5; px(x, 34, 10, 58, "#2a1c18"); px(x - 1, 34, 12, 3, "#4a3028"); if (Math.floor(W.t * 2 + c) % 2) px(x + 2, 26 - (W.t * 8 + c * 5) % 12, 6, 4, "#5a4a46"); } }
-  // near buildings with neon signs
+  const sc = SCENES[si], cam = Math.sin(W.attract * 0.3) * 6 + 20;
+  for (let y = 0; y < 98; y += 2) { const k = y / 98; px(-4, y, LW + 8, 2, k < 0.4 ? sc.sky[0] : k < 0.75 ? sc.sky[1] : sc.sky[2]); }
+  if (si === 3) for (let y = -12; y <= 12; y++) for (let x = -12; x <= 12; x++) if (x * x + y * y <= 144) px(262 + x, 24 + y, 1, 1, x > 4 ? "#a8a2b8" : "#e6e0f0");
+  for (let i = 0; i < 40; i++) { const h = hash(i * 7 + si); px((h % 640) % 330, 4 + (h >> 8) % 40, 1, 1, "#8a84b0"); }
   for (let b = 0; b < 16; b++) {
-    const h = hash(b * 31 + si * 17), bw = 40 + (h % 24), bh = 40 + ((h >> 6) % 20), x = b * 60 - W.cam * 0.6;
-    if (x < -70 || x > LW + 10) continue;
-    if (si === 1) continue;
-    px(x, 92 - bh, bw, bh, sc.near);
-    if (h % 2) { const on = Math.floor(W.t * 3 + b) % 5 !== 0; px(x + 6, 92 - bh + 8, bw - 12, 6, on ? sc.neon[b % 2] : "#2a2236"); }
+    const h = hash(b * 13 + si * 101), bw = 18 + (h % 16), bh = 30 + ((h >> 5) % 34), x = b * 26 - cam * 0.3;
+    px(x, 98 - bh, bw, bh, sc.far);
+    for (let wy = 98 - bh + 4; wy < 94; wy += 6) for (let wx = x + 3; wx < x + bw - 3; wx += 5) if (hash(Math.floor(wx * 3 + wy * 7 + si)) % 3 === 0) px(wx, wy, 2, 2, sc.win[hash(Math.floor(wx + wy)) % 3]);
   }
-  if (si === 3) { px(-4, 86, LW + 8, 6, "#3a3650"); for (let x = -((W.cam * 0.9) % 20); x < LW; x += 20) px(x, 80, 2, 8, "#585074"); }
-  // street
-  px(-4, 88, LW + 8, 10, sc.walk); px(-4, 97, LW + 8, 2, sc.curb); px(-4, 99, LW + 8, LH - 99 + 4, sc.street);
-  for (let x = -((W.cam) % 40); x < LW; x += 40) px(x, 117, 18, 2, "#6a6280");
-  for (let x = -((W.cam) % 120); x < LW + 120; x += 120) { px(x + 40, 56, 2, 34, "#4a4460"); px(x + 34, 56, 14, 2, "#4a4460"); px(x + 34, 58, 6, 2, "#ffe6a0"); }
+  if (si === 1) { px(-4, 80, LW + 8, 14, sc.water); for (let x = 0; x < LW; x += 6) px(x + (Math.floor(W.t * 8) % 6), 86 + (hash(x) % 6), 3, 1, "#2a5a7a"); for (let c = 0; c < 3; c++) { const x = c * 130 + 30; px(x, 36, 3, 58, "#3a4a5a"); px(x - 20, 36, 60, 3, "#3a4a5a"); } }
+  if (si === 2) for (let c = 0; c < 4; c++) { const x = c * 90 + 20; px(x, 40, 10, 58, "#2a1c18"); px(x - 1, 40, 12, 3, "#4a3028"); px(x + 2, 32 - (W.t * 8 + c * 5) % 12, 6, 4, "#5a4a46"); }
+  if (si !== 1) for (let b = 0; b < 7; b++) {
+    const h = hash(b * 31 + si * 17), bw = 40 + (h % 24), bh = 40 + ((h >> 6) % 20), x = b * 60 - cam * 0.6;
+    px(x, 98 - bh, bw, bh, sc.near);
+    if (h % 2) { const on = Math.floor(W.t * 3 + b) % 5 !== 0; px(x + 6, 98 - bh + 8, bw - 12, 6, on ? sc.neon[b % 2] : "#2a2236"); }
+  }
+  if (si === 3) { px(-4, 92, LW + 8, 6, "#3a3650"); for (let x = 0; x < LW; x += 20) px(x, 86, 2, 8, "#585074"); }
+  px(-4, 96, LW + 8, 8, sc.walk); px(-4, 103, LW + 8, 2, sc.curb); px(-4, 105, LW + 8, LH - 105 + 4, sc.street);
+  for (let x = 0; x < LW; x += 40) px(x + 4, 128, 18, 2, "#6a6280");
+  for (let x = 30; x < LW + 120; x += 140) { px(x, 60, 2, 38, "#4a4460"); px(x - 6, 60, 14, 2, "#4a4460"); px(x - 6, 62, 6, 2, "#ffe6a0"); }
 }
 
-/* ---------- fighters ---------- */
-function makeFoe(sp, side) {
-  const fromLeft = side < 0;
-  return { sp, x: fromLeft ? W.cam - 20 : W.cam + LW + 20, y: YMIN + Math.random() * (YMAX - YMIN), face: fromLeft ? 1 : -1, hp: HP[sp] || 4, max: HP[sp] || 4, state: "walk", t: 0, cd: 1 + Math.random(), flash: 0, scale: SIZES[sp] || 1, color: COLORS[sp] || "#ccc", speed: SPEEDS[sp] || 30, label: sp, vx: 0 };
-}
-function drawFighter(f, opts = {}) {
-  const x = Math.round(sx(f.x)), y = Math.round(f.y), s = f.scale || 1, white = f.flash > 0 && Math.floor(W.t * 30) % 2 === 0;
-  const C = (c) => (white ? "#ffffff" : c);
-  px(x - 8 * s, y - 1, 16 * s, 3, "rgba(0,0,0,.35)");
-  if (f.state === "down" || f.state === "fuse" || (f.isHero && f.state === "ko")) {
-    const dir = f.face, a = f.state === "fuse" ? 0.4 + 0.6 * Math.abs(Math.sin(W.t * 20)) : 1;
-    ctx.globalAlpha = a;
-    // lying flat: feet toward the facing side's back, head forward
-    px(dir > 0 ? x - 12 * s : x + 3 * s, y - 5 * s, 9 * s, 4 * s, C(opts.pants || "#2a2a44"));
-    px(x - 4 * s, y - 6 * s, 8 * s, 5 * s, C(f.color));
-    px(dir > 0 ? x + 4 * s : x - 10 * s, y - 7 * s, 6 * s, 6 * s, C(opts.skin || "#f0c8a0"));
-    ctx.globalAlpha = 1;
+/* ---------- fighters: sprite units of U canvas pixels, origin at the feet ---------- */
+function drawDuelist(g, L, x, footY, face, pose, U, flashWhite) {
+  const W2 = (c) => (flashWhite ? "#ffffff" : c);
+  // r(dx, dy, w, h): a rectangle in sprite units, mirrored when facing left
+  const r = (dx, dy, w, h, c) => { const sx = face > 0 ? x + dx * U : x - (dx + w) * U; rect(g, sx, footY + dy * U, w * U, h * U, W2(c)); };
+  const pants = L.pants || "#24243a", shoe = "#0e0a14", skin = L.skin;
+  if (pose === "down") {
+    // lying on the ground, head toward the back
+    const lx = face > 0 ? x - 16 * U : x + 4 * U;
+    rect(g, lx, footY - 4 * U, 12 * U, 4 * U, W2(L.suit ? L.shirt : L.coat ? "#f2f2f8" : L.shirt));
+    rect(g, face > 0 ? lx + 12 * U : lx - 9 * U, footY - 3 * U, 9 * U, 3 * U, W2(pants));
+    rect(g, face > 0 ? lx - 7 * U : lx + 12 * U, footY - 6 * U, 7 * U, 6 * U, W2(skin));
+    if (L.hair !== "bald") rect(g, face > 0 ? lx - 8 * U : lx + 18 * U, footY - 6 * U, 2 * U, 6 * U, W2(L.hairC));
     return;
   }
-  const moving = Math.abs(f.vx || 0) > 2 || (f.vy && Math.abs(f.vy) > 2) || f.state === "leave" || f.state === "enter" || (f.state === "walk" && Math.abs(f.vx || 0) > 2);
-  const leg = moving ? Math.round(Math.sin(W.t * 12 + (f.x || 0)) * 2) : 0;
-  const tw = Math.max(Math.round(10 * s), f.label ? textW(f.label) + 4 : 0), th = Math.round(11 * s), ll = Math.round(9 * s);
-  const top = y - ll - th;
-  // legs
-  px(x - 4 * s, y - ll, 3 * s, ll + leg * 0, C(opts.pants || "#2a2a44")); px(x + 1 * s, y - ll, 3 * s, ll, C(opts.pants || "#2a2a44"));
-  if (leg) { px(x - 4 * s + leg, y - 2, 3 * s, 2, C(opts.shoes || "#111")); px(x + 1 * s - leg, y - 2, 3 * s, 2, C(opts.shoes || "#111")); }
-  // back arm
-  px(x - f.face * (tw / 2 + 1) - (f.face > 0 ? 2 : 0), top + 2, 3 * s, 8 * s, C(opts.armBack || shadeC(f.color)));
+  const lean = pose === "hit" ? -1 : pose === "dash" || pose === "punch" ? 1 : 0;
+  // shadow
+  rect(g, x - 9 * U, footY - U, 18 * U, 2 * U, "rgba(0,0,0,.35)");
+  // legs in a fighting stance
+  r(-5, -11, 3, 9, pants); r(2, -11, 3, 9, pants); r(-6, -2, 4, 2, shoe); r(2, -2, 5, 2, shoe);
   // torso
-  px(x - tw / 2, top, tw, th, C(f.color));
-  if (opts.coat) { px(x - 1, top, 2, th, C("#c8c8d4")); }
-  if (f.label) text(f.label, x - textW(f.label) / 2, top + 3, white ? "#000" : opts.ink || labelInk(f.color));
+  const tx = lean;
+  if (L.suit) {
+    r(-6 + tx, -23, 12, 12, L.shirt); r(-1 + tx, -23, 2, 5, "#bcd4f0"); r(0 + tx, -22, 1, 5, "#3a5a9a");
+    const X = ["#...#", ".#.#.", "..#..", ".#.#.", "#...#"]; // gold X on the chest
+    for (let i = 0; i < 5; i++) for (let j = 0; j < 5; j++) if (X[i][j] === "#") r(-5 + tx + j * 0.8, -21 + i * 0.8, 0.8, 0.8, "#ffd85a");
+  } else if (L.coat) {
+    r(-6 + tx, -23, 12, 12, "#f2f2f8"); r(-1 + tx, -23, 2, 12, "#4fe0d0"); r(-6 + tx, -12, 12, 1, "#c8c8d4");
+  } else {
+    r(-6 + tx, -23, 12, 12, L.shirt);
+    if (L.vest) { r(-6 + tx, -23, 3, 12, "#1a1420"); r(3 + tx, -23, 3, 12, "#1a1420"); }
+  }
+  // arms and fists
+  const glove = L.glove || skin, sleeve = L.suit ? L.shirt : L.coat ? "#e6e6f0" : L.vest ? "#1a1420" : L.shirt;
+  if (pose === "punch") { r(4 + tx, -22, 9, 3, sleeve); r(13 + tx, -23, 3, 4, glove); r(-7 + tx, -21, 3, 6, sleeve); r(-7 + tx, -15, 3, 2, glove); }
+  else if (pose === "hit") { r(4 + tx, -27, 3, 6, sleeve); r(4 + tx, -30, 3, 3, glove); r(-8 + tx, -26, 3, 6, sleeve); r(-8 + tx, -29, 3, 3, glove); }
+  else if (pose === "win") { r(4 + tx, -34, 3, 12, sleeve); r(4 + tx, -37, 3, 3, glove); r(-7 + tx, -21, 3, 6, sleeve); r(-7 + tx, -15, 3, 2, glove); }
+  else { r(5 + tx, -22, 3, 4, sleeve); r(7 + tx, -25, 3, 4, sleeve); r(7 + tx, -28, 3, 3, glove); r(-7 + tx, -22, 3, 4, sleeve); r(-5 + tx, -24, 3, 3, glove); }
+  // formula on the shirt (in plain canvas pixels so it stays readable)
+  if (L.label && !flashWhite) {
+    const k = U >= 2 && g === ctx ? 2 : 1, tw = textW(L.label, k);
+    const cx = face > 0 ? x + (tx) * U : x - (tx) * U;
+    text(g, L.label, cx - tw / 2, footY - 20 * U, L.shirt === "#ececf4" || L.shirt === "#4fe0d0" || L.shirt === "#4ad08a" ? "#140a18" : "#ffffff", k);
+  }
   // head
-  const hs = Math.round(7 * s), hx = x - hs / 2 + f.face, hy = top - hs;
-  px(hx, hy, hs, hs, C(opts.skin || "#f0c8a0")); px(hx, hy, hs, 2, C(opts.hair || "#2a1a10"));
-  if (opts.goggles) px(hx + (f.face > 0 ? 2 : 0), hy + 2, hs - 2, 2, C("#4fe0d0"));
-  else px(hx + (f.face > 0 ? hs - 2 : 1), hy + 3, 1, 1, C("#111"));
-  // front arm: punch, wind-up or hanging
-  const sh = top + 3, fx = f.face > 0 ? x + tw / 2 : x - tw / 2;
-  if (f.state === "punch" && f.t < 0.16) { px(f.face > 0 ? fx : fx - 11 * s, sh, 11 * s, 3 * s, C(opts.arm || f.color)); px(f.face > 0 ? fx + 10 * s : fx - 13 * s, sh - 1, 3 * s, 4 * s, C(opts.glove || "#f0c8a0")); }
-  else if (f.state === "windup") { px(f.face > 0 ? fx - 1 : fx - 2, sh - 7 * s, 3 * s, 8 * s, C(opts.arm || f.color)); px(f.face > 0 ? fx - 1 : fx - 2, sh - 9 * s, 3 * s, 3 * s, C(opts.glove || "#f0c8a0")); }
-  else { px(f.face > 0 ? fx - 1 : fx - 2, sh, 3 * s, 8 * s, C(opts.arm || shadeC(f.color))); px(f.face > 0 ? fx - 1 : fx - 2, sh + 8 * s, 3 * s, 2 * s, C(opts.glove || "#f0c8a0")); }
+  const hx = tx + (lean > 0 ? 1 : 0), hy = -32;
+  r(-1 + hx, -24, 2, 1, skin);
+  r(-4 + hx, hy, 8, 8, skin);
+  // hair
+  const H = L.hairC;
+  if (L.hair === "bald") { r(-4 + hx, hy + 3, 1, 3, H); r(3 + hx, hy + 3, 1, 3, H); r(-2 + hx, hy, 3, 1, "#f6d0b0"); }
+  else if (L.hair === "swept") { r(-4 + hx, hy - 1, 8, 2, H); r(-5 + hx, hy, 2, 4, H); r(-1 + hx, hy + 1, 4, 1, H); r(1 + hx, hy - 1, 2, 1, L.hairHi || H); }
+  else if (L.hair === "short") { r(-4 + hx, hy - 1, 8, 2, H); r(-4 + hx, hy + 1, 1, 2, H); r(3 + hx, hy + 1, 1, 1, H); }
+  else if (L.hair === "bangs") { r(-4 + hx, hy - 1, 8, 2, H); r(-3 + hx, hy + 1, 7, 1, H); r(-6 + hx, hy, 2, 5, H); }
+  else if (L.hair === "curly") { r(-5 + hx, hy - 2, 10, 3, H); r(-6 + hx, hy, 2, 7, H); r(4 + hx, hy, 2, 6, H); r(-4 + hx, hy - 2, 1, 1, L.hairHi); r(1 + hx, hy - 1, 1, 1, L.hairHi); r(-6 + hx, hy + 3, 1, 1, L.hairHi); }
+  // eyes, glasses, goggles
+  if (L.goggles) { r(-4 + hx, hy + 3, 8, 1, "#2a2a3a"); r(0 + hx, hy + 3, 4, 2, "#4fe0d0"); }
+  else {
+    r(1 + hx, hy + 4, 1, 1, "#140a10"); r(-2 + hx, hy + 4, 1, 1, "#140a10");
+    if (L.glasses) {
+      const gc = L.glassC;
+      if (L.glasses === "cat") { r(-3 + hx, hy + 3, 3, 1, gc); r(1 + hx, hy + 3, 3, 1, gc); r(3 + hx, hy + 2, 1, 1, gc); r(-3 + hx, hy + 4, 1, 1, gc); r(3 + hx, hy + 4, 1, 1, gc); }
+      else { r(-3 + hx, hy + 3, 3, 1, gc); r(1 + hx, hy + 3, 3, 1, gc); r(-3 + hx, hy + 5, 3, 1, gc); r(1 + hx, hy + 5, 3, 1, gc); r(-3 + hx, hy + 4, 1, 1, gc); r(3 + hx, hy + 4, 1, 1, gc); r(0 + hx, hy + 4, 1, 1, gc); }
+    }
+  }
+  // beard and mouth
+  if (L.beard === "goatee") { r(-1 + hx, hy + 6, 4, 2, L.beardC); r(-2 + hx, hy + 5, 5, 1, L.beardC); }
+  else if (L.beard === "full") { r(-4 + hx, hy + 5, 8, 3, L.beardC); r(-4 + hx, hy + 3, 1, 2, L.beardC); r(3 + hx, hy + 3, 1, 2, L.beardC); }
+  else if (L.beard === "stubble") { r(-3 + hx, hy + 7, 6, 1, L.beardC); }
+  r(0 + hx, hy + 6, 2, 1, pose === "hit" ? "#3a1010" : pose === "win" || L.beard === "goatee" || L.beard === "full" ? "#ffffff" : L.lips ? "#c04a5a" : "#7a3a30");
 }
-function shadeC(hex) { const n = parseInt(hex.slice(1), 16); const f = (v) => Math.round(v * 0.7); return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`; }
-function labelInk(hex) { const n = parseInt(hex.slice(1), 16); return ((n >> 16) * 0.3 + ((n >> 8) & 255) * 0.59 + (n & 255) * 0.11) > 140 ? "#140a18" : "#ffffff"; }
-const HERO_LOOK = { coat: true, goggles: true, pants: "#2a3a6a", hair: "#3a2414", glove: "#ff5fae", arm: "#f2f2f8", armBack: "#c8c8d4" };
+function drawBust(canvas, key) {
+  const g = canvas.getContext("2d"), L = LOOKS[key];
+  g.imageSmoothingEnabled = false; g.clearRect(0, 0, canvas.width, canvas.height);
+  const grd = g.createLinearGradient(0, 0, 0, canvas.height); grd.addColorStop(0, "#2a1640"); grd.addColorStop(1, "#140e22");
+  g.fillStyle = grd; g.fillRect(0, 0, canvas.width, canvas.height);
+  const U = canvas.width / 16;
+  drawDuelist(g, L, canvas.width / 2 + (key === "hero" ? -U : U), 34 * U + 4, key === "hero" ? 1 : -1, "idle", U, false);
+}
 
 /* ---------- drawing ---------- */
 function draw() {
@@ -6502,463 +6106,223 @@ function draw() {
   let ox = 0, oy = 0;
   if (W.shake > 0 && !RM) { ox = Math.round((Math.random() * 2 - 1) * W.shake); oy = Math.round((Math.random() * 2 - 1) * W.shake); }
   ctx.translate(ox, oy);
-  drawBackdrop(S.rd ? S.round : 0);
-  const all = W.foes.map((f) => ({ f, y: f.y }));
-  if (W.hero) all.push({ f: W.hero, y: W.hero.y, hero: true });
-  if (W.boss) all.push({ f: W.boss, y: W.boss.y, boss: true });
-  all.sort((a, b) => a.y - b.y);
-  for (const o of all) {
-    if (o.hero) { if (!(W.hero.inv > 0 && Math.floor(W.t * 12) % 2 === 0)) drawFighter(W.hero, HERO_LOOK); }
-    else if (o.boss) drawFighter(o.f, { pants: "#1a1a28", hair: "#d8d8e0", glove: "#ffd85a", armBack: "#22222e", ink: "#ffd85a" });
-    else {
-      drawFighter(o.f);
-      if (o.f.state === "leave") { const x = sx(o.f.x); text("EXCESS", x - textW("EXCESS") / 2, o.f.y - 34 * o.f.scale, Math.floor(W.t * 4) % 2 ? "#ffd85a" : "#ffffff", false); }
-    }
+  drawBackdrop(W.scene);
+  const g = GANG[S.opp], key = g ? g.key : "h2";
+  const oL = LOOKS[key], oU = oL.big ? 2.3 : 2;
+  const fl = (f) => f.flash > 0 && Math.floor(W.t * 30) % 2 === 0;
+  if (["duel", "won", "ko", "vs"].includes(S.phase)) {
+    drawDuelist(ctx, oL, W.opp.x, FLOOR, -1, W.opp.pose, oU, fl(W.opp));
+    drawDuelist(ctx, LOOKS.hero, W.hero.x, FLOOR, 1, W.hero.pose, 2, fl(W.hero));
+    // health bars
+    const bar = (x, label, segs, full, col, alignRight) => {
+      const w = 110, sw = (w - (full - 1) * 2) / full;
+      text(ctx, label, alignRight ? x + w - textW(label) : x, 6, "#ffffff");
+      for (let i = 0; i < full; i++) { const on = i < segs; px(x + i * (sw + 2), 13, sw, 6, "#140e1e"); if (on) px(x + i * (sw + 2) + 1, 14, sw - 2, 4, col); }
+    };
+    bar(8, "TITRATOR", S.hp, MAXHP, "#4fe0d0", false);
+    bar(LW - 118, (g.boss ? "MR. X" : g.name.toUpperCase()), S.ohp, g.boss ? SHOW.HITS.boss : SHOW.HITS.gang, g.boss ? "#ffd85a" : "#ff5fae", true);
+    text(ctx, "VS", LW / 2 - textW("VS") / 2, 10, "#ffd85a");
+  } else if (S.phase === "title" || S.phase === "ladder" || S.phase === "report") {
+    // attract: the hero shadow-boxes on the street
+    W.hero.x = 140 + Math.sin(W.attract * 0.5) * 30;
+    drawDuelist(ctx, LOOKS.hero, W.hero.x, FLOOR, Math.cos(W.attract * 0.5) > 0 ? 1 : -1, Math.floor(W.t * 2) % 4 === 0 ? "punch" : "idle", 2, false);
   }
-  for (const p of W.pops) { const a = clamp(p.t / 1.6, 0, 1); ctx.globalAlpha = Math.min(1, a * 2); text(p.text, sx(p.x) - textW(p.text) / 2, p.y, p.color || "#6ee072"); ctx.globalAlpha = 1; }
+  for (const p of W.pops) { const a = clamp(p.t / 1.2, 0, 1); ctx.globalAlpha = Math.min(1, a * 2); text(ctx, p.text, p.x - textW(p.text, p.k || 1) / 2, p.y, p.color || "#6ee072", p.k || 1, false); ctx.globalAlpha = 1; }
   for (const p of W.parts) px(p.x, p.y, p.s, p.s, p.c);
-  if (W.hero && S.phase === "brawl") {
-    px(6, 6, 52, 5, "#1a1424"); px(7, 7, Math.round(50 * clamp(W.hero.hp / 100, 0, 1)), 3, W.hero.hp > 30 ? "#6ee072" : "#ff6b4a");
+  if (W.banner) {
+    const b = W.banner, k = 4, tw = textW(b.text, k), a = clamp(b.t / 0.25, 0, 1);
+    ctx.globalAlpha = a; text(ctx, b.text, LW / 2 - tw / 2 + 2, 52 + 2, "#000000", k, false); text(ctx, b.text, LW / 2 - tw / 2, 52, b.color, k, false); ctx.globalAlpha = 1;
   }
-  if (W.boss && W.boss.max) { px(LW - 58, 6, 52, 5, "#1a1424"); px(LW - 57, 7, Math.round(50 * W.boss.hpFrac), 3, "#ff5fae"); text("X", LW - 66, 6, "#ffd85a", false); }
-  if (W.flash > 0 && !RM) { ctx.globalAlpha = Math.min(0.75, W.flash); px(-4, -4, LW + 8, LH + 8, W.flashColor); ctx.globalAlpha = 1; }
+  if (W.flash > 0 && !RM) { ctx.globalAlpha = Math.min(0.6, W.flash); px(-4, -4, LW + 8, LH + 8, W.flashColor); ctx.globalAlpha = 1; }
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
-  if (S.mode === "patrol" && S.timeTotal && ["balance", "predict", "lewis"].includes(S.step) && S.phase === "round") { const f = clamp(S.timeLeft / S.timeTotal, 0, 1); px(6, LH - 4, LW - 12, 2, "#2a2440"); px(6, LH - 4, Math.round((LW - 12) * f), 2, f > 0.3 ? "#4fe0d0" : "#ff6b4a"); }
+  if (S.mode === "patrol" && S.phase === "duel" && !S.answered && S.timeTotal) { const f = clamp(S.timeLeft / S.timeTotal, 0, 1); px(8, LH - 4, LW - 16, 2, "#2a2440"); px(8, LH - 4, Math.round((LW - 16) * f), 2, f > 0.3 ? "#4fe0d0" : "#ff6b4a"); }
 }
 
-/* ---------- particles + sounds ---------- */
-function burst(x, y, n, colors, spd = 40, grav = 60) { const c = RM ? Math.ceil(n / 3) : n; for (let i = 0; i < c; i++) { const a = Math.random() * Math.PI * 2, v = spd * (0.3 + Math.random()); W.parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 20, life: 0.4 + Math.random() * 0.5, c: colors[i % colors.length], s: Math.random() < 0.3 ? 2 : 1, g: grav }); } }
+/* ---------- effects and sounds ---------- */
+function burst(x, y, n, colors, spd = 40, grav = 60) { const c = RM ? Math.ceil(n / 3) : n; for (let i = 0; i < c; i++) { const a = Math.random() * Math.PI * 2, v = spd * (0.3 + Math.random()); W.parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 20, life: 0.35 + Math.random() * 0.4, c: colors[i % colors.length], s: Math.random() < 0.3 ? 2 : 1, g: grav }); } }
 const sfx = {
-  punch() { SND.noise(0.08, 0.25, 2500); SND.tone(160, 0.08, "square", 0.08, 90); },
-  whiff() { SND.noise(0.06, 0.08, 4000, 0, undefined, "highpass"); },
-  hurt() { SND.noise(0.15, 0.35, 900); SND.tone(110, 0.15, "square", 0.1, 60); },
-  ko() { SND.tone(500, 0.35, "square", 0.08, 90); },
-  fuse() { [784, 988, 1175, 1568].forEach((f, i) => setTimeout(() => SND.tone(f, 0.1, "square", 0.07), i * 60)); },
-  leave() { SND.tone(900, 0.15, "triangle", 0.08, 1500); setTimeout(() => SND.tone(1500, 0.2, "triangle", 0.06, 700), 160); },
-  siren() { for (let i = 0; i < 6; i++) setTimeout(() => SND.tone(i % 2 ? 660 : 880, 0.18, "square", 0.06), i * 180); },
-  power() { SND.noise(0.5, 0.5, 1200); SND.tone(90, 0.45, "sawtooth", 0.12, 30); }
+  punch() { SND.noise(0.08, 0.3, 2400); SND.tone(170, 0.08, "square", 0.09, 90); },
+  hurt() { SND.noise(0.16, 0.38, 900); SND.tone(110, 0.16, "square", 0.11, 60); },
+  ko() { SND.noise(0.5, 0.5, 1100); SND.tone(300, 0.5, "square", 0.1, 60); },
+  bell() { [1046, 1318].forEach((f, i) => setTimeout(() => SND.tone(f, 0.25, "triangle", 0.12), i * 120)); },
+  fight() { [392, 523, 784].forEach((f, i) => setTimeout(() => SND.tone(f, i === 2 ? 0.3 : 0.1, "square", 0.1), i * 90)); }
 };
+function banner(textStr, color = "#ffd85a", dur = 1.1) { W.banner = { text: textStr, color, t: dur }; }
 
-/* ---------- update ---------- */
+/* ---------- update and fight choreography ---------- */
 function update(dt) {
-  W.t += dt;
-  W.shake = Math.max(0, W.shake - dt * 10);
-  W.flash = Math.max(0, W.flash - dt * 2.5);
-  for (const p of W.pops) { p.t -= dt; p.y -= 12 * dt; }
+  W.t += dt; W.attract += dt;
+  W.shake = Math.max(0, W.shake - dt * 10); W.flash = Math.max(0, W.flash - dt * 2.5);
+  for (const p of W.pops) { p.t -= dt; p.y -= 10 * dt; }
   W.pops = W.pops.filter((p) => p.t > 0);
   for (const p of W.parts) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += p.g * dt; p.life -= dt; }
   W.parts = W.parts.filter((p) => p.life > 0);
-  const h = W.hero;
-  if (!h) return;
-  h.flash = Math.max(0, h.flash - dt); h.inv = Math.max(0, h.inv - dt); h.t += dt;
-  if (S.phase === "brawl") updateBrawl(dt);
-  else {
-    // idle: hero strolls toward a resting spot, gang members stand around
-    const tx = S.phase === "title" || S.phase === "report" ? 140 + Math.sin(W.attract += dt * 0.4) * 60 : W.boss ? W.boss.x - 46 : 110;
-    h.vx = clamp((tx - h.x) * 2, -40, 40); h.vy = clamp((116 - h.y) * 2, -20, 20);
-    h.x += h.vx * dt; h.y += h.vy * dt; if (Math.abs(h.vx) > 3) h.face = h.vx > 0 ? 1 : -1;
-    if (h.state === "punch" && h.t > 0.22) h.state = "walk";
-    for (const f of W.foes) { f.flash = Math.max(0, f.flash - dt); f.vx = 0; if (f.state === "wait" || f.state === "walk") f.face = h.x < f.x ? -1 : 1; }
+  if (W.banner) { W.banner.t -= dt; if (W.banner.t <= 0) W.banner = null; }
+  for (const f of [W.hero, W.opp]) { f.t += dt; f.flash = Math.max(0, (f.flash || 0) - dt); }
+  if (W.anim) runAnim(dt);
+  else if (S.phase === "duel" || S.phase === "vs") {
+    // idle bounce: fighters bob in place
+    for (const [f, base] of [[W.hero, HERO_X], [W.opp, OPP_X]]) { if (f.pose !== "down" && f.pose !== "win") { f.pose = "idle"; f.x += (base - f.x) * Math.min(1, dt * 6); } }
   }
-  if (W.boss) updateBoss(dt);
-  const target = clamp(h.x - LW / 2 + 20, 0, WA - LW);
-  W.cam += (target - W.cam) * Math.min(1, dt * 3);
-  if (S.phase === "round" && S.mode === "patrol" && ["balance", "predict", "lewis"].includes(S.step)) { S.timeLeft -= dt; if (S.timeLeft <= 0) stepTimeout(); }
-  if (S.phase === "outro") { W.endT -= dt; if (W.endT <= 0) afterRound(); }
+  if (S.phase === "duel" && S.mode === "patrol" && !S.answered && S.timeTotal) { S.timeLeft -= dt; if (S.timeLeft <= 0) answer(-1); }
+  if (S.autoNext > 0) { S.autoNext -= dt; if (S.autoNext <= 0) nextQuestion(); }
 }
-
-function updateBrawl(dt) {
-  const h = W.hero;
-  // hero movement and punches
-  if (h.state === "ko") { if (h.t > 1.3) { h.state = "walk"; h.hp = 100; h.inv = 2; } }
-  else if (h.state === "hurt") { h.x = clamp(h.x + h.kb * dt, 12, WA - 12); h.kb *= 0.85; if (h.t > 0.3) h.state = "walk"; }
-  else {
-    const vx = (keys.left ? -1 : 0) + (keys.right ? 1 : 0), vy = (keys.up ? -1 : 0) + (keys.down ? 1 : 0);
-    const busy = h.state === "punch" && h.t < 0.18;
-    h.vx = busy ? 0 : vx * 58; h.vy = busy ? 0 : vy * 36;
-    if (vx) h.face = vx;
-    h.x = clamp(h.x + h.vx * dt, 12, WA - 12); h.y = clamp(h.y + h.vy * dt, YMIN, YMAX);
-    if (h.state === "punch" && h.t > 0.24) h.state = "walk";
-    if (keys.punch && !h.punchHeld && !(h.state === "punch" && h.t < 0.14)) {
-      h.punchHeld = true;
-      h.combo = h.state === "punch" || h.t < 0.5 ? (h.combo || 0) + 1 : 1;
-      h.state = "punch"; h.t = 0; h.hitDone = false;
+// kind "hero" = the player lands a combo; "opp" = the gang member hits back
+function startAnim(kind, final) { W.anim = { kind, final, t: 0, hits: 0 }; }
+function runAnim(dt) {
+  const a = W.anim; a.t += dt;
+  const atk = a.kind === "hero" ? W.hero : W.opp, def = a.kind === "hero" ? W.opp : W.hero, dir = a.kind === "hero" ? 1 : -1;
+  const home = a.kind === "hero" ? HERO_X : OPP_X, target = def.x - dir * 30;
+  const nHits = a.kind === "hero" ? 3 : 2, times = [0.24, 0.44, 0.64].slice(0, nHits);
+  if (a.t < 0.2) { atk.pose = "dash"; atk.x = home + (target - home) * (a.t / 0.2); }
+  const k = times.findIndex((tt) => a.t >= tt && a.t < tt + 0.12);
+  if (k >= 0) {
+    atk.pose = "punch";
+    if (a.hits <= k) {
+      a.hits = k + 1; def.pose = "hit"; def.flash = 0.14; def.x += dir * 3; sfx.punch(); W.shake = 2;
+      burst(def.x - dir * 6, FLOOR - 50, 8, ["#ffffff", "#ffd85a", a.kind === "hero" ? "#ff5fae" : "#ff6b4a"], 40, 20);
+      if (a.kind === "opp" && k === 0) { W.flash = 0.35; W.flashColor = "#ff4a3a"; sfx.hurt(); }
     }
-    if (!keys.punch) h.punchHeld = false;
-    if (h.state === "punch" && !h.hitDone && h.t > 0.05) {
-      h.hitDone = true;
-      let hit = false;
-      for (const f of W.foes) {
-        if (!["walk", "windup", "hurt"].includes(f.state)) continue;
-        const dx = (f.x - h.x) * h.face;
-        if (dx > 2 && dx < 22 * (f.scale || 1) + 6 && Math.abs(f.y - h.y) < 7) {
-          const strong = h.combo >= 3;
-          f.hp -= strong ? 2 : 1; f.flash = 0.15; f.kb = h.face * (strong ? 90 : 40); f.state = "hurt"; f.t = 0; hit = true;
-          burst(sx(f.x), f.y - 18, 5, ["#ffffff", "#ffd85a"], 30, 20);
-          if (f.hp <= 0) knockOut(f);
-        }
-      }
-      if (hit) { sfx.punch(); W.shake = 1.5; if (h.combo >= 3) h.combo = 0; } else sfx.whiff();
-    }
-  }
-  // gang AI
-  let active = W.foes.filter((f) => ["walk", "windup", "hurt", "punch"].includes(f.state)).length;
-  W.call = (W.call || 0) - dt;
-  if (active < 4 && W.call <= 0) {
-    const waiting = W.foes.filter((f) => f.state === "wait");
-    if (waiting.length) { const f = waiting[Math.floor(Math.random() * waiting.length)]; f.state = "walk"; f.t = 0; f.cd = 0.5 + Math.random() * 0.7; W.call = active < 2 ? 0.2 : 0.9; }
-  }
-  for (const f of W.foes) {
-    f.t += dt; f.flash = Math.max(0, f.flash - dt);
-    if (f.state === "hurt") { f.x = clamp(f.x + (f.kb || 0) * dt, 8, WA - 8); f.kb *= 0.85; if (f.t > 0.3) { f.state = "walk"; f.t = 0; } continue; }
-    if (f.state === "down") continue;
-    if (f.state === "wait") { f.face = h.x < f.x ? -1 : 1; continue; }
-    if (f.state === "fuse") { if (f.t > 0.6) f.gone = true; continue; }
-    if (f.state === "leave") { f.vx = f.face * 64; f.x += f.vx * dt; if (f.x < W.cam - 40 || f.x > W.cam + LW + 40) f.gone = true; continue; }
-    const side = f.x < h.x ? -1 : 1, tx = h.x + side * (17 + (f.ox || 0)), ty = clamp(h.y + (f.oy || 0), YMIN, YMAX);
-    f.face = -side;
-    if (f.state === "walk") {
-      const dx = tx - f.x, dy = ty - f.y, d = Math.hypot(dx, dy);
-      if (d > 3) { f.vx = (dx / d) * f.speed; f.x += f.vx * dt; f.y = clamp(f.y + (dy / d) * f.speed * 0.6 * dt, YMIN, YMAX); } else f.vx = 0;
-      f.cd -= dt;
-      if (f.cd <= 0 && Math.abs(f.x - h.x) < 24 && Math.abs(f.y - h.y) < 6 && h.state !== "ko") { f.state = "windup"; f.t = 0; }
-    } else if (f.state === "windup" && f.t > 0.38) {
-      f.state = "punch"; f.t = 0; f.cd = 1.3 + Math.random() * 1.1;
-      if (Math.abs(f.x - h.x) < 26 && Math.abs(f.y - h.y) < 7 && h.inv <= 0 && h.state !== "ko") {
-        h.hp -= 8; h.flash = 0.2; h.state = "hurt"; h.t = 0; h.kb = -side * 60; sfx.hurt(); W.shake = 2;
-        if (h.hp <= 0) { h.state = "ko"; h.t = 0; S.stats.knockdowns++; addScore(-50); comms("You got knocked down! −50. Get back up and keep fighting.", "bad"); }
-      }
-    } else if (f.state === "punch" && f.t > 0.25) { f.state = "walk"; f.t = 0; }
-  }
-  W.foes = W.foes.filter((f) => !f.gone);
-  if (S.brawlDone && !W.foes.length) { S.brawlDone = false; endBrawl(); }
-}
-
-function knockOut(f) {
-  f.state = "down"; f.t = 0; f.downAt = W.t; S.stats.kos++;
-  sfx.ko(); burst(sx(f.x), f.y - 10, 10, ["#ffffff", f.color], 40, 60);
-  addScore(10);
-  tryFuse();
-}
-// When enough of each reactant is down, a reaction set fuses into product
-function tryFuse() {
-  const rd = S.rd, [A, B] = rd.eq.r, [cA, cB] = rd.eq.a;
-  for (;;) {
-    const dA = W.foes.filter((f) => f.state === "down" && f.sp === A).sort((p, q) => p.downAt - q.downAt);
-    const dB = W.foes.filter((f) => f.state === "down" && f.sp === B).sort((p, q) => p.downAt - q.downAt);
-    if (dA.length < cA || dB.length < cB) break;
-    const set = dA.slice(0, cA).concat(dB.slice(0, cB));
-    set.forEach((f) => { f.state = "fuse"; f.t = 0; });
-    const mx = set.reduce((s, f) => s + f.x, 0) / set.length, my = Math.min(...set.map((f) => f.y)) - 30;
-    S.consumed[0] += cA; S.consumed[1] += cB;
-    const prods = rd.eq.p.map((p, i) => `+${rd.eq.a[rd.eq.r.length + i]} ${p}`).join(" ");
-    S.produced += rd.eq.a[rd.eq.r.length + rd.eq.p.indexOf(rd.product)];
-    W.pops.push({ x: mx, y: my, text: prods, t: 1.6 });
-    burst(sx(mx), my + 10, 22, ["#6ee072", "#ffd85a", "#4fe0d0", "#ffffff"], 50, 10);
-    sfx.fuse(); addScore(40);
-  }
-  renderMeter();
-  const L = rd.limiting;
-  if (S.consumed[L] >= rd.counts[L] && !S.excessGone) {
-    S.excessGone = true;
-    const X = rd.eq.r[1 - L];
-    const leftovers = W.foes.filter((f) => f.sp === X && f.state !== "fuse");
-    leftovers.forEach((f) => { f.state = "leave"; f.t = 0; f.face = f.x < W.hero.x ? -1 : 1; f.flash = 0; });
-    setTimeout(() => sfx.leave(), 400);
-    comms(`The ${sub(rd.eq.r[L])} ran out, so the reaction is over. ${leftovers.length} ${sub(X)} ${leftovers.length === 1 ? "has" : "have"} nothing left to react with and walk${leftovers.length === 1 ? "s" : ""} away: the excess.`, "good");
-    S.brawlDone = true;
-  }
-}
-
-function updateBoss(dt) {
-  const b = W.boss;
-  b.t += dt; b.flash = Math.max(0, b.flash - dt);
-  if (b.state === "enter") { b.x -= 30 * dt; if (b.x <= b.tx) { b.state = "walk"; b.vx = 0; } }
-  if (b.state === "hurt") { b.x = Math.min(WA - 14, b.x + (b.kb || 0) * dt); b.kb *= 0.9; if (b.t > 0.6) { b.state = b.hpFrac <= 0 ? "down" : "walk"; b.t = 0; } }
-  b.face = W.hero && W.hero.x < b.x ? -1 : 1;
+  } else if (a.t >= 0.2 && a.t < 0.76) atk.pose = "idle";
+  if (a.t >= 0.8 && a.t < 0.82 && a.final && def.pose !== "down") { def.pose = "down"; sfx.ko(); W.shake = 5; burst(def.x, FLOOR - 10, 20, ["#ffffff", "#ffd85a"], 50, 40); banner("K.O.!", "#ff6b4a", 1.4); }
+  if (a.final && a.t >= 0.8) { def.x += dir * dt * 40 * Math.max(0, 1 - (a.t - 0.8) * 3); }
+  if (a.t >= 0.8) { atk.x += (home - atk.x) * Math.min(1, dt * 8); if (a.final) atk.pose = "win"; else if (def.pose === "hit") def.pose = "idle"; }
+  if (a.t >= 1.25) { if (!a.final) { atk.x = home; atk.pose = "idle"; def.pose = "idle"; } W.anim = null; if (a.done) a.done(); }
 }
 
 /* ---------- flow ---------- */
-const newStats = () => ({ first: 0, hints: 0, backups: 0, shieldsLost: 0, kos: 0, knockdowns: 0, restarts: 0 });
+const newStats = () => ({ correct: 0, answered: 0, hints: 0, hits: 0, perfects: 0, rematches: 0 });
 function launch(name, mode) {
-  S.name = name; S.mode = mode; S.score = 0; S.cleared = 0; S.stats = newStats(); S.startedAt = Date.now();
-  SND.ensure(); SND.startMusic("brawl");
-  startRound(0);
+  S.name = name; S.mode = mode; S.score = 0; S.beaten = []; S.stats = newStats(); S.startedAt = Date.now();
+  SND.ensure(); SND.song = "brawl"; SND.startMusic("brawl");
+  showLadder();
 }
-function startRound(i) {
-  S.round = i; S.shields = SHIELDS; S.rd = BRAWL.makeRound(ROUNDS[i]);
-  S.roundStart = { score: S.score, cleared: S.cleared, stats: { ...S.stats } };
-  W.foes = []; W.queue = []; W.boss = null; W.pops = [];
-  W.hero = W.hero || { x: 60, y: 116, face: 1, hp: 100, state: "walk", t: 0, flash: 0, inv: 0, isHero: true, scale: 1, color: "#f2f2f8", label: "" };
-  W.hero.x = 40; W.hero.hp = 100; W.cam = 0;
-  S.phase = "roundCard";
-  const def = ROUNDS[i];
-  $("rdNum").textContent = def.boss ? "Final round" : `Round ${i + 1} of ${ROUNDS.length}`;
-  $("rdName").textContent = def.name; $("rdSub").textContent = def.sub;
-  $("rdMeta").innerHTML = (def.boss ? "Mr. X and his crew. This time the gang comes in grams, so convert to moles. Shields restored." : "Balance, predict, brawl, then draw. Shields restored.") + (i > 0 && S.lastNote ? `<br><span style="color:var(--teal)">Field note from ${S.lastNote.where}:</span> ${S.lastNote.note}` : "");
-  showPanel("round");
-  SND.song = def.boss ? "boss4" : "brawl"; SND.startMusic();
-  updateHUD(); renderCheckpoints();
-  $("goBtn").focus({ preventScroll: true });
+const nextOpp = () => GANG.findIndex((g, i) => !S.beaten.includes(i));
+function showLadder() {
+  S.phase = "ladder"; S.opp = nextOpp(); W.scene = 0;
+  const i0 = S.opp;
+  $("gang").innerHTML = GANG.map((g, i) => `<li class="fighter${S.beaten.includes(i) ? " done" : ""}${i === i0 ? " next" : ""}${g.boss ? " boss" : ""}"><div class="pic" data-k="${g.key}"></div><b>${g.name}</b><span class="fm">${g.boss ? "The boss" : sub(g.formula)}</span><small>${g.topic}</small></li>`).join("");
+  $("gang").querySelectorAll(".pic").forEach((el) => fillPic(el, el.dataset.k));
+  const g = GANG[i0];
+  $("ladderSub").textContent = S.beaten.length ? `${S.beaten.length} down, ${GANG.length - S.beaten.length} to go.` : "Beat all five, then take on Mr. X.";
+  $("ladderNote").innerHTML = g.boss ? "The whole gang is down. Mr. X takes three hits: one balancing question, one mole question and one Lewis structure." : `Next up: <b>${g.name}</b> (${sub(g.formula)}), on ${g.topic.toLowerCase()}. Two right answers win the fight.`;
+  $("fightBtn").textContent = g.boss ? "Fight Mr. X" : `Fight ${g.name}`;
+  showPanel("ladder"); updateHUD(); renderCheckpoints();
+  if (S.beaten.length) SND.startMusic(SND.song = "brawl");
+  setTimeout(() => $("fightBtn").focus({ preventScroll: true }), 30);
 }
-function beginRound() {
-  if (S.phase !== "roundCard") return;
+function fillPic(el, key) {
+  if (PORTRAITS[key]) { el.innerHTML = `<img src="${PORTRAITS[key]}" alt="">`; return; }
+  const c = document.createElement("canvas"); c.width = 36; c.height = 48; el.innerHTML = ""; el.appendChild(c); drawBust(c, key);
+}
+function startVS() {
+  if (S.phase !== "ladder") return;
   SND.ensure();
-  const rd = S.rd;
-  // the gang lines up on the right while you work out the chemistry
-  rd.eq.r.forEach((sp, k) => { for (let n = 0; n < rd.counts[k]; n++) { const f = makeFoe(sp, 1); f.x = 200 + (n % 4) * 18 + k * 12 + Math.random() * 6; f.y = YMIN + 4 + ((n + k * 2) % 5) * 7; f.state = "wait"; f.face = -1; W.foes.push(f); } });
-  W.hero.x = 70; W.cam = 0;
-  S.phase = "round"; S.consumed = [0, 0]; S.produced = 0; S.excessGone = false; S.brawlDone = false;
-  $("eqTitle").innerHTML = rd.eq.r.map(sub).join(" + ") + " → " + rd.eq.p.map(sub).join(" + ");
-  $("roundTag").textContent = ROUNDS[S.round].boss ? "Final round" : `Round ${S.round + 1}`;
-  $("step4").textContent = ROUNDS[S.round].boss ? "4 · Mr. X" : "4 · Lewis";
-  showPanel("console");
-  startBalance();
+  const g = GANG[S.opp];
+  S.phase = "vs"; W.scene = SCENE_OF[g.key];
+  fillPic($("vsOppPic"), g.key); drawBust($("vsHero"), "hero");
+  $("vsName").innerHTML = g.boss ? "Mr. X" : `${g.name} <span style="color:var(--teal)">${sub(g.formula)}</span>`;
+  $("vsTopic").textContent = g.topic;
+  $("vs").hidden = false; $("logo").hidden = true;
+  showPanel(null);
+  sfx.bell();
+  if (g.boss) { SND.song = "boss4"; SND.startMusic("boss4"); }
+  clearTimeout(S.vsTimer); S.vsTimer = setTimeout(startDuel, RM ? 1200 : 2400);
 }
-
-/* step 1: balance */
-function startBalance() {
-  const rd = S.rd, forms = [...rd.eq.r, ...rd.eq.p], nR = rd.eq.r.length;
-  setStep("balance"); resetTask(70);
-  $("balEq").innerHTML = forms.map((f, i) => `${i ? `<span class="${i === nR ? "bal-arrow" : "bal-op"}">${i === nR ? "→" : "+"}</span>` : ""}<span class="bal-term"><input data-i="${i}" type="text" inputmode="numeric" maxlength="2" aria-label="Coefficient for ${f}" autocomplete="off"><span class="bal-f">${sub(f)}</span></span>`).join("");
-  $("balEq").querySelectorAll("input").forEach((inp) => inp.addEventListener("input", () => { inp.value = inp.value.replace(/\D/g, ""); renderLamps(); }));
-  renderLamps();
-  $("balHint").disabled = false; $("balBackup").disabled = false;
-  comms(`${ROUNDS[S.round].boss ? "Mr. X's crew" : "The gang"} is lining up. First, balance their reaction.`, "info");
-  setTimeout(() => { const f = $("balEq").querySelector("input"); if (f && !narrow()) f.focus({ preventScroll: true }); }, 30);
+function startDuel() {
+  if (S.phase !== "vs") return;
+  clearTimeout(S.vsTimer);
+  const g = GANG[S.opp];
+  $("vs").hidden = true;
+  S.phase = "duel"; S.hp = MAXHP; S.ohp = g.boss ? SHOW.HITS.boss : SHOW.HITS.gang; S.correct = 0; S.tries = 0; S.hitThisDuel = 0;
+  S.duelStart = { score: S.score, stats: { ...S.stats } };
+  W.hero = { x: HERO_X - 40, pose: "idle", t: 0 }; W.opp = { x: OPP_X + 40, pose: "idle", t: 0 }; W.anim = null;
+  $("duelTitle").innerHTML = g.boss ? "Final fight: Mr. X" : `${g.name} <span class="fm">${sub(g.formula)}</span> · ${g.topic}`;
+  $("duelTag").textContent = `Hits to win: ${S.ohp}`;
+  $("tauntWho").textContent = g.boss ? "Mr. X" : g.name; $("tauntText").textContent = TAUNTS[g.key];
+  showPanel("console"); updateHUD(); renderCheckpoints();
+  banner("FIGHT!", "#ffd85a", 1); sfx.fight();
+  nextQuestion();
+}
+function nextQuestion() {
+  S.autoNext = 0;
+  if (S.phase !== "duel" || W.anim) { if (S.phase === "duel" && W.anim) S.autoNext = 0.3; return; }
+  const g = GANG[S.opp];
+  S.q = SHOW.makeQuestion(g, S.correct, S.tries, LEWIS); S.tries++;
+  S.answered = false; S.hintUsed = false;
+  S.timeTotal = S.mode === "patrol" ? (S.q.picture ? 40 : 30) + (g.boss ? 10 : 0) : 0; S.timeLeft = S.timeTotal;
+  $("qText").innerHTML = S.q.q;
+  const pics = !!S.q.picture, mol = pics ? LEWIS.MOLECULES.find((m) => m.id === S.q.picture.mol) : null;
+  $("choices").classList.toggle("pics", pics);
+  $("choices").innerHTML = S.q.choices.map((c, i) => `<button type="button" class="choice" data-i="${i}"><span class="key">${i + 1}</span><span class="ct">${pics ? miniLewis(mol, c) : c}</span></button>`).join("");
+  $("hintBox").hidden = true; $("fb").hidden = true; $("nextBtn").hidden = true; $("hintBtn").disabled = false;
+  updateHUD();
+  if (!narrow()) { const b = $("choices").querySelector("button"); if (b) b.focus({ preventScroll: true }); }
 }
 const narrow = () => !window.matchMedia("(min-width: 761px)").matches;
-function eqText(eq, c) { const term = (f, i) => `${c[i] === 1 ? "" : c[i] + " "}${sub(f)}`, n = eq.r.length; return `${eq.r.map(term).join(" + ")} → ${eq.p.map((f, j) => term(f, n + j)).join(" + ")}`; }
-function coeffs() { return [...$("balEq").querySelectorAll("input")].map((inp) => parseInt(inp.value, 10) || 0); }
-function renderLamps(force) {
-  const show = S.mode === "cadet" || force || S.revealed;
-  if (!show) { $("lamps").innerHTML = '<span class="how">Atom counts appear after you lock in.</span>'; return; }
-  const t = BANK.tally(S.rd.eq, coeffs());
-  $("lamps").innerHTML = t.els.map((e) => { const ok = t.L[e] === t.R[e] && t.L[e] > 0, zero = !t.L[e] && !t.R[e]; return `<div class="lamp ${ok ? "on" : zero ? "" : "off"}"><b>${e}</b><span class="lr">${t.L[e]} | ${t.R[e]}</span><i class="bulb"></i></div>`; }).join("");
-}
-function submitBalance() {
-  if (S.step !== "balance") return;
-  const c = coeffs();
-  if (c.some((v) => !v)) { comms("Fill every box. A formula that needs no extra copies still gets a 1.", "warn"); SND.buzz(); return; }
-  const d = BANK.diagnose(S.rd.eq, c);
-  S.revealed = true; renderLamps(true);
-  if (d.balanced && d.gcd === 1) { $("balEq").querySelectorAll("input").forEach((inp) => inp.classList.add("locked")); taskDone(`Balanced: ${eqText(S.rd.eq, c)}.`); startPredict(); return; }
-  if (d.balanced) { comms(`Those numbers balance, but they share a factor of ${d.gcd}. Divide each by ${d.gcd}. No shield lost.`, "warn"); SND.hint(); return; }
-  const tips = BANK.wrongFeedback(S.rd.eq, c, d).slice(0, 1).join(" ");
-  const counts = d.bad.slice(0, 3).map((e) => `${e} ${d.L[e]} left, ${d.R[e]} right`).join(" · ");
-  wrongAnswer(`Unbalanced: ${counts}. ${tips}`);
-}
-
-/* step 2: predict */
-function startPredict() {
-  const rd = S.rd, boss = ROUNDS[S.round].boss, [A, B] = rd.eq.r;
-  setStep("predict"); resetTask(boss ? 150 : 100);
-  S.limPick = null;
-  if (boss) {
-    $("predQ").innerHTML = `Mr. X's crew brought <b>${STOICH.sf(rd.masses[0])} g of ${sub(A)}</b> and <b>${STOICH.sf(rd.masses[1])} g of ${sub(B)}</b>. Each thug is one mole. Convert to moles, then predict.`;
-    $("predRefs").innerHTML = ["H", "N"].map((e) => `<span><b>${e}</b>${STOICH.AM[e]} g/mol</span>`).join("");
-    $("predRefs").hidden = false;
+function answer(i) {
+  if (S.phase !== "duel" || S.answered || !S.q) return;
+  SND.ensure();
+  S.answered = true; S.stats.answered++;
+  const g = GANG[S.opp], ok = i === S.q.answer, btns = [...$("choices").querySelectorAll("button")];
+  btns.forEach((b, k) => { b.disabled = true; if (k === S.q.answer) b.classList.add("right"); else if (k === i) b.classList.add("wrong"); });
+  $("hintBtn").disabled = true;
+  if (ok) {
+    S.stats.correct++; S.correct++; S.ohp--;
+    const pts = Math.max(20, (g.boss ? 150 : 100) - (S.hintUsed ? 10 : 0)), bonus = S.mode === "patrol" ? Math.ceil(Math.max(0, S.timeLeft) / 2) : 0;
+    addScore(pts + bonus);
+    W.pops.push({ x: OPP_X, y: 64, text: `+${pts + bonus}`, t: 1.2, color: "#6ee072", k: 2 });
+    const final = S.ohp <= 0;
+    feedback(true, `${final ? "Knockout!" : "Right!"} +${pts}${bonus ? ` and ${bonus} time bonus` : ""}`, S.q.explain);
+    startAnim("hero", final);
+    W.anim.done = () => { if (final) duelWon(); };
+    if (!final) S.autoNext = 2.4;
+    if (!final) { $("nextBtn").hidden = false; $("nextBtn").textContent = "Next question"; }
   } else {
-    $("predQ").innerHTML = `The gang: <b>${rd.counts[0]} ${sub(A)}</b> and <b>${rd.counts[1]} ${sub(B)}</b> thugs. Each thug is one molecule.`;
-    $("predRefs").hidden = true;
+    S.hp--; S.stats.hits++; S.hitThisDuel++;
+    const final = S.hp <= 0;
+    feedback(false, i < 0 ? "Time's up! Shield lost." : "Not quite. Shield lost.", S.q.explain);
+    startAnim("opp", final);
+    W.anim.done = () => { if (final) heroKO(); };
+    if (!final) { $("nextBtn").hidden = false; $("nextBtn").textContent = "Next question"; setTimeout(() => $("nextBtn").focus({ preventScroll: true }), 40); }
+    SND.buzz();
   }
-  $("limChoice").innerHTML = rd.eq.r.map((f, i) => `<button type="button" data-i="${i}" aria-pressed="false">${sub(f)}</button>`).join("");
-  $("prodLbl").innerHTML = `${sub(rd.product)} formed`; $("leftLbl").textContent = "Excess reactant left over";
-  $("prodUnit").textContent = boss ? "mol" : "molecules"; $("leftUnit").textContent = boss ? "mol" : "molecules";
-  $("prodIn").value = ""; $("leftIn").value = "";
-  ["piLim", "piProd", "piLeft"].forEach((id) => $(id).classList.remove("ok", "no"));
-  $("predHint").disabled = false; $("predBackup").disabled = false;
-  comms("Before you fight: which reactant runs out first, how much product will form, and how much of the other reactant will be left?", "info");
-}
-function submitPredict() {
-  if (S.step !== "predict") return;
-  const rd = S.rd, p = STOICH.parseAnswer($("prodIn").value), l = STOICH.parseAnswer($("leftIn").value);
-  if (S.limPick === null || !isFinite(p) || !isFinite(l)) { comms("Pick the limiting reactant and fill in both numbers.", "warn"); SND.buzz(); return; }
-  const res = BRAWL.checkPrediction(rd, S.limPick, p, l);
-  $("piLim").classList.toggle("ok", res.lim); $("piLim").classList.toggle("no", !res.lim);
-  $("piProd").classList.toggle("ok", res.prod); $("piProd").classList.toggle("no", !res.prod);
-  $("piLeft").classList.toggle("ok", res.left); $("piLeft").classList.toggle("no", !res.left);
-  if (res.all) { taskDone(`Prediction locked: ${sub(rd.eq.r[rd.limiting])} runs out, ${rd.productCount} ${sub(rd.product)} form${rd.productCount === 1 ? "s" : ""}, ${rd.excessLeft} ${sub(rd.excess)} left over. Now prove it!`); startBrawl(); return; }
-  wrongAnswer(res.msgs.map(sub).join(" "));
-}
-
-/* step 3: brawl */
-function startBrawl() {
-  setStep("brawl"); S.timeTotal = 0;
-  S.phase = "brawl";
-  // the whole gang is on screen; up to four fight at once while the rest wait their turn
-  W.foes.forEach((f) => { f.state = "wait"; f.t = 0; f.ox = Math.random() * 6; f.oy = Math.round(Math.random() * 6 - 3); });
-  W.hero.hp = 100; W.hero.state = "walk"; W.hero.inv = 0.5;
-  renderMeter();
-  $("touch").classList.add("on");
-  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
-  comms(narrow() ? "Fight! Use the pad below the screen. Knocked-out thugs react in the balanced ratio." : "Fight! Arrow keys to move, Space to punch. Knocked-out thugs react in the balanced ratio.", "info");
-}
-function renderMeter() {
-  const rd = S.rd;
-  const row = (label, n, tot, cls = "") => `<div class="mrow ${cls}"><b>${label}</b><div class="mbar"><i style="width:${tot ? (100 * n) / tot : 0}%"></i></div><span>${n} / ${tot}</span></div>`;
-  const maxP = rd.productCount;
-  $("meterRows").innerHTML = row(`${sub(rd.eq.r[0])} used`, S.consumed[0], rd.counts[0]) + row(`${sub(rd.eq.r[1])} used`, S.consumed[1], rd.counts[1]) + row(`${sub(rd.product)} made`, S.produced, maxP, "prod");
-}
-function endBrawl() {
-  $("touch").classList.remove("on");
-  Object.keys(keys).forEach((k) => (keys[k] = false));
-  S.phase = "round";
-  const rd = S.rd;
-  taskDone(`Round fight won! ${S.produced} ${sub(rd.product)} formed and ${rd.excessLeft} ${sub(rd.excess)} walked away, just as you predicted.`, true);
-  if (ROUNDS[S.round].boss) {
-    W.boss = { x: W.cam + LW + 30, tx: W.cam + LW - 60, y: 116, face: -1, state: "enter", t: 0, flash: 0, scale: 1.45, color: "#2a2a3a", label: "X", isBoss: true, hpFrac: 1, max: 2 };
-    sfx.siren();
-    comms("Mr. X steps out. He won't go down to fists alone: draw the Lewis structures of the reaction to land your power punches.", "warn");
-  }
-  S.lewisIdx = 0;
-  startLewis();
-}
-
-/* step 4: Lewis */
-function startLewis() {
-  const rd = S.rd, id = rd.eq.lewis[S.lewisIdx], m = LEWIS.MOLECULES.find((x) => x.id === id);
-  S.mol = m; S.struct = LEWIS.blank(m); S.pairsTotal = LEWIS.pairsTotal(m); S.editMode = "add"; S.revealed = false;
-  setStep("lewis"); resetTask(Math.round(45 + 9 * m.atoms.length));
-  const total = rd.eq.lewis.length;
-  $("lwQ").innerHTML = `${total > 1 ? `Power punch ${S.lewisIdx + 1} of ${total}: d` : "To claim the round, d"}raw the Lewis structure of <b>${sub(m.f)}</b> (${m.name}). It has ${S.pairsTotal * 2} valence electrons, so you have ${S.pairsTotal} pairs.`;
-  $("lwHint").disabled = false; $("lwBackup").disabled = false;
-  $("modeAdd").setAttribute("aria-pressed", "true"); $("modeRemove").setAttribute("aria-pressed", "false");
-  renderEditor();
-}
-function submitLewis() {
-  if (S.step !== "lewis") return;
-  const res = LEWIS.checkStructure(S.mol, S.struct, []);
-  S.revealed = true;
-  if (res.kind === "short" || res.kind === "dup") { comms(res.msg, "warn"); SND.buzz(); renderEditor(); return; }
-  if (res.kind === "fc") { comms(`Almost. ${res.msg} No shield lost.`, "warn"); SND.hint(); renderEditor(); return; }
-  if (res.kind === "octet") { renderEditor(res.bad); wrongAnswer(res.msg); return; }
-  const rd = S.rd, more = S.lewisIdx < rd.eq.lewis.length - 1;
-  if (W.boss) {
-    const b = W.boss; b.hpFrac = more ? 0.5 : 0; b.flash = 0.6; b.state = "hurt"; b.t = 0; b.kb = 120;
-    W.hero.x = b.x - 22; W.hero.face = 1; W.hero.state = "punch"; W.hero.t = 0;
-    sfx.power(); W.shake = 5; W.flash = 0.5; W.flashColor = "#ffffff";
-    burst(sx(b.x), b.y - 30, 30, ["#ffffff", "#ffd85a", "#ff5fae"], 60, 30);
-  }
-  const said = taskDone(`${S.mol.name[0].toUpperCase() + S.mol.name.slice(1)} drawn correctly${W.boss ? ": power punch lands!" : "."}`);
-  if (more) { S.lewisIdx++; startLewis(); return; }
-  roundWon(said);
-}
-function roundWon(said) {
-  const rd = S.rd;
-  S.phase = "outro"; W.endT = W.boss ? 4.5 : 3.2; setStep(null);
-  comms(`${said ? said + " " : ""}${ROUNDS[S.round].boss ? "Mr. X is down! The Reaction Gang is finished." : `${ROUNDS[S.round].name} is clear!`}${rd.eq.note ? ` <span class="note">Field note: ${rd.eq.note}</span>` : ""}`, "good");
-  setTimeout(() => SND.fanfare(), 450);
-  S.lastNote = rd.eq.note ? { where: ROUNDS[S.round].name, note: rd.eq.note } : null;
-  if (W.boss) { burst(sx(W.boss.x), W.boss.y - 20, 60, ["#ffffff", "#ffd85a", "#ff5fae", "#4fe0d0"], 90, 40); W.boss.state = "down"; }
-}
-function afterRound() {
-  if (S.round < ROUNDS.length - 1) startRound(S.round + 1);
-  else finish();
-}
-
-/* ---------- shared task bookkeeping ---------- */
-function setStep(step) {
-  S.step = step;
-  $("balCard").hidden = step !== "balance"; $("predCard").hidden = step !== "predict"; $("brawlCard").hidden = step !== "brawl"; $("lewisCard").hidden = step !== "lewis";
-  const order = ["balance", "predict", "brawl", "lewis"], idx = order.indexOf(step);
-  [...$("steps").children].forEach((li, i) => { li.classList.toggle("now", i === idx); li.classList.toggle("done", idx < 0 ? true : i < idx); });
-  hideHint();
-}
-function resetTask(seconds) { S.wrong = 0; S.hintUsed = false; S.backups = 0; S.revealed = false; S.timeTotal = seconds; S.timeLeft = seconds; }
-function taskDone(msg, noPoints) {
-  let extra = "";
-  if (!noPoints) {
-    const pts = Math.max(20, (ROUNDS[S.round].boss ? 150 : 100) - 25 * S.wrong - (S.hintUsed ? 10 : 0) - 30 * S.backups), bonus = S.mode === "patrol" ? Math.ceil(Math.max(0, S.timeLeft) / 2) : 0;
-    addScore(pts + bonus); extra = ` +${pts}${bonus ? `, plus ${bonus} time bonus` : ""}.`;
-    if (S.wrong === 0) S.stats.first++;
-    S.cleared++; renderCheckpoints();
-  }
-  comms(msg + extra, "good"); SND.win();
-  return msg + extra;
-}
-function wrongAnswer(msg) {
-  S.wrong++;
-  comms(`${msg} <b>Shield lost.</b>`, "bad"); SND.buzz();
-  loseShield();
-}
-function stepTimeout() {
-  S.wrong++; S.timeLeft = S.timeTotal;
-  comms("Time ran out. <b>Shield lost.</b> The clock has been reset.", "bad"); SND.buzz();
-  loseShield();
-}
-function loseShield() {
-  S.shields--; S.stats.shieldsLost++;
-  W.flash = 0.5; W.flashColor = "#ff4a3a"; W.shake = 4;
   updateHUD();
-  if (S.shields <= 0) {
-    S.phase = "disabled"; $("touch").classList.remove("on");
-    const def = ROUNDS[S.round];
-    $("dsText").textContent = `All four shields are gone. You'll restart ${def.name} with a new gang, and your score goes back to ${S.roundStart.score}, where it was at the start of the round.`;
-    $("restartBtn").textContent = def.boss ? "Restart the final round" : `Restart round ${S.round + 1}`;
-    showPanel("disabled");
-    SND.stopMusic();
-    $("restartBtn").focus({ preventScroll: true });
-  }
 }
-function restartRound() {
-  if (S.phase !== "disabled") return;
-  const st = S.roundStart;
-  S.score = st.score; S.cleared = st.cleared; S.stats = { ...st.stats, restarts: st.stats.restarts + 1 };
-  startRound(S.round);
+function feedback(good, head, body) { const fb = $("fb"); fb.hidden = false; fb.className = `fb ${good ? "good" : "bad"}`; fb.innerHTML = `<b>${head}</b>${body}`; if (good) SND.win(); }
+function duelWon() {
+  const g = GANG[S.opp];
+  S.beaten.push(S.opp);
+  const perfect = S.hitThisDuel === 0;
+  addScore(50 + (perfect ? 100 : 0));
+  if (perfect) { S.stats.perfects++; setTimeout(() => banner("PERFECT!", "#4fe0d0", 1.3), 900); }
+  $("tauntWho").textContent = g.boss ? "Mr. X" : g.name; $("tauntText").textContent = OUCH[g.key];
+  $("fb").innerHTML += `<br><b style="margin-top:6px">${perfect ? "Perfect fight! +150" : "Fight won! +50"}</b>`;
+  S.phase = "won"; renderCheckpoints();
+  setTimeout(() => { if (g.boss) finish(); else showLadder(); }, perfect ? 2600 : 2000);
 }
-
-/* ---------- hints and backup ---------- */
-function showHint(title, lines) { const box = $("hintBox"); box.hidden = false; box.innerHTML = `<span class="chip">${title}</span><ul>${lines.map((l) => `<li>${l}</li>`).join("")}</ul>`; }
-function hideHint() { $("hintBox").hidden = true; $("hintBox").innerHTML = ""; }
+function heroKO() {
+  S.phase = "ko";
+  const g = GANG[S.opp];
+  $("koText").textContent = `${g.boss ? "Mr. X" : g.name} knocked you out. Rematch with a fresh set of questions and full shields. Your score goes back to ${S.duelStart.score}, where it was when this fight started.`;
+  showPanel("ko"); SND.stopMusic();
+  setTimeout(() => $("rematchBtn").focus({ preventScroll: true }), 30);
+}
+function rematch() {
+  if (S.phase !== "ko") return;
+  const st = S.duelStart;
+  S.score = st.score; S.stats = { ...st.stats, hits: S.stats.hits, rematches: S.stats.rematches + 1 };
+  S.phase = "ladder"; SND.startMusic(SND.song);
+  startVS();
+}
 function onHint() {
-  if (S.hintUsed) return;
+  if (S.phase !== "duel" || S.answered || S.hintUsed) return;
   S.hintUsed = true; S.stats.hints++;
-  const rd = S.rd;
-  if (S.step === "balance") { showHint("Balancing tip · −10", BANK.strategyHint(rd.eq, { id: 9, tip: "Tally each element on both sides. Change only the coefficients." })); $("balHint").disabled = true; }
-  else if (S.step === "predict") {
-    const [A, B] = rd.eq.r, [cA, cB] = rd.eq.a;
-    showHint("Prediction tip · −10", [
-      ROUNDS[S.round].boss ? `Convert grams to moles first: divide by each molar mass (${sub(A)} ${STOICH.sf(BRAWL.MM4[A], 4)} g/mol, ${sub(B)} ${STOICH.sf(BRAWL.MM4[B], 4)} g/mol).` : "Each thug is one molecule, so the counts are already the amounts.",
-      `Divide each amount by its coefficient (${sub(A)} by ${cA}, ${sub(B)} by ${cB}). The smaller number tells you the limiting reactant and how many times the reaction runs.`,
-      "Product = times the reaction runs × the product's coefficient. Excess left = what you started with − times × its coefficient."
-    ]);
-    $("predHint").disabled = true;
-  } else if (S.step === "lewis") { showHint("Building tips · −10", LEWIS.buildHint(S.mol)); $("lwHint").disabled = true; }
-  SND.hint();
-}
-function onBackup() {
-  const rd = S.rd;
-  S.backups++; S.stats.backups++; sfx.siren(); W.flash = 0.4; W.flashColor = "#4fe0d0";
-  if (S.step === "balance") {
-    const inputs = [...$("balEq").querySelectorAll("input")], i = inputs.findIndex((inp, k) => (parseInt(inp.value, 10) || 0) !== rd.eq.a[k] && !inp.classList.contains("locked"));
-    if (i < 0) { comms("Backup checked your numbers: they're right. Lock them in.", "info"); return; }
-    inputs[i].value = rd.eq.a[i]; inputs[i].classList.add("locked"); renderLamps();
-    comms(`Backup arrives: the coefficient for ${sub([...rd.eq.r, ...rd.eq.p][i])} is ${rd.eq.a[i]}. −30`, "info");
-  } else if (S.step === "predict") {
-    const [A, B] = rd.eq.r, L = rd.eq.r[rd.limiting], boss = ROUNDS[S.round].boss, u = boss ? " mol" : "";
-    const lines = [];
-    if (boss) lines.push(`${sub(A)}: ${STOICH.sf(rd.masses[0])} g ÷ ${STOICH.sf(BRAWL.MM4[A], 4)} g/mol = ${STOICH.sf(rd.masses[0] / BRAWL.MM4[A])} mol. ${sub(B)}: ${STOICH.sf(rd.masses[1])} g ÷ ${STOICH.sf(BRAWL.MM4[B], 4)} g/mol = ${STOICH.sf(rd.masses[1] / BRAWL.MM4[B])} mol.`);
-    lines.push(`${sub(A)} ÷ ${rd.eq.a[0]} = ${(rd.counts[0] / rd.eq.a[0]).toFixed(2)}, ${sub(B)} ÷ ${rd.eq.a[1]} = ${(rd.counts[1] / rd.eq.a[1]).toFixed(2)}. ${sub(L)} is smaller, so it is limiting and the reaction runs ${rd.sets} time${rd.sets > 1 ? "s" : ""}.`);
-    lines.push(`Product: ${rd.sets} × ${rd.eq.a[rd.eq.r.length + rd.eq.p.indexOf(rd.product)]} = <b>${rd.productCount}${u} ${sub(rd.product)}</b>. Excess: ${rd.counts[1 - rd.limiting]} − ${rd.sets} × ${rd.eq.a[1 - rd.limiting]} = <b>${rd.excessLeft}${u} ${sub(rd.excess)}</b>.`);
-    showHint("Backup's worked solution · −30", lines); $("predBackup").disabled = true;
-  } else if (S.step === "lewis") lewisBackup();
-}
-function lewisBackup() {
-  const m = S.mol, tgt = LEWIS.bestStructures(m)[0];
-  const k = tgt.b.findIndex((x, i) => x !== S.struct.b[i]);
-  let msg;
-  if (k >= 0) { S.struct.b[k] = tgt.b[k]; const [a, c] = m.bonds[k]; msg = `the ${m.atoms[a][0]}–${m.atoms[c][0]} connection is a ${["", "single", "double", "triple"][tgt.b[k]]} bond`; }
-  else { const i = tgt.l.findIndex((x, j) => x !== S.struct.l[j]); if (i < 0) { comms("Backup says this structure is already right. Claim it!", "info"); return; } S.struct.l[i] = tgt.l[i]; msg = `that ${m.atoms[i][0]} gets ${tgt.l[i]} lone pair${tgt.l[i] === 1 ? "" : "s"}`; }
-  while (pairsLeft() < 0) { const j = S.struct.l.findIndex((x, i) => x > tgt.l[i]); if (j < 0) break; S.struct.l[j]--; }
-  while (pairsLeft() < 0) { const j = S.struct.b.findIndex((x, i) => x > tgt.b[i]); if (j < 0) break; S.struct.b[j]--; }
-  comms(`Backup: ${msg}. −30`, "info");
-  renderEditor();
+  $("hintBox").hidden = false; $("hintBox").innerHTML = `<span class="chip">Hint · −10</span>${S.q.hint}`;
+  $("hintBtn").disabled = true; SND.hint();
 }
 
-/* ---------- Lewis editor ---------- */
-const pairsUsed = () => S.struct.b.reduce((a, x) => a + x, 0) + S.struct.l.reduce((a, x) => a + x, 0);
-const pairsLeft = () => S.pairsTotal - pairsUsed();
+/* ---------- mini Lewis drawings for picture questions ---------- */
 const angDist = (a, b) => { const d = Math.abs(a - b) % (2 * Math.PI); return d > Math.PI ? 2 * Math.PI - d : d; };
 function bondAngles(m, i) { const [, x0, y0] = m.atoms[i]; return m.bonds.filter(([a, c]) => a === i || c === i).map(([a, c]) => { const j = a === i ? c : a; return Math.atan2(m.atoms[j][2] - y0, m.atoms[j][1] - x0); }); }
 function lpDirections(m, i, count) {
@@ -6966,102 +6330,62 @@ function lpDirections(m, i, count) {
   for (let n = 0; n < count; n++) { let best = null, bs = -1; for (const c of cand) { if (chosen.includes(c)) continue; const sc = Math.min(...[...ba, ...chosen].map((a) => angDist(a, c)), 9); if (sc > bs + 1e-6) { bs = sc; best = c; } } chosen.push(best); }
   return chosen;
 }
-function badgeSpots(m, i, lp) {
-  const used = bondAngles(m, i).concat(lpDirections(m, i, lp)), cand = Array.from({ length: 16 }, (_, k) => -Math.PI / 4 + (k * Math.PI) / 8);
-  const score = (c, extra) => Math.min(9, ...used.concat(extra).map((u) => angDist(u, c)));
-  const first = cand.reduce((b, c) => (score(c, []) > score(b, []) + 1e-6 ? c : b), cand[0]);
-  const second = cand.reduce((b, c) => (score(c, [first]) > score(b, [first]) + 1e-6 ? c : b), cand[8]);
-  return [first, second];
-}
-function renderEditor(badList) {
-  const m = S.mol, s = S.struct, a = LEWIS.analyze(m, s), U = 68;
-  const xs = m.atoms.map((t) => t[1] * U), ys = m.atoms.map((t) => t[2] * U);
-  const minX = Math.min(...xs) - 64, maxX = Math.max(...xs) + 64, minY = Math.min(...ys) - 60, maxY = Math.max(...ys) + 60;
-  const showNums = S.mode === "cadet" || S.revealed;
-  const bad = new Set(badList || (S.revealed ? m.atoms.map((_, i) => i).filter((i) => !a.octetOK[i]) : []));
-  let svg = `<svg viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}" role="group" aria-label="Lewis structure of ${m.name}">`;
+function miniLewis(m, s) {
+  const U = 62, xs = m.atoms.map((t) => t[1] * U), ys = m.atoms.map((t) => t[2] * U);
+  const minX = Math.min(...xs) - 46, maxX = Math.max(...xs) + 46, minY = Math.min(...ys) - 44, maxY = Math.max(...ys) + 44;
+  let svg = `<svg class="mini" viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}" role="img" aria-label="Lewis structure option">`;
   m.bonds.forEach(([i, j], k) => {
-    const x1 = xs[i], y1 = ys[i], x2 = xs[j], y2 = ys[j], L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L, nx = -uy, ny = ux;
-    const r = 20, ax = x1 + ux * r, ay = y1 + uy * r, bx = x2 - ux * r, by = y2 - uy * r, o = s.b[k], hw = 13;
-    const poly = [[ax + nx * hw, ay + ny * hw], [bx + nx * hw, by + ny * hw], [bx - nx * hw, by - ny * hw], [ax - nx * hw, ay - ny * hw]].map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" ");
-    svg += `<g class="bond" data-k="${k}" tabindex="0" role="button" aria-label="Connection between ${m.atoms[i][0]} and ${m.atoms[j][0]}: ${["empty", "single bond", "double bond", "triple bond"][o]}"><polygon class="hit" points="${poly}"/>`;
-    if (!o) svg += `<line class="empty" x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}"/>`;
-    for (let n = 0; n < o; n++) { const off = (n - (o - 1) / 2) * 7; svg += `<line class="ln" x1="${ax + nx * off}" y1="${ay + ny * off}" x2="${bx + nx * off}" y2="${by + ny * off}"/>`; }
-    svg += "</g>";
+    const x1 = xs[i], y1 = ys[i], x2 = xs[j], y2 = ys[j], L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L, nx = -uy, ny = ux, o = s.b[k];
+    for (let n = 0; n < o; n++) { const off = (n - (o - 1) / 2) * 7; svg += `<line x1="${x1 + ux * 17 + nx * off}" y1="${y1 + uy * 17 + ny * off}" x2="${x2 - ux * 17 + nx * off}" y2="${y2 - uy * 17 + ny * off}"/>`; }
   });
   m.atoms.forEach(([el], i) => {
-    const x = xs[i], y = ys[i], lp = s.l[i];
-    svg += `<g class="atom${bad.has(i) ? " bad" : ""}" data-i="${i}" tabindex="0" role="button" aria-label="${el}: ${lp} lone pair${lp === 1 ? "" : "s"}${showNums ? `, ${a.electrons[i]} electrons` : ""}"><circle class="body" cx="${x}" cy="${y}" r="17"/><text class="sym" x="${x}" y="${y}">${el}</text>`;
-    lpDirections(m, i, lp).forEach((ang) => { const cx = x + Math.cos(ang) * 27, cy = y + Math.sin(ang) * 27, p2 = -Math.sin(ang) * 4.5, q2 = Math.cos(ang) * 4.5; svg += `<circle class="dot" cx="${cx + p2}" cy="${cy + q2}" r="3"/><circle class="dot" cx="${cx - p2}" cy="${cy - q2}" r="3"/>`; });
-    if (showNums) {
-      const sp = badgeSpots(m, i, lp);
-      svg += `<text class="badge e${a.octetOK[i] ? "" : " off"}" x="${x + Math.cos(sp[0]) * 40}" y="${y + Math.sin(sp[0]) * 40}">${a.electrons[i]}</text>`;
-      if (a.fc[i] && pairsLeft() === 0) svg += `<text class="badge fc" x="${x + Math.cos(sp[1]) * 40}" y="${y + Math.sin(sp[1]) * 40}">${a.fc[i] > 0 ? "+" : "−"}${Math.abs(a.fc[i])}</text>`;
-    }
-    svg += "</g>";
+    const x = xs[i], y = ys[i];
+    svg += `<circle class="atom" cx="${x}" cy="${y}" r="15"/><text x="${x}" y="${y}">${el}</text>`;
+    lpDirections(m, i, s.l[i]).forEach((ang) => { const cx = x + Math.cos(ang) * 24, cy = y + Math.sin(ang) * 24, p2 = -Math.sin(ang) * 4, q2 = Math.cos(ang) * 4; svg += `<circle class="dot" cx="${cx + p2}" cy="${cy + q2}" r="2.8"/><circle class="dot" cx="${cx - p2}" cy="${cy - q2}" r="2.8"/>`; });
   });
-  svg += "</svg>";
-  const ed = $("editor"), fe = document.activeElement && ed.contains(document.activeElement) ? document.activeElement : null;
-  const key = fe ? (fe.dataset.k != null ? "k" + fe.dataset.k : "a" + fe.dataset.i) : null;
-  ed.innerHTML = svg;
-  if (key) { const el = key[0] === "a" ? ed.querySelector(`.atom[data-i="${key.slice(1)}"]`) : ed.querySelector(`.bond[data-k="${key.slice(1)}"]`); if (el) el.focus({ preventScroll: true }); }
-  $("pairsLeft").textContent = pairsLeft();
-  $("pairsNote").textContent = `${pairsUsed() * 2} of ${S.pairsTotal * 2} electrons placed${showNums ? "" : ". Counts show after you submit."}`;
-}
-function editAt(kind, idx, remove) {
-  if (S.step !== "lewis") return;
-  const m = S.mol, s = S.struct, rem = remove || S.editMode === "remove";
-  if (kind === "bond") {
-    const [a, c] = m.bonds[idx], hasH = m.atoms[a][0] === "H" || m.atoms[c][0] === "H", max = hasH ? 1 : 3;
-    if (rem) { if (s.b[idx] > 0) s.b[idx]--; else return SND.buzz(); }
-    else { if (pairsLeft() <= 0) { comms("No pairs left. Use Remove (or right-click) to take one back.", "warn"); return SND.buzz(); } if (s.b[idx] >= max) { comms(hasH ? "Hydrogen forms only one single bond." : "That's already a triple bond.", "warn"); return SND.buzz(); } s.b[idx]++; }
-  } else {
-    const el = m.atoms[idx][0];
-    if (rem) { if (s.l[idx] > 0) s.l[idx]--; else return SND.buzz(); }
-    else { if (el === "H") { comms("Hydrogen never gets lone pairs.", "warn"); return SND.buzz(); } if (pairsLeft() <= 0) { comms("No pairs left. Use Remove (or right-click) to take one back.", "warn"); return SND.buzz(); } if (s.l[idx] >= 4) return SND.buzz(); s.l[idx]++; }
-  }
-  SND.tone(rem ? 440 : 880, 0.05, "square", 0.05);
-  renderEditor();
+  return svg + "</svg>";
 }
 
-/* ---------- DOM ---------- */
+/* ---------- DOM helpers ---------- */
 function showPanel(name) {
-  const map = { title: "titlePanel", round: "roundPanel", disabled: "disabledPanel", console: "console", report: "reportPanel" };
+  const map = { title: "titlePanel", ladder: "ladderPanel", ko: "koPanel", console: "console", report: "reportPanel" };
   for (const [k, id] of Object.entries(map)) $(id).hidden = k !== name;
-  $("logo").hidden = !(name === "title" || name === "report");
-  if (name === "report") { $("logoEyebrow").textContent = "Retro Reactions · Final stage"; $("logoTitle").textContent = "City saved"; }
-  else { $("logoEyebrow").textContent = "Retro Reactions · Final stage"; $("logoTitle").textContent = "Reaction Brawl"; }
-  if (name !== "console") $("touch").classList.remove("on");
+  $("logo").hidden = !(name === "title" || name === "report" || name === "ladder");
+  if (name === "report") $("logoTitle").textContent = "City saved";
+  else if (name === "ladder") $("logoTitle").textContent = S.beaten.length ? `${GANG.length - S.beaten.length} to go` : "Reaction Brawl";
+  else $("logoTitle").textContent = "Reaction Brawl";
+  if (name) $("vs").hidden = true;
 }
-function comms(html, type = "info") { $("comms").dataset.type = type; $("commsText").innerHTML = html; }
 function addScore(n) { S.score = Math.max(0, S.score + n); updateHUD(); }
 function updateHUD() {
   $("hudScore").textContent = String(S.score).padStart(5, "0");
-  $("hudShields").innerHTML = Array.from({ length: SHIELDS }, (_, i) => `<i class="shield ${i < S.shields ? "on" : ""}"></i>`).join("");
-  $("hudShields").setAttribute("aria-label", `${S.shields} of ${SHIELDS} shields`);
-  $("hudSector").textContent = S.phase === "title" ? "Reaction Brawl" : S.phase === "report" ? "Stage complete" : `${ROUNDS[S.round].boss ? "Final round" : `Round ${S.round + 1}`} · ${ROUNDS[S.round].name}`;
+  const hp = ["duel", "won", "ko"].includes(S.phase) ? S.hp : MAXHP;
+  $("hudShields").innerHTML = Array.from({ length: MAXHP }, (_, i) => `<i class="shield ${i < hp ? "on" : ""}"></i>`).join("");
+  $("hudShields").setAttribute("aria-label", `${hp} of ${MAXHP} shields`);
+  const g = GANG[S.opp];
+  $("hudSector").textContent = S.phase === "title" ? "Reaction Brawl" : S.phase === "report" ? "Stage complete" : S.phase === "ladder" ? "The Reaction Gang" : g.boss ? "Final fight · Mr. X" : `Fight ${S.opp + 1} of 6 · ${g.name}`;
 }
 let lastTimer = null;
 function updateTimer() {
-  const show = S.mode === "patrol" && S.phase === "round" && ["balance", "predict", "lewis"].includes(S.step);
+  const show = S.mode === "patrol" && S.phase === "duel" && !S.answered;
   $("timerStat").hidden = !show;
   if (!show) return;
   const v = Math.max(0, Math.ceil(S.timeLeft));
-  if (v !== lastTimer) { lastTimer = v; $("hudTimer").textContent = `${v}s`; $("hudTimer").classList.toggle("low", v <= 10); if (v <= 10 && v > 0) SND.tick(); }
+  if (v !== lastTimer) { lastTimer = v; $("hudTimer").textContent = `${v}s`; $("hudTimer").classList.toggle("low", v <= 8); if (v <= 5 && v > 0) SND.tick(); }
 }
 function renderCheckpoints() {
   const ol = $("cps");
-  if (!ol.children.length) ol.innerHTML = CHECKS.map((c, i) => `<li class="${TASK_OFFSETS.includes(i) && i > 0 ? "gap" : ""}">${c}</li>`).join("");
-  [...ol.children].forEach((li, i) => { li.classList.toggle("done", S.phase !== "title" && i < S.cleared); li.classList.toggle("now", !["title", "report", "disabled"].includes(S.phase) && i === S.cleared); });
+  if (!ol.children.length) ol.innerHTML = GANG.map((g) => `<li>${g.boss ? "X" : sub(g.formula)}</li>`).join("");
+  [...ol.children].forEach((li, i) => { li.classList.toggle("done", S.beaten.includes(i)); li.classList.toggle("now", !["title", "report"].includes(S.phase) && i === S.opp && !S.beaten.includes(i)); });
 }
 function finish() {
   if (S.phase === "report") return;
-  S.finishedAt = Date.now(); S.phase = "report"; setStep(null);
-  SND.stopMusic(); W.foes = []; W.boss = null;
+  S.finishedAt = Date.now(); S.phase = "report";
+  SND.stopMusic(); W.anim = null;
   fillReport(); showPanel("report");
   [523, 659, 784, 1047, 1319].forEach((f, i) => setTimeout(() => SND.tone(f, 0.18, "square", 0.1), i * 110));
   updateHUD(); renderCheckpoints();
-  if (window.RR) window.RR.stageDone("s4", { score: S.score, code: $("rpCode").textContent, firstTry: S.stats.first, total: TOTAL_TASKS, label: "first-try tasks", hints: S.stats.hints + S.stats.backups, shieldsLost: S.stats.shieldsLost, seconds: Math.round((S.finishedAt - S.startedAt) / 1000) });
+  if (window.RR) window.RR.stageDone("s4", { score: S.score, code: $("rpCode").textContent, firstTry: S.stats.correct, total: S.stats.answered, label: "correct answers", hints: S.stats.hints, shieldsLost: S.stats.hits, seconds: Math.round((S.finishedAt - S.startedAt) / 1000) });
 }
 function fnv(str) { let h = 0x811c9dc5; for (const ch of str) { h ^= ch.codePointAt(0); h = Math.imul(h, 0x01000193) >>> 0; } return h >>> 0; }
 function fillReport() {
@@ -7070,12 +6394,12 @@ function fillReport() {
   const dateKey = `${when.getFullYear()}-${String(when.getMonth() + 1).padStart(2, "0")}-${String(when.getDate()).padStart(2, "0")}`;
   $("rpName").textContent = S.name; $("rpMode").textContent = S.mode === "patrol" ? "Patrol" : "Cadet";
   $("rpScore").textContent = S.score.toLocaleString();
-  $("rpAcc").textContent = `${st.first} of ${TOTAL_TASKS} (${Math.round((st.first / TOTAL_TASKS) * 100)}%)`;
-  $("rpHints").textContent = `${st.hints} · ${st.backups}`;
-  $("rpShields").textContent = `${st.shieldsLost}${st.restarts ? ` (${st.restarts} restart${st.restarts > 1 ? "s" : ""})` : ""}`;
-  $("rpKO").textContent = `${st.kos} · ${st.knockdowns}`;
+  $("rpAcc").textContent = `${st.correct} of ${st.answered} (${st.answered ? Math.round((st.correct / st.answered) * 100) : 0}%)`;
+  $("rpHints").textContent = String(st.hints);
+  $("rpShields").textContent = `${st.hits}${st.rematches ? ` (${st.rematches} rematch${st.rematches > 1 ? "es" : ""})` : ""}`;
+  $("rpPerfect").textContent = `${st.perfects} of ${GANG.length}`;
   $("rpTime").textContent = h ? `${h}:${String(mi).padStart(2, "0")}:${String(se).padStart(2, "0")}` : `${mi}:${String(se).padStart(2, "0")}`;
-  const code = fnv(`${S.name.trim().toLowerCase()}|${S.mode}|${S.score}|${st.first}|${dateKey}|reaction-brawl-4`).toString(36).toUpperCase().padStart(7, "0");
+  const code = fnv(`${S.name.trim().toLowerCase()}|${S.mode}|${S.score}|${st.correct}|${dateKey}|reaction-brawl-showdown`).toString(36).toUpperCase().padStart(7, "0");
   $("rpCode").textContent = `RB4-${S.mode === "patrol" ? "P" : "C"}-${code}`;
 }
 
@@ -7089,38 +6413,21 @@ function bind() {
     try { localStorage.setItem("rr-name", name); } catch (err) { /* storage unavailable */ }
     launch(name, document.querySelector('input[name="s4-mode"]:checked').value);
   });
-  $("goBtn").addEventListener("click", beginRound);
-  $("restartBtn").addEventListener("click", restartRound);
-  $("againBtn").addEventListener("click", () => { if (window.RR) { window.RR.next("s4"); return; } SND.stopMusic(); S.phase = "title"; S.score = 0; S.cleared = 0; S.shields = SHIELDS; S.rd = null; showPanel("title"); updateHUD(); renderCheckpoints(); });
-  $("balGo").addEventListener("click", submitBalance);
-  $("balEq").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); submitBalance(); } });
-  $("balHint").addEventListener("click", onHint); $("predHint").addEventListener("click", onHint); $("lwHint").addEventListener("click", onHint);
-  $("balBackup").addEventListener("click", onBackup); $("predBackup").addEventListener("click", onBackup); $("lwBackup").addEventListener("click", onBackup);
-  $("limChoice").addEventListener("click", (e) => { const b = e.target.closest("button[data-i]"); if (!b) return; S.limPick = +b.dataset.i; $("limChoice").querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); SND.tone(700, 0.05, "square", 0.05); });
-  $("predGo").addEventListener("click", submitPredict);
-  ["prodIn", "leftIn"].forEach((id) => $(id).addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); submitPredict(); } }));
-  $("lwGo").addEventListener("click", submitLewis);
-  $("lwClear").addEventListener("click", () => { if (S.step !== "lewis") return; S.struct = LEWIS.blank(S.mol); renderEditor(); });
-  const setMode = (m) => { S.editMode = m; $("modeAdd").setAttribute("aria-pressed", String(m === "add")); $("modeRemove").setAttribute("aria-pressed", String(m === "remove")); };
-  $("modeAdd").addEventListener("click", () => setMode("add")); $("modeRemove").addEventListener("click", () => setMode("remove"));
-  const ed = $("editor"), target = (e) => e.target.closest(".bond, .atom");
-  ed.addEventListener("click", (e) => { const t = target(e); if (!t) return; if (t.classList.contains("bond")) editAt("bond", +t.dataset.k, false); else editAt("atom", +t.dataset.i, false); });
-  ed.addEventListener("contextmenu", (e) => { const t = target(e); if (!t) return; e.preventDefault(); if (t.classList.contains("bond")) editAt("bond", +t.dataset.k, true); else editAt("atom", +t.dataset.i, true); });
-  ed.addEventListener("keydown", (e) => { const t = target(e); if (!t) return; const kind = t.classList.contains("bond") ? "bond" : "atom", idx = kind === "bond" ? +t.dataset.k : +t.dataset.i; if (e.key === "Enter" || e.key === " " || e.key === "+") { e.preventDefault(); editAt(kind, idx, false); } else if (e.key === "Backspace" || e.key === "Delete" || e.key === "-") { e.preventDefault(); editAt(kind, idx, true); } });
+  $("fightBtn").addEventListener("click", startVS);
+  $("vs").addEventListener("click", startDuel);
+  $("rematchBtn").addEventListener("click", rematch);
+  $("hintBtn").addEventListener("click", onHint);
+  $("nextBtn").addEventListener("click", () => { if (S.phase === "duel" && S.answered) nextQuestion(); });
+  $("choices").addEventListener("click", (e) => { const b = e.target.closest("button[data-i]"); if (b) answer(+b.dataset.i); });
+  $("againBtn").addEventListener("click", () => { if (window.RR) { window.RR.next("s4"); return; } SND.stopMusic(); S.phase = "title"; S.score = 0; S.beaten = []; showPanel("title"); updateHUD(); renderCheckpoints(); });
   SND.bindButtons($("sfxBtn"), $("musBtn"));
-  const typing = (t) => t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA");
-  const map = { ArrowLeft: "left", a: "left", A: "left", ArrowRight: "right", d: "right", D: "right", ArrowUp: "up", w: "up", W: "up", ArrowDown: "down", s: "down", S: "down", " ": "punch", j: "punch", J: "punch" };
   document.addEventListener("keydown", (e) => {
     if (window.RR && !window.RR.isActive("s4")) return;
-    if (typing(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
-    if (S.phase === "roundCard" && e.key === "Enter" && e.target.tagName !== "BUTTON") { e.preventDefault(); beginRound(); return; }
-    if (S.phase !== "brawl") return;
-    const k = map[e.key]; if (k) { keys[k] = true; e.preventDefault(); }
+    const t = e.target; if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA") || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (S.phase === "vs" && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); startDuel(); return; }
+    if (S.phase === "duel" && !S.answered) { const k = { "1": 0, "2": 1, "3": 2, a: 0, b: 1, c: 2, A: 0, B: 1, C: 2 }[e.key]; if (k !== undefined) { e.preventDefault(); answer(k); return; } }
+    if (S.phase === "duel" && S.answered && e.key === "Enter" && !$("nextBtn").hidden && t !== $("nextBtn")) { e.preventDefault(); nextQuestion(); }
   });
-  document.addEventListener("keyup", (e) => { const k = map[e.key]; if (k) keys[k] = false; });
-  window.addEventListener("blur", () => { Object.keys(keys).forEach((k) => (keys[k] = false)); });
-  const hold = (id, key) => { const el = $(id); const on = (e) => { e.preventDefault(); keys[key] = true; try { el.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ } }; const off = () => { keys[key] = false; }; el.addEventListener("pointerdown", on); el.addEventListener("pointerup", off); el.addEventListener("pointercancel", off); el.addEventListener("lostpointercapture", off); el.addEventListener("contextmenu", (e) => e.preventDefault()); };
-  hold("tLeft", "left"); hold("tRight", "right"); hold("tUp", "up"); hold("tDown", "down"); hold("tPunch", "punch");
 }
 
 /* ---------- boot ---------- */
@@ -7129,7 +6436,7 @@ function frame(now) {
   if (window.RR && !window.RR.isActive("s4")) { lastT = 0; requestAnimationFrame(frame); return; }
   const dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 0.016;
   lastT = now;
-  const reps = (window.__rb && window.__rb.speedup) || 1;
+  const reps = (window.__rs && window.__rs.speedup) || 1;
   for (let k = 0; k < reps; k++) update(dt);
   draw(); updateTimer();
   requestAnimationFrame(frame);
@@ -7140,9 +6447,8 @@ function start() {
   if (window.ResizeObserver) new ResizeObserver(resize).observe(cv); else window.addEventListener("resize", resize);
   bind();
   try { const n = localStorage.getItem("rr-name") || localStorage.getItem("cp-name"); if (n) $("pilotName").value = n; } catch (err) { /* storage unavailable */ }
-  W.hero = { x: 120, y: 116, face: 1, hp: 100, state: "walk", t: 0, flash: 0, inv: 0, isHero: true, scale: 1, color: "#f2f2f8", label: "" };
   showPanel("title"); updateHUD(); renderCheckpoints();
-  if (location.hash === "#debug") window.__rb = { S, W, keys, speedup: 1, LEWIS };
+  if (location.hash === "#debug") window.__rs = { S, W, speedup: 1, startDuel, answerRight: () => answer(S.q.answer), answerWrong: () => answer((S.q.answer + 1) % 3) };
   requestAnimationFrame(frame);
 }
 if (window.RR) { start(); window.RR.register("s4", { launch: (n, m) => launch(n, m) }); }
