@@ -16,3 +16,7 @@ Play it at https://neogio73.github.io/retro-reactions/
 - `bond-defender-intro.mp4` plays between River Run and Bond Defender.
 - `reaction-brawl-intro.mp4` plays between Bond Defender and Reaction Brawl.
 - Students can skip any of the clips.
+
+## Announcement banner
+
+`banner.html` is an animated trailer banner for the D2L announcement (embed it in an iframe). It plays `trailer.mp4` (or `trailer.webm`) muted, with the title cards drawn on top; viewers can turn the sound on. It pauses when scrolled out of view and shows `banner_poster.jpg` with the end card if the video can't play or the viewer prefers reduced motion.
