@@ -84,7 +84,7 @@ body.live #poster { visibility: hidden; }
 #end .e3 { margin-top: 0.55em; font-size: clamp(13px, min(1.75vw, 3.6vh), 19px); color: var(--ink); text-shadow: 0 1px 8px #000; max-width: 34em; }
 
 /* play button, when the browser won't start the trailer by itself */
-#play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none; align-items: center; gap: 12px; font-family: var(--f-pix); font-weight: 700; font-size: clamp(12px, 1.8vw, 16px);
+#play { position: absolute; right: clamp(12px, 3vw, 28px); top: calc(var(--bt) + clamp(10px, 3vh, 22px)); z-index: 3; display: none; align-items: center; gap: 12px; font-family: var(--f-pix); font-weight: 700; font-size: clamp(12px, 1.8vw, 16px);
   letter-spacing: 0.14em; color: #fff; background: rgba(10,6,20,0.7); border: 2px solid var(--pink); border-radius: 6px; padding: 12px 18px; cursor: pointer; box-shadow: 0 0 22px rgba(255,95,174,0.45); }
 #play svg { width: 18px; height: 18px; }
 body.needplay #play { display: inline-flex; }
@@ -326,30 +326,43 @@ body.endcard .btn { animation: pulse 0.9s ease-in-out infinite alternate; }
   }
 
   // ---------- playback ----------
-  let running = false, visible = true, raf = 0;
+  // The banner never gives up on the trailer: until it is playing, the still end card shows. D2L may load the
+  // banner folded shut or off-screen, so playback starts whenever it is actually on screen.
+  let running = false, visible = true, raf = 0, waited = 0;
+  const has = (c) => body.classList.contains(c);
   function loop(now) {
     raf = 0; if (!running) return;
-    try { render(v.currentTime); grain(now); } catch (e) { console.error(e); }
+    try { if (has("live")) render(v.currentTime); grain(now); } catch (e) { console.error(e); }
     raf = requestAnimationFrame(loop);
   }
-  function setRunning() {
-    const on = visible && !document.hidden && !STILL && !CAPTURE && !body.classList.contains("needplay") && !body.classList.contains("fallback");
-    if (on) {
-      const p = v.play();
-      if (p && p.catch) p.catch(() => { if (!body.classList.contains("fallback")) body.classList.add("needplay"); running = false; });
-      if (!running) { running = true; if (!raf) raf = requestAnimationFrame(loop); }
-    } else { running = false; if (!v.paused) v.pause(); }
+  function tryPlay() {
+    const p = v.play();
+    if (p && p.catch) p.catch(() => { if (!has("fallback") && !has("live") && visible && !document.hidden) body.classList.add("needplay"); });
   }
-  // Still picture (reduced motion, or the video can't play): the poster with the end card on it.
-  function showStill() { body.classList.remove("live"); render(SEGS[SEGS.length - 1].t + 2); }
-  v.addEventListener("playing", () => { body.classList.add("live"); body.classList.remove("needplay"); });
-  // only a real failure counts: the first source erroring just means this browser moves on to the WebM
+  function setRunning() {
+    const on = visible && !document.hidden && !STILL && !CAPTURE && !has("fallback");
+    if (on) { tryPlay(); if (!running) { running = true; if (!raf) raf = requestAnimationFrame(loop); } }
+    else { running = false; if (!v.paused) v.pause(); }
+  }
+  // Still picture: the poster with the end card on it (while waiting, with reduced motion, or if the video fails).
+  function showStill() { body.classList.remove("live"); curSeg = -1; render(SEGS[SEGS.length - 1].t + 2); }
+  v.addEventListener("playing", () => { body.classList.add("live"); body.classList.remove("needplay", "fallback"); waited = 0; });
+  // Only a real failure counts. The first source erroring just means this browser moves on to the WebM, and while
+  // a page starts up the video briefly reports "no source" even when it is fine, so check again a moment later.
   const fail = () => { body.classList.add("fallback"); body.classList.remove("needplay"); running = false; showStill(); };
-  v.addEventListener("error", fail);
-  v.querySelectorAll("source")[1].addEventListener("error", fail);
-  // the sources may already have failed before this script ran; and if nothing plays within 9 s, show the still picture
-  if (v.networkState === 3) setTimeout(fail, 0);
-  setTimeout(() => { if (!CAPTURE && !STILL && !body.classList.contains("live") && !body.classList.contains("needplay") && v.readyState < 2) fail(); }, 9000);
+  const failIfDead = () => { if (!has("live") && v.readyState === 0 && v.networkState === 3) fail(); };
+  v.addEventListener("error", () => { if (v.error) fail(); });
+  v.querySelectorAll("source")[1].addEventListener("error", () => setTimeout(failIfDead, 600));
+  setTimeout(failIfDead, 4000);
+  // and a video that loads after all always wins
+  v.addEventListener("loadeddata", () => { if (has("fallback")) { body.classList.remove("fallback"); setRunning(); } });
+  // If the trailer is on screen but hasn't started after a few seconds (a browser that blocks autoplay without
+  // saying so), offer a Play button. It keeps trying in the meantime.
+  if (!CAPTURE && !STILL) setInterval(() => {
+    if (!visible || document.hidden || has("live") || has("fallback")) { waited = 0; return; }
+    if (++waited === 5) body.classList.add("needplay");
+    if (waited % 4 === 0) tryPlay();
+  }, 1000);
   $("play").addEventListener("click", () => {
     body.classList.remove("needplay");
     if (STILL) { v.currentTime = 0; v.play().then(() => { running = true; if (!raf) raf = requestAnimationFrame(loop); }).catch(() => {}); return; }
@@ -363,11 +376,16 @@ body.endcard .btn { animation: pulse 0.9s ease-in-out infinite alternate; }
     if (on && v.paused && !CAPTURE) { body.classList.remove("needplay"); if (STILL) $("play").click(); else setRunning(); }
   });
   document.addEventListener("visibilitychange", setRunning);
+  if (params.has("debug")) {
+    const d = document.createElement("pre"); d.style.cssText = "position:fixed;left:6px;top:46px;z-index:9;margin:0;font:11px/1.3 monospace;color:#0f0;background:rgba(0,0,0,.75);padding:4px 6px;pointer-events:none";
+    document.body.appendChild(d);
+    setInterval(() => { d.textContent = `t=${v.currentTime.toFixed(1)} ready=${v.readyState} net=${v.networkState} err=${v.error ? v.error.code : "-"} paused=${v.paused} visible=${visible} hidden=${document.hidden} waited=${waited} ${body.className}\nsrc=${v.currentSrc.split("/").pop()} size=${innerWidth}x${innerHeight}`; }, 500);
+  }
   // pause whenever the banner is scrolled out of view, to spare laptops and phones
   if ("IntersectionObserver" in window) new IntersectionObserver((es) => { visible = es[es.length - 1].isIntersecting; setRunning(); }).observe(win);
 
   if (STILL) { showStill(); body.classList.add("needplay"); }
-  else if (!CAPTURE) setRunning();
+  else if (!CAPTURE) { showStill(); setRunning(); }
   else {
     // test hook: seek to a moment and draw it
     body.classList.add("live");
