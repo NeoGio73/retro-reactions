@@ -871,11 +871,11 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
     <div class="about">
       <p>Fly through every topic in one run. Each stage borrows the feel of a classic console game and turns its obstacles into chemistry problems.</p>
       <ul>
+        <li><b>Worth <span data-xc>8</span> points of extra credit.</b> Finish all four stages to unlock your completion certificate, then upload it to the assignment.</li>
         <li><b>Enter your name once.</b> It goes on every stage report and on the final mission report.</li>
         <li><b>Your progress saves after each stage</b> in this browser. If the tab closes, come back, type the same name and continue at the next stage.</li>
         <li><b>Keep a calculator handy</b> for River Run. Numeric answers within 5% count.</li>
         <li><b>Plan on about 45 minutes</b> for the whole mission. You can stop after any stage.</li>
-        <li><b>At the end you get one mission report</b> with every stage's score and a mission code. Screenshot it and upload it to the assignment.</li>
       </ul>
     </div>
     <form class="mform" id="mForm" novalidate>
@@ -933,12 +933,12 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
       </table>
     </div>
     <div class="f-code"><span>Mission code</span><strong id="fCode"></strong></div>
-    <p class="note" id="fNote">Take a screenshot of this whole report, including the mission code, and upload it to the assignment.</p>
+    <p class="note" id="fNote">Finish all four stages to unlock your completion certificate and earn extra credit.</p>
     <p id="fSoon"></p>
     <section class="cert" id="certBox" hidden aria-label="Completion certificate">
       <div class="cert-form">
         <span class="eyebrow">Completion certificate</span>
-        <p>Type your name as it appears in your course, download your certificate (a PNG picture), and upload it to the assignment.</p>
+        <p>Type your name as it appears in your course, download your certificate (a PNG picture), and upload it to the assignment for your <span data-xc>8</span> points of extra credit.</p>
         <label class="field" for="certName">Name on the certificate</label>
         <input type="text" id="certName" maxlength="60" autocomplete="name" spellcheck="false" placeholder="First and last name">
         <button class="sbtn primary" id="certBtn" type="button" disabled>Download certificate</button>
@@ -1817,6 +1817,9 @@ const PATROL_TRACK = "UklGRu4DBABXQVZFZm10IBAAAAABAAEAAH0AAAD6AAACABAATElTVBoAAA
 const TRANSITION_VIDEOS = { s1: "river-run-intro.mp4", s2: "bond-defender-intro.mp4", s3: "reaction-brawl-intro.mp4" };
 // Arcade intro on the title screen, before students enter their name. "" skips the title screen.
 const TITLE_VIDEO = "retro-reactions-intro.mp4";
+// Extra credit for finishing all four stages (shown on the menu, report and certificate)
+const EXTRA_CREDIT = 8;
+document.querySelectorAll("[data-xc]").forEach((el) => { el.textContent = EXTRA_CREDIT; });
 // Clips that play in order when a student starts a new mission, right before Crater Patrol.
 // Put the files next to this page (or use full URLs). A missing file is skipped; [] turns them off.
 const INTRO_VIDEOS = ["crater-patrol-intro.mp4"];
@@ -2131,7 +2134,8 @@ window.RR = (() => {
     });
     g.fillStyle = dim; g.font = disp(18); spaced(g, "VERIFICATION CODE", cx, 1034, 5);
     g.save(); g.fillStyle = info.name ? gold : "rgba(255,216,90,0.3)"; if (info.name) { g.shadowColor = "#ff9a3a"; g.shadowBlur = 14; } g.font = disp(52); spaced(g, info.name ? info.code : "XXXX-XXXX-XXXX", cx, 1098, 8); g.restore();
-    g.fillStyle = dim; g.font = body(500, 23); g.fillText("Upload this image to your course assignment.", cx, 1170);
+    g.fillStyle = gold; g.font = disp(20); spaced(g, `${EXTRA_CREDIT} POINTS OF EXTRA CREDIT`, cx, 1150, 4);
+    g.fillStyle = dim; g.font = body(500, 23); g.fillText("Upload this image to your course assignment.", cx, 1190);
   }
   function certInfo() {
     const d = CERT.data, name = certClean(), ok = certHasName(name);
@@ -2202,7 +2206,7 @@ window.RR = (() => {
   function certShow(rec, done) {
     const complete = done.length === ORDER.length;
     $("certBox").hidden = !complete;
-    $("fNote").textContent = complete ? "Mission complete! Download your completion certificate below and upload it to the assignment." : "Take a screenshot of this whole report, including the mission code, and upload it to the assignment.";
+    $("fNote").textContent = complete ? `Mission complete! You've earned ${EXTRA_CREDIT} points of extra credit. Download your completion certificate below and upload it to the assignment to claim them.` : `Finish all four stages to unlock your completion certificate and earn ${EXTRA_CREDIT} points of extra credit. Your progress is saved: come back, type the same name and pick up where you left off.`;
     CERT.ready = complete;
     if (!complete) return;
     const res = rec.results;
