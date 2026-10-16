@@ -89,6 +89,21 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 .t-bar{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
 .t-bar b{display:block;font-size:1.15rem}
 
+/* star ratings: one tap, sent anonymously */
+.rate{display:grid;gap:4px;justify-items:start}
+.rate .rq{font-family:var(--f-display);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.stars{display:flex;gap:4px}
+.stars button{width:34px;height:32px;padding:0;border:0;background:none;cursor:pointer;touch-action:manipulation;display:grid;place-items:center}
+.stars button i{display:block;width:26px;height:26px;background:var(--line-hi);clip-path:polygon(50% 0,63% 34%,100% 36%,71% 58%,81% 95%,50% 74%,19% 95%,29% 58%,0 36%,37% 34%);transition:background .12s,transform .12s}
+.stars button.lit i{background:#ffd34d;filter:drop-shadow(0 0 4px rgba(255,211,77,.45))}
+.stars button:hover i{transform:scale(1.12)}
+.stars button:focus-visible{outline:2px solid var(--cyan);outline-offset:1px;border-radius:3px}
+.stars[aria-disabled="true"] button{cursor:default}
+.stars[aria-disabled="true"] button:hover i{transform:none}
+.rate .rthx{font-size:.82rem;color:var(--dim);min-height:1.2em}
+.rate .rthx.ok{color:var(--good)}
+.f-rate{display:flex;flex-wrap:wrap;gap:14px 40px;border-top:1px solid var(--line);padding-top:14px}
+.f-rate[hidden]{display:none}
 /* intro video */
 .i-media{position:relative;aspect-ratio:16/9;max-width:100%;border:2px solid var(--line-hi);border-radius:6px;overflow:hidden;background:#000}
 .i-media video{display:block;width:100%;height:100%;object-fit:cover}
@@ -905,6 +920,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
   </div>
   <div class="t-bar">
     <div><span class="eyebrow" id="tDone">Stage 1 complete</span><b id="tScore">Score 0</b></div>
+    <div class="rate" id="tRate"></div>
     <button class="sbtn primary" id="tGo" type="button">Continue to Stage 2</button>
   </div>
 </div>
@@ -935,6 +951,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
     <div class="f-code"><span>Mission code</span><strong id="fCode"></strong></div>
     <p class="note" id="fNote">Finish all four stages to unlock your completion certificate and earn extra credit.</p>
     <p id="fSoon"></p>
+    <section class="f-rate" id="fRate" hidden aria-label="Rate the game"><div class="rate" id="fRateS4"></div><div class="rate" id="fRateAll"></div></section>
     <section class="cert" id="certBox" hidden aria-label="Completion certificate">
       <div class="cert-form">
         <span class="eyebrow">Completion certificate</span>
@@ -1959,6 +1976,37 @@ window.RR = (() => {
   }
   function stopTitle() { const v = $("sVideo"); if (v && !v.paused) v.pause(); }
 
+  /* ---- star ratings: sent anonymously to the instructor's Google Form (no name, no email) ---- */
+  const RATE_FORM = "https://docs.google.com/forms/d/e/1FAIpQLScU4-LXTPlsDr9_pIVX2D3frDO6WHfZdZuG5pwszfjK0mkZNg/formResponse";
+  const RATE_ENTRY = { s1: "entry.1025832610", s2: "entry.2095707599", s3: "entry.453370596", s4: "entry.1645632011", all: "entry.1681300766" };
+  const RATE_KEY = "rr-ratings-v1";
+  const rated = () => { try { return JSON.parse(localStorage.getItem(RATE_KEY) || "{}"); } catch { return {}; } };
+  function sendRating(q, v) {
+    try { fetch(RATE_FORM, { method: "POST", mode: "no-cors", keepalive: true, body: new URLSearchParams({ [RATE_ENTRY[q]]: String(v) }) }).catch(() => {}); } catch {}
+  }
+  // One row of five stars. Each player rates each stage once on this browser; only the number is sent.
+  function rateWidget(el, q, label) {
+    const k = `${key(player.name)}|${q}`, prev = rated()[k] || 0;
+    el.innerHTML = `<span class="rq">${label}</span><div class="stars" role="group" aria-label="${label}, 1 to 5 stars">${[1, 2, 3, 4, 5].map((v) =>
+      `<button type="button" data-v="${v}" aria-label="${v} star${v > 1 ? "s" : ""}${v === 1 ? ", not for me" : v === 5 ? ", loved it" : ""}"><i></i></button>`).join("")}</div><span class="rthx" aria-live="polite"></span>`;
+    const box = el.querySelector(".stars"), btns = [...box.children], thx = el.querySelector(".rthx");
+    const light = (n) => btns.forEach((b, i) => b.classList.toggle("lit", i < n));
+    const lock = (n) => { light(n); box.setAttribute("aria-disabled", "true"); btns.forEach((b, i) => b.setAttribute("aria-pressed", String(i < n))); thx.textContent = "Thanks! Ratings are anonymous."; thx.classList.add("ok"); };
+    if (prev) { lock(prev); return; }
+    thx.textContent = "Anonymous: your name isn't sent.";
+    btns.forEach((b) => {
+      b.addEventListener("mouseenter", () => { if (box.getAttribute("aria-disabled") !== "true") light(+b.dataset.v); });
+      b.addEventListener("focus", () => { if (box.getAttribute("aria-disabled") !== "true") light(+b.dataset.v); });
+      b.addEventListener("click", () => {
+        if (box.getAttribute("aria-disabled") === "true") return;
+        const v = +b.dataset.v, all = rated(); all[k] = v;
+        try { localStorage.setItem(RATE_KEY, JSON.stringify(all)); } catch {}
+        sendRating(q, v); lock(v); SND.tone(660 + v * 60, 0.08, "square", 0.06);
+      });
+    });
+    box.addEventListener("mouseleave", () => { if (box.getAttribute("aria-disabled") !== "true") light(0); });
+  }
+
   /* ---- transition ---- */
   let tRaf = 0;
   function showTransition(fromId, toId) {
@@ -1969,6 +2017,7 @@ window.RR = (() => {
     $("tGo").textContent = `Continue to Stage ${toIdx + 1}`;
     $("tGo").onclick = () => play(toId);
     $("tCaption").textContent = TRANSITIONS[fromId] || "";
+    rateWidget($("tRate"), fromId, `Rate ${STAGES[fromIdx].name}`);
     show("transition");
     const v = $("tVideo"), src = TRANSITION_VIDEOS[fromId];
     const warp = () => { v.onerror = null; v.hidden = true; v.controls = false; v.removeAttribute("src"); $("tCanvas").hidden = false; $("tCaption").hidden = false; startWarp(fromId); };
@@ -2036,6 +2085,10 @@ window.RR = (() => {
     $("fCode").textContent = `RRX-${rec.mode === "patrol" ? "P" : "C"}${done.length}-${fnv(sig).toString(36).toUpperCase().padStart(7, "0")}`;
     const soon = STAGES.filter((s) => !s.built).map((s) => s.name);
     $("fSoon").textContent = soon.length ? `${soon.join(" and ")} ${soon.length > 1 ? "are" : "is"} still being built and will be added to this game.` : "";
+    $("fRate").hidden = !res.s4;
+    if (res.s4) { rateWidget($("fRateS4"), "s4", "Rate Reaction Brawl"); }
+    $("fRateAll").hidden = done.length !== ORDER.length;
+    if (done.length === ORDER.length) rateWidget($("fRateAll"), "all", "Rate the whole game");
     show("final");
     certShow(rec, done);
     SND.tone(523, 0.14, "square", 0.08); setTimeout(() => SND.tone(659, 0.14, "square", 0.08), 120); setTimeout(() => SND.tone(784, 0.14, "square", 0.08), 240); setTimeout(() => SND.tone(1047, 0.4, "square", 0.08), 360);
