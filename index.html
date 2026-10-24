@@ -1679,7 +1679,7 @@ const SND = (() => {
     }
   }
 
-  /* ---- Atari 2600 (TIA chip) style voices, used by River Run ---- */
+  /* ---- Early-console square-wave voices, used by River Run ---- */
   const TIA_CLOCK = 31400, tiaCache = {};
   let tiaEng = null;
   function lfsr(n, a, b) {
@@ -1734,7 +1734,7 @@ const SND = (() => {
     powerDown() { tiaSeq("div6", range(16, (i) => [6 + i, 10 - Math.floor(i / 2), 0.05]), 0.14); },
     victory() { tiaSeq("div2", [[16, 10, 0.1], [12, 10, 0.1], [10, 10, 0.1], [8, 11, 0.3], [0, 0, 0.06], [10, 10, 0.1], [8, 11, 0.4]], 0.11); }
   };
-  // River Raid style engine: a low noise rumble plus a poly4 buzz, both rising in pitch with speed
+  // Jet engine for River Run: a low noise rumble plus a poly4 buzz, both rising in pitch with speed
   function tiaEngineSet(level, active) {
     if (!tiaEng) {
       const mk = (dist, audf) => { const s = ctx.createBufferSource(), g = ctx.createGain(); s.buffer = tiaBuffer(dist, audf); s.loop = true; g.gain.value = 0; s.connect(g); g.connect(sfxBus); s.start(); return { s, g }; };
@@ -1842,10 +1842,10 @@ document.querySelectorAll("[data-xc]").forEach((el) => { el.textContent = EXTRA_
 const INTRO_VIDEOS = ["crater-patrol-intro.mp4"];
 window.RR = (() => {
   const STAGES = [
-    { id: "s1", name: "Crater Patrol", topic: "Balancing equations", style: "In the style of Moon Patrol", built: true },
-    { id: "s2", name: "River Run", topic: "Stoichiometry", style: "In the style of River Raid", built: true },
+    { id: "s1", name: "Crater Patrol", topic: "Balancing equations", style: "A moon-buggy side-scroller", built: true },
+    { id: "s2", name: "River Run", topic: "Stoichiometry", style: "A river-canyon shooter", built: true },
     { id: "s3", name: "Bond Defender", topic: "Lewis structures", style: "In the style of Defender", built: true },
-    { id: "s4", name: "Reaction Brawl", topic: "All three skills", style: "In the style of Street Fighter", built: true }
+    { id: "s4", name: "Reaction Brawl", topic: "All three skills", style: "A one-on-one arcade showdown", built: true }
   ];
   const TRANSITIONS = { s1: "Leaving the Moon · course set for Titan", s2: "Leaving Titan · course set for Europa", s3: "Leaving Europa · on to the final reaction" };
   // Planet pairs for the placeholder interlude: [base, shade, band] for the world you leave and the one ahead
