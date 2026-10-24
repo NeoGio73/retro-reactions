@@ -1,6 +1,6 @@
 # Retro Reactions
 
-A General Chemistry I review game in four retro arcade stages:
+An Introductory Chemistry (CHM 1025) review game in four retro arcade stages:
 
 1. **Crater Patrol** (a moon-buggy side-scroller): balancing equations
 2. **River Run** (a river-canyon shooter): stoichiometry
@@ -23,4 +23,4 @@ Play it at https://neogio73.github.io/retro-reactions/
 
 ## Credits and license
 
-Built by John Picione for General Chemistry I at Daytona State College. The four stages are original games in the spirit of 1980s arcade genres (a moon-buggy side-scroller, a river-canyon shooter, a horizontal defense shooter, and a one-on-one showdown); the characters, artwork, sound, and intro clips were made for this game, and the people whose likenesses appear in the Reaction Gang gave their permission. Fonts: Oxanium and Silkscreen (Google Fonts, SIL Open Font License). Code and content are released under the MIT License (see `LICENSE`); the Reaction Gang likenesses are not licensed for reuse outside this game.
+Built by John Picione for Introductory Chemistry (CHM 1025) at Daytona State College. The four stages are original games in the spirit of 1980s arcade genres (a moon-buggy side-scroller, a river-canyon shooter, a horizontal defense shooter, and a one-on-one showdown); the characters, artwork, sound, and intro clips were made for this game, and the people whose likenesses appear in the Reaction Gang gave their permission. Fonts: Oxanium and Silkscreen (Google Fonts, SIL Open Font License). Code and content are released under the MIT License (see `LICENSE`); the Reaction Gang likenesses are not licensed for reuse outside this game.
