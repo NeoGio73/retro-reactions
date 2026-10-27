@@ -6,7 +6,7 @@
 <title>Retro Reactions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@700&family=Oxanium:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap">
 <style>
 :root{
   /* Layout: shell screens (menu, transition, final report) share the stages' arcade cabinet look */
@@ -145,7 +145,13 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
 .cert-status.warn{color:#ff8a6a}
 .cert-fig{margin:0;display:grid;gap:6px;justify-items:center;text-align:center}
 .cert-fig img{width:100%;height:auto;border:1px solid var(--line-hi);border-radius:4px;background:#0b0812}
-.cert-fig b{font-family:var(--f-display);letter-spacing:.12em;color:var(--accent-hi)}
+.cert-form .fine{font-size:.88rem;color:var(--dim);margin-top:-4px}
+.cert-form hr{width:100%;border:0;border-top:1px solid var(--line);margin:6px 0 2px}
+.code-out{margin:0;font-size:1rem;line-height:1.5}
+/* the code in a plain, easy-to-copy font (as in Lewis Manor), not the pixel display font */
+.code-out b#codeVal{font-family:"Atkinson Hyperlegible",Verdana,Arial,sans-serif;font-weight:700;font-size:1.65rem;letter-spacing:.08em;color:#ffd85a;-webkit-user-select:all;user-select:all}
+.code-out b#codeUser{font-family:"Atkinson Hyperlegible",Verdana,Arial,sans-serif}
+.code-err{color:#ff8a6a;font-size:.9rem;min-height:1.2em;margin:0}
 .cert-fig small{color:var(--faint);font-size:.8rem}
 @media (max-width:820px){.cert{grid-template-columns:minmax(0,1fr)}}
 
@@ -886,7 +892,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
     <div class="about">
       <p>Fly through every topic in one run. Each stage borrows the feel of a classic console game and turns its obstacles into chemistry problems.</p>
       <ul>
-        <li><b>Worth <span data-xc>8</span> points of extra credit.</b> Finish all four stages to unlock your completion certificate, then upload it to the assignment.</li>
+        <li><b>Worth <span data-xc>8</span> points of extra credit.</b> Finish all four stages, type your D2L username and you get a completion code. Type your username and the code into the Retro Reactions assignment in D2L.</li>
         <li><b>Enter your name once.</b> It goes on every stage report and on the final mission report.</li>
         <li><b>Your progress saves after each stage</b> in this browser. If the tab closes, come back, type the same name and continue at the next stage.</li>
         <li><b>Keep a calculator handy</b> for River Run. Numeric answers within 5% count.</li>
@@ -949,21 +955,27 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
       </table>
     </div>
     <div class="f-code"><span>Mission code</span><strong id="fCode"></strong></div>
-    <p class="note" id="fNote">Finish all four stages to unlock your completion certificate and earn extra credit.</p>
+    <p class="note" id="fNote">Finish all four stages to get your completion code and earn extra credit.</p>
     <p id="fSoon"></p>
     <section class="f-rate" id="fRate" hidden aria-label="Rate the game"><div class="rate" id="fRateS4"></div><div class="rate" id="fRateAll"></div></section>
     <section class="cert" id="certBox" hidden aria-label="Completion certificate">
       <div class="cert-form">
-        <span class="eyebrow">Completion certificate</span>
-        <p>Type your name as it appears in your course, download your certificate (a PNG picture), and upload it to the assignment for your <span data-xc>8</span> points of extra credit.</p>
+        <span class="eyebrow">Completion code</span>
+        <p>Type your D2L username to get your code. Then type your username and the code into the Retro Reactions assignment in D2L for your <span data-xc>8</span> points of extra credit. There is nothing to upload.</p>
+        <label class="field" for="certUser">Your D2L username</label>
+        <input type="text" id="certUser" maxlength="60" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="D2L username">
+        <p class="fine">The name you log in to D2L with, not your email.</p>
+        <p class="code-err" id="codeErr" aria-live="polite"></p>
+        <p class="code-out" id="codeOut" hidden aria-live="polite">Your code: <b id="codeVal"></b><br><span class="fine">for D2L username <b id="codeUser"></b></span></p>
+        <hr>
+        <span class="eyebrow">Certificate (optional keepsake)</span>
         <label class="field" for="certName">Name on the certificate</label>
         <input type="text" id="certName" maxlength="60" autocomplete="name" spellcheck="false" placeholder="First and last name">
-        <button class="sbtn primary" id="certBtn" type="button" disabled>Download certificate</button>
+        <button class="sbtn" id="certBtn" type="button" disabled>Download certificate</button>
         <p class="cert-status" id="certStatus" role="status" aria-live="polite"></p>
       </div>
       <figure class="cert-fig">
         <img id="certImg" alt="Preview of your completion certificate" hidden>
-        <b id="certCode"></b>
         <small id="certTip">If the download doesn't start, right-click the picture and choose "Save image as…". On a phone, press and hold it.</small>
       </figure>
     </section>
@@ -2094,31 +2106,72 @@ window.RR = (() => {
     SND.tone(523, 0.14, "square", 0.08); setTimeout(() => SND.tone(659, 0.14, "square", 0.08), 120); setTimeout(() => SND.tone(784, 0.14, "square", 0.08), 240); setTimeout(() => SND.tone(1047, 0.4, "square", 0.08), 360);
   }
 
-  /* ---- completion certificate: unlocks after all four stages; the student types a name and downloads a PNG ---- */
-  // The verification code packs the completion minute, mission time and first-try counts, keyed to the name, into 12 characters.
-  const CERT_SALT = "retro-reactions/v1", CERT_EPOCH = Date.UTC(2026, 0, 1), CERT_B32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
-  function certHash(str, seed = 0) {
-    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
-    for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
-    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507); h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507); h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+  /* ---- completion code and certificate: unlock after all four stages ---- */
+  // Completion code, ported from the instructor's code checker (its makeCode; the same steps as Smaller Than Small and
+  // Lewis Manor): SHA-256 of secret|username|RR|half-points|YYYY-MM-DD, first 40 bits as 8 characters (no 0/O/1/I),
+  // shown as RR-XXXX-XXXX. The username is normalized as in the checker: trimmed, lowercased, spaces removed, anything
+  // after an @ dropped. Retro Reactions has its own secret. Mission time and first-try counts are printed on the
+  // certificate but are not in the code.
+  const CODE_PREFIX = "RR";
+  const CODE_SECRET = "EkScW1TxJOiBIU7eRPehZc2n";
+  const CODE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+  function normalizeUser(u) {
+    u = (u || "").trim().toLowerCase().replace(/ /g, "");
+    const at = u.indexOf("@");
+    return at >= 0 ? u.slice(0, at) : u;
   }
-  const certNorm = (n) => n.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
-  function certCode(name, endMs, durMin, first, total) {
-    const mins = BigInt(Math.max(0, Math.min(4194303, Math.floor((endMs - CERT_EPOCH) / 60000))));
-    const d = (mins << 21n) | (BigInt(Math.min(511, durMin)) << 12n) | (BigInt(Math.min(63, first)) << 6n) | BigInt(Math.min(63, total));
-    const mac = BigInt(certHash(CERT_SALT + "|" + certNorm(name) + "|" + d.toString()) % 131072);
-    const ks = BigInt(certHash(CERT_SALT + "#" + mac.toString())) & ((1n << 43n) - 1n);
-    let v = (mac << 43n) | (d ^ ks), out = "";
-    for (let i = 0; i < 12; i++) { out = CERT_B32[Number(v & 31n)] + out; v >>= 5n; }
-    return `${out.slice(0, 4)}-${out.slice(4, 8)}-${out.slice(8)}`;
+  // compact SHA-256 (pure JS, so it runs straight from the file)
+  function sha256(bytes) {
+    const K = new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+    const H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+    const len = bytes.length, total = ((len + 9 + 63) >> 6) << 6;
+    const m = new Uint8Array(total); m.set(bytes); m[len] = 0x80;
+    const bits = len * 8; const dv = new DataView(m.buffer);
+    dv.setUint32(total - 4, bits >>> 0); dv.setUint32(total - 8, Math.floor(bits / 4294967296));
+    const W = new Uint32Array(64);
+    const r = (x, n) => (x >>> n) | (x << (32 - n));
+    for (let o = 0; o < total; o += 64) {
+      for (let i = 0; i < 16; i++) W[i] = dv.getUint32(o + i * 4);
+      for (let i = 16; i < 64; i++) {
+        const s0 = r(W[i-15], 7) ^ r(W[i-15], 18) ^ (W[i-15] >>> 3);
+        const s1 = r(W[i-2], 17) ^ r(W[i-2], 19) ^ (W[i-2] >>> 10);
+        W[i] = (W[i-16] + s0 + W[i-7] + s1) >>> 0;
+      }
+      let [a, b, c, d, e, f, g, h] = H;
+      for (let i = 0; i < 64; i++) {
+        const t1 = (h + (r(e, 6) ^ r(e, 11) ^ r(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + W[i]) >>> 0;
+        const t2 = ((r(a, 2) ^ r(a, 13) ^ r(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+        h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+      }
+      H[0] = (H[0] + a) >>> 0; H[1] = (H[1] + b) >>> 0; H[2] = (H[2] + c) >>> 0; H[3] = (H[3] + d) >>> 0;
+      H[4] = (H[4] + e) >>> 0; H[5] = (H[5] + f) >>> 0; H[6] = (H[6] + g) >>> 0; H[7] = (H[7] + h) >>> 0;
+    }
+    const out = new Uint8Array(32);
+    for (let i = 0; i < 8; i++) new DataView(out.buffer).setUint32(i * 4, H[i]);
+    return out;
   }
+  // The checker's code function, with optional fields appended after the username
+  function completionCode(prefix, secret, username, fields) {
+    const extra = fields && fields.length ? "|" + fields.join("|") : "";
+    const h = sha256(new TextEncoder().encode(secret + "|" + normalizeUser(username) + extra));
+    let v = 0n;
+    for (let i = 0; i < 5; i++) v = (v << 8n) | BigInt(h[i]);
+    let s = "";
+    for (let i = 0; i < 8; i++) s += CODE_ALPHABET[Number((v >> BigInt(35 - 5 * i)) & 31n)];
+    return `${prefix}-${s.slice(0, 4)}-${s.slice(4)}`;
+  }
+  // Retro Reactions' code: D2L username, points (EXTRA_CREDIT, sent as half-points like the checker) and the local date
+  function certCode(username, pts, day) {
+    return completionCode(CODE_PREFIX, CODE_SECRET, username, [CODE_PREFIX, Math.round(pts * 2), day]);
+  }
+  const dayKey = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   const CERT = { W: 1650, H: 1275, canvas: null, blob: null, blobName: "", url: "", timer: 0, seq: 0, ready: false, saving: false, fonts: null, data: null };
   let certDlP = null;
   // In the Claude preview the save goes through the page's downloads capability; on GitHub Pages, D2L or Canvas a plain link download is used.
   const certGetDl = () => { if (!certDlP && window.claude && typeof window.claude.use === "function") certDlP = Promise.resolve(window.claude.use("downloads")).catch(() => null); return certDlP || Promise.resolve(null); };
   const certClean = () => $("certName").value.replace(/\s+/g, " ").trim();
+  // the D2L username, normalized as the checker does; at least two characters
+  const certUser = () => { const u = normalizeUser($("certUser").value); return u.length >= 2 ? u : ""; };
   const certHasName = (n) => (n.match(/\p{L}/gu) || []).length >= 2;
   const certWhen = (ms) => { const d = new Date(ms); return `${d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · ${d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`; };
   const certDur = (m) => (m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${m % 60} min`);
@@ -2185,14 +2238,16 @@ window.RR = (() => {
       g.fillStyle = dim; g.font = disp(16); spaced(g, label, bx + bw / 2, by + 36, 3);
       fitFont(g, value, bw - 30, (px) => body(700, px), 30, 16); g.fillStyle = ink; g.fillText(value, bx + bw / 2, by + 80);
     });
-    g.fillStyle = dim; g.font = disp(18); spaced(g, "VERIFICATION CODE", cx, 1034, 5);
-    g.save(); g.fillStyle = info.name ? gold : "rgba(255,216,90,0.3)"; if (info.name) { g.shadowColor = "#ff9a3a"; g.shadowBlur = 14; } g.font = disp(52); spaced(g, info.name ? info.code : "XXXX-XXXX-XXXX", cx, 1098, 8); g.restore();
-    g.fillStyle = gold; g.font = disp(20); spaced(g, `${EXTRA_CREDIT} POINTS OF EXTRA CREDIT`, cx, 1150, 4);
-    g.fillStyle = dim; g.font = body(500, 23); g.fillText("Upload this image to your course assignment.", cx, 1190);
+    const plain = (px) => `700 ${px}px "Atkinson Hyperlegible", Verdana, Arial, sans-serif`;
+    g.fillStyle = dim; g.font = disp(18); spaced(g, "COMPLETION CODE", cx, 1028, 5);
+    g.save(); g.fillStyle = info.code ? gold : "rgba(255,216,90,0.3)"; if (info.code) { g.shadowColor = "#ff9a3a"; g.shadowBlur = 14; } g.font = plain(54); spaced(g, info.code || "RR-XXXX-XXXX", cx, 1090, 6); g.restore();
+    g.fillStyle = dim; g.font = info.user ? plain(22) : body(500, 22); g.fillText(info.user ? `for D2L username ${info.user}` : "Type your D2L username on screen to put your code here.", cx, 1128);
+    g.fillStyle = gold; g.font = disp(20); spaced(g, `${EXTRA_CREDIT} POINTS OF EXTRA CREDIT`, cx, 1164, 4);
+    g.fillStyle = dim; g.font = body(500, 22); g.fillText("Type your D2L username and this code into the Retro Reactions assignment.", cx, 1198);
   }
   function certInfo() {
-    const d = CERT.data, name = certClean(), ok = certHasName(name);
-    return { ...d, name: ok ? name : "", code: ok ? certCode(name, d.end, d.dur, d.first, d.total) : "" };
+    const d = CERT.data, name = certClean(), user = certUser();
+    return { ...d, name: certHasName(name) ? name : "", user, code: user ? certCode(user, EXTRA_CREDIT, d.day) : "" };
   }
   async function certRender() {
     const seq = ++CERT.seq;
@@ -2206,15 +2261,21 @@ window.RR = (() => {
     if (CERT.url) URL.revokeObjectURL(CERT.url);
     CERT.blob = blob; CERT.blobName = info.name; CERT.url = URL.createObjectURL(blob);
     $("certImg").src = CERT.url; $("certImg").hidden = false;
-    $("certCode").textContent = info.name ? info.code : "";
     return { blob, info };
   }
   function certStatus(text, kind = "") { $("certStatus").textContent = text; $("certStatus").className = `cert-status ${kind}`; }
   function certRefresh() {
-    const ok = certHasName(certClean());
+    const ok = certHasName(certClean()), user = certUser();
+    $("codeOut").hidden = !user || !CERT.data;
+    $("codeErr").textContent = !user && $("certUser").value.trim() ? "Type your whole D2L username." : "";
+    if (user && CERT.data) { $("codeVal").textContent = certCode(user, EXTRA_CREDIT, CERT.data.day); $("codeUser").textContent = user; }
     $("certBtn").disabled = !ok || CERT.saving;
-    if (!CERT.saving) certStatus(ok ? "Check the spelling, then download. The file is a PNG picture." : "Type your first and last name to unlock the download.");
+    if (!CERT.saving) certStatus(ok ? "Optional: a picture of your certificate (PNG) to keep. Your code is what counts for credit." : "Type your name to make the certificate.");
     clearTimeout(CERT.timer); CERT.timer = setTimeout(certRender, 220);
+  }
+  // remember the D2L username with this player's saved progress
+  function certSaveUser() {
+    try { const all = loadAll(), k = key(player.name); if (all[k]) { all[k].d2l = $("certUser").value.trim(); saveAll(all); } } catch (e) { /* storage unavailable */ }
   }
   function certFile(name) { const safe = name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 60) || "Student"; return `Retro_Reactions_Certificate_${safe}.png`; }
   // iPhone and iPad: the share sheet is the dependable way to keep the picture (Save Image or Save to Files)
@@ -2225,7 +2286,7 @@ window.RR = (() => {
     try { file = new File([CERT.blob], certFile(name), { type: "image/png" }); if (!navigator.canShare({ files: [file] })) return false; } catch (err) { return false; }
     CERT.saving = true; $("certBtn").disabled = true;
     navigator.share({ files: [file] })
-      .then(() => certStatus("Done. Upload the picture to your course assignment.", "ok"))
+      .then(() => certStatus("Done. The certificate is a keepsake; type your username and code into D2L for credit.", "ok"))
       .catch((err) => certStatus(err && err.name === "AbortError" ? "Cancelled. Tap Download certificate again and choose Save Image, or press and hold the picture." : "Press and hold the certificate picture, then choose Save to Photos.", err && err.name === "AbortError" ? "" : "warn"))
       .finally(() => { CERT.saving = false; $("certBtn").disabled = !certHasName(certClean()); });
     return true;
@@ -2241,7 +2302,7 @@ window.RR = (() => {
       const filename = certFile(name);
       const dl = await Promise.race([certGetDl(), new Promise((res) => setTimeout(() => res(null), 3000))]);
       if (dl) {
-        try { await dl.save({ filename, data: r.blob }); certStatus(`Saved as ${filename}. Upload it to your course assignment.`, "ok"); }
+        try { await dl.save({ filename, data: r.blob }); certStatus(`Saved as ${filename}. It's a keepsake: type your username and code into D2L for credit.`, "ok"); }
         catch (err) {
           const c = err && err.code;
           if (c === "declined") certStatus("Download cancelled. Click Download certificate when you're ready.");
@@ -2253,26 +2314,27 @@ window.RR = (() => {
         document.body.appendChild(a); a.click(); a.remove();
         certStatus(`Downloading ${filename}. If nothing appears, right-click the picture (or press and hold it) and save it.`, "ok");
       }
-    } catch (err) { certStatus("Something went wrong drawing the certificate. Try again, or take a screenshot of this screen.", "warn"); }
+    } catch (err) { certStatus("Something went wrong drawing the certificate. Your code above still works.", "warn"); }
     finally { CERT.saving = false; $("certBtn").disabled = !certHasName(certClean()); }
   }
   function certShow(rec, done) {
     const complete = done.length === ORDER.length;
     $("certBox").hidden = !complete;
-    $("fNote").textContent = complete ? `Mission complete! You've earned ${EXTRA_CREDIT} points of extra credit. Download your completion certificate below and upload it to the assignment to claim them.` : `Finish all four stages to unlock your completion certificate and earn ${EXTRA_CREDIT} points of extra credit. Your progress is saved: come back, type the same name and pick up where you left off.`;
+    $("fNote").textContent = complete ? `Mission complete! You've earned ${EXTRA_CREDIT} points of extra credit. Type your D2L username below to get your completion code, then type your username and the code into the Retro Reactions assignment.` : `Finish all four stages to get your completion code and earn ${EXTRA_CREDIT} points of extra credit. Your progress is saved: come back, type the same name and pick up where you left off.`;
     CERT.ready = complete;
     if (!complete) return;
     const res = rec.results;
     const end = Math.floor(Math.max(...done.map((id) => res[id].date)) / 60000) * 60000;
     CERT.data = {
-      end, dur: Math.max(1, Math.round(done.reduce((a, id) => a + (res[id].seconds || 0), 0) / 60)),
+      end, day: dayKey(new Date(end)), dur: Math.max(1, Math.round(done.reduce((a, id) => a + (res[id].seconds || 0), 0) / 60)),
       first: done.reduce((a, id) => a + (res[id].firstTry || 0), 0), total: done.reduce((a, id) => a + (res[id].total || 0), 0),
       score: done.reduce((a, id) => a + res[id].score, 0),
       stages: STAGES.filter((s) => s.built).map((s) => ({ name: s.name, topic: s.topic, score: res[s.id].score }))
     };
-    if (!CERT.fonts) CERT.fonts = Promise.race([Promise.all(["700 66px Silkscreen", "700 104px Oxanium", "500 32px Oxanium", "600 20px Oxanium"].map((f) => document.fonts.load(f))), new Promise((r) => setTimeout(r, 2500))]);
+    if (!CERT.fonts) CERT.fonts = Promise.race([Promise.all(["700 66px Silkscreen", "700 104px Oxanium", "500 32px Oxanium", "600 20px Oxanium", '700 54px "Atkinson Hyperlegible"'].map((f) => document.fonts.load(f))), new Promise((r) => setTimeout(r, 2500))]);
     certGetDl();
     if (!$("certName").value) $("certName").value = rec.name || player.name || "";
+    $("certUser").value = rec.d2l || "";
     certRefresh();
   }
 
@@ -2306,6 +2368,10 @@ window.RR = (() => {
     $("mReport").addEventListener("click", () => { const rec = record($("mName").value); if (rec) { player = { name: rec.name, mode: rec.mode }; showFinal(); } });
     $("fMenu").addEventListener("click", () => { renderMenu(); show("menu"); });
     $("certName").addEventListener("input", certRefresh);
+    $("certUser").addEventListener("input", () => { certRefresh(); certSaveUser(); });
+    $("certUser").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); $("certUser").blur(); } });
+    // on a phone, keep the username field (and the code under it) above the on-screen keyboard
+    $("certUser").addEventListener("focus", () => setTimeout(() => $("certUser").scrollIntoView({ block: "center", behavior: "smooth" }), 300));
     $("certName").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); certDownload(); } });
     $("certBtn").addEventListener("click", certDownload);
     $("sStart").addEventListener("click", (e) => { e.stopPropagation(); startTitle(); });
