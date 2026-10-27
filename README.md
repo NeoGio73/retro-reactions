@@ -5,7 +5,7 @@ An Introductory Chemistry (CHM 1025) review game in four retro arcade stages:
 1. **Crater Patrol** (a moon-buggy side-scroller): balancing equations
 2. **River Run** (a river-canyon shooter): stoichiometry
 3. **Bond Defender** (a horizontal defense shooter): Lewis structures
-4. **Reaction Brawl** (a one-on-one arcade showdown): five fights with the Reaction Gang, then Mr. X, using all three skills
+4. **Reaction Brawl** (a one-on-one arcade showdown): five fights with the Reaction Gang, then the final boss, Lord Barkium (Ba), using all three skills
 
 Play it at https://neogio73.github.io/retro-reactions/
 
@@ -31,4 +31,4 @@ For Fall 2026, students who already uploaded a PNG certificate keep their credit
 
 ## Credits and license
 
-Built by John Picione for Introductory Chemistry (CHM 1025) at Daytona State College. The four stages are original games in the spirit of 1980s arcade genres (a moon-buggy side-scroller, a river-canyon shooter, a horizontal defense shooter, and a one-on-one showdown); the characters, artwork, sound, and intro clips were made for this game, and the people whose likenesses appear in the Reaction Gang gave their permission. Fonts: Oxanium, Silkscreen and Atkinson Hyperlegible (Google Fonts, SIL Open Font License). Code and content are released under the MIT License (see `LICENSE`); the Reaction Gang likenesses are not licensed for reuse outside this game.
+Built by John Picione for Introductory Chemistry (CHM 1025) at Daytona State College. The four stages are original games in the spirit of 1980s arcade genres (a moon-buggy side-scroller, a river-canyon shooter, a horizontal defense shooter, and a one-on-one showdown); the characters, artwork, sound, and intro clips were made for this game, the people whose likenesses appear in the Reaction Gang gave their permission, and Lord Barkium is the author's dog, Alastair. Fonts: Oxanium, Silkscreen and Atkinson Hyperlegible (Google Fonts, SIL Open Font License). Code and content are released under the MIT License (see `LICENSE`); the Reaction Gang likenesses are not licensed for reuse outside this game.

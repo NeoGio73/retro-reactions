@@ -1433,12 +1433,12 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
   <section class="panel" id="s4-titlePanel">
     <div class="tp-grid">
       <div>
-        <p class="lede">Back on Earth, Mr. X and the Reaction Gang have taken over the city. Beat them one at a time in a chemistry showdown.</p>
+        <p class="lede">Back on Earth, Lord Barkium and the Reaction Gang have taken over the city. Beat them one at a time in a chemistry showdown.</p>
         <ul class="rules">
           <li><b>Five gang members, five topics.</b> Balancing, atoms and molar mass, moles, Lewis structures and mole ratios.</li>
           <li><b>Answer to attack.</b> A right answer lands a combo. Two combos knock a gang member out.</li>
           <li><b>A wrong answer costs a shield.</b> You get 3 per fight, and you always see why the right answer is right.</li>
-          <li><b>Mr. X is last.</b> He takes three hits: one balancing, one mole question, one Lewis structure.</li>
+          <li><b>Lord Barkium (Ba) is last.</b> He takes three hits: one balancing, one mole question, one Lewis structure.</li>
         </ul>
         <p class="keys">Click an answer, or press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>. <kbd>Enter</kbd> moves on. Keep a calculator handy.</p>
       </div>
@@ -1457,7 +1457,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
   </section>
 
   <section class="panel ladder" id="s4-ladderPanel" hidden>
-    <div class="ladder-head"><h2>The Reaction Gang</h2><p id="s4-ladderSub">Beat all five, then take on Mr. X.</p></div>
+    <div class="ladder-head"><h2>The Reaction Gang</h2><p id="s4-ladderSub">Beat all five, then take on Lord Barkium.</p></div>
     <ol class="gang" id="s4-gang"></ol>
     <div class="ladder-go"><p id="s4-ladderNote"></p><button class="btn primary" id="s4-fightBtn" type="button">Fight</button></div>
   </section>
@@ -1493,7 +1493,7 @@ body{color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.5;
     </dl>
     <div class="rp-code"><span>Completion code</span><strong id="s4-rpCode"></strong></div>
     <p class="rp-note">Take a screenshot of this report, including the completion code, and upload it to the assignment.</p>
-    <p>Mr. X and the Reaction Gang are finished. The city is safe.</p>
+    <p>Lord Barkium and the Reaction Gang are finished. The city is safe.</p>
     <div><button class="btn" id="s4-againBtn" type="button">Play again</button></div>
   </section>
 </div>
@@ -6241,7 +6241,7 @@ const GANG = [
   { key: "n2", formula: "N2", name: "Triple Bond", topic: "Grams, moles, molecules", gen: [gramsToMoles, molesToGrams, molesToParticles] },
   { key: "ch4", formula: "CH4", name: "The Tetrahedron", topic: "Lewis structures", lewis: true, gen: [lewisValence, lewisPicture, lewisLonePairs, lewisBondType] },
   { key: "nh3", formula: "NH3", name: "Lone Pair", topic: "Mole ratios", gen: [() => ratioQ(false)] },
-  { key: "mrx", formula: "X", name: "Mr. X", topic: "All three skills", boss: true, gen: [() => balCoeffSet(pick(BAL_BOSS)), () => (Math.random() < 0.5 ? ratioQ(true) : gramsToMoles()), lewisPicture] }
+  { key: "ba", formula: "Ba", name: "Lord Barkium", topic: "All three skills", boss: true, gen: [() => balCoeffSet(pick(BAL_BOSS)), () => (Math.random() < 0.5 ? ratioQ(true) : gramsToMoles()), lewisPicture] }
 ];
 const HITS = { gang: 2, boss: 3 };
 // Make question n for an opponent (n counts correct answers so far, tries counts all questions asked)
@@ -6273,19 +6273,21 @@ const LOOKS = {
   n2: { skin: "#f0c0a0", hair: "bangs", hairC: "#a07a50", glasses: "cat", glassC: "#d0305a", shirt: "#4a7aff", vest: true, label: "N2", lips: true },
   ch4: { skin: "#f0c8b0", hair: "short", hairC: "#f4f4f4", beard: "full", beardC: "#f4f4f4", glasses: "thin", glassC: "#8a8a92", shirt: "#4ad08a", vest: true, label: "CH4" },
   nh3: { skin: "#f0c4a8", hair: "curly", hairC: "#6a4a30", hairHi: "#b08a5a", glasses: "rect", glassC: "#2a2030", shirt: "#4fe0d0", vest: true, label: "NH3", lips: true },
-  mrx: { skin: "#e8b896", hair: "bald", hairC: "#a8a098", beard: "goatee", beardC: "#c8c0b8", suit: true, shirt: "#1c1c28", pants: "#14141e", label: "", big: true }
+  // Lord Barkium (Ba): Alastair, cream-tan with a white muzzle, chest and paws, a grey brow mask, tall ears, a black tail tip and his teal harness
+  ba: { dog: true, fur: "#e2c49c", furHi: "#eed7b4", furDk: "#c9a57a", cream: "#f6efe2", mask: "#6e6772", ear: "#5a4448", nose: "#141014", eye: "#6a3a1a",
+        harness: "#3e9f98", harnessDk: "#2b7a74", buckle: "#5cc6e6", ring: "#c8ccd4", tailTip: "#2a2226", label: "Ba", big: true }
 };
-const SCENE_OF = { h2: 0, o2: 1, n2: 2, ch4: 0, nh3: 1, mrx: 3 };
+const SCENE_OF = { h2: 0, o2: 1, n2: 2, ch4: 0, nh3: 1, ba: 3 };
 const TAUNTS = {
   h2: "We always travel in pairs. Think you can balance us?",
   o2: "I'll oxidize that score of yours. Count every atom, rookie.",
   n2: "Three bonds and I never break. Hope you brought a calculator.",
   ch4: "Four bonds, perfect angles. Draw me right or don't draw me at all.",
   nh3: "I've got a lone pair and an attitude. Know your ratios?",
-  mrx: "So you beat my gang. Now face the Limiting Reagent!"
+  ba: "Now face the Limiting Reagent… woof!"
 };
 const OUCH = {
-  h2: "Not bad... we'll split up and regroup.", o2: "You've reduced me!", n2: "My triple bond... broken?!", ch4: "Bent out of shape at last.", nh3: "I'll be back... in solution.", mrx: "Impossible! You used up everything I had."
+  h2: "Not bad... we'll split up and regroup.", o2: "You've reduced me!", n2: "My triple bond... broken?!", ch4: "Bent out of shape at last.", nh3: "I'll be back... in solution.", ba: "Impossible! I’ve been… barium-ed."
 };
 
 const S = {
@@ -6310,6 +6312,7 @@ const FONT = {
 let cv, ctx, scale = 1;
 const rect = (g, x, y, w, h, c) => { g.fillStyle = c; g.fillRect(Math.round(x), Math.round(y), Math.max(1, Math.round(w)), Math.max(1, Math.round(h))); };
 const px = (x, y, w, h, c) => rect(ctx, x, y, w, h, c);
+FONT.a = ["...", ".##", "#.#", "#.#", ".##"];   // for "Ba"
 function textW(s, k = 1) { let w = 0; for (const ch of s) w += ((FONT[ch] ? FONT[ch][0].length : 3) + 1) * k; return Math.max(0, w - k); }
 function text(g, s, x, y, c, k = 1, subs = true) {
   let cx = Math.round(x);
@@ -6359,7 +6362,70 @@ function drawBackdrop(si) {
 }
 
 /* ---------- fighters: sprite units of U canvas pixels, origin at the feet ---------- */
+// Lord Barkium: Alastair standing up to fight, in sprite units like the others (+x is the way he faces)
+function drawDog(g, L, x, footY, face, pose, U, flashWhite) {
+  const W2 = (c) => (flashWhite ? "#ffffff" : c);
+  const r = (dx, dy, w, h, c) => { const sx = face > 0 ? x + dx * U : x - (dx + w) * U; rect(g, sx, footY + dy * U, w * U, h * U, W2(c)); };
+  const F = L.fur, C = L.cream, D = L.furDk;
+  if (pose === "down") {
+    // flat on his side: body, legs out, head with an ear flopped down, tail limp
+    r(-14, -5, 13, 5, F); r(-13, -2, 11, 2, C); r(-15, -4, 2, 2, F); r(-17, -4, 2, 1, L.tailTip);
+    r(-12, -1, 3, 1, C); r(-5, -1, 3, 1, C);
+    r(-6, -6, 4, 6, L.harness); r(-5, -5, 2, 1, L.buckle);
+    r(-1, -7, 7, 6, F); r(5, -5, 3, 3, C); r(7, -5, 1, 1, L.nose); r(1, -5, 2, 1, L.mask); r(2, -5, 1, 1, "#140a10");
+    r(0, -9, 3, 2, F); r(1, -8, 1, 1, L.ear);
+    return;
+  }
+  const lean = pose === "hit" ? -1 : pose === "dash" || pose === "punch" ? 1 : 0, tx = lean;
+  rect(g, x - 10 * U, footY - U, 20 * U, 2 * U, "rgba(0,0,0,.35)");
+  // tail, curled up behind, black tip (it droops when hit)
+  if (pose === "hit") { r(-9 + tx, -16, 3, 2, F); r(-11 + tx, -15, 2, 3, F); r(-11 + tx, -12, 2, 1, L.tailTip); }
+  else { r(-8 + tx, -17, 3, 2, F); r(-10 + tx, -21, 3, 5, F); r(-9 + tx, -24, 3, 3, F); r(-7 + tx, -26, 3, 2, L.tailTip); r(-10 + tx, -20, 1, 3, L.furHi); }
+  // hind legs: tan thighs, white lower legs and paws
+  r(-5, -12, 4, 6, F); r(2, -12, 4, 6, F); r(-5, -6, 3, 4, C); r(2, -6, 3, 4, C);
+  r(-6, -2, 5, 2, C); r(2, -2, 6, 2, C); r(-6, -1, 5, 1, "#d8cfc0"); r(2, -1, 6, 1, "#d8cfc0");
+  // body: tan with a white chest, and the teal harness across it (chest plate, neck strap, belly strap, D-ring)
+  r(-6 + tx, -24, 12, 13, F); r(-6 + tx, -13, 12, 2, D);
+  r(-2 + tx, -24, 6, 11, C);
+  r(-3 + tx, -22, 8, 9, L.harness); r(-3 + tx, -14, 8, 1, L.harnessDk);
+  r(-6 + tx, -16, 12, 2, L.harness); r(-6 + tx, -24, 12, 2, L.harness); r(-6 + tx, -24, 12, 1, L.harnessDk);
+  r(-5 + tx, -24, 2, 2, L.buckle); r(4 + tx, -16, 2, 2, L.buckle);
+  r(-1 + tx, -26, 2, 2, L.ring);
+  // forelegs as arms, white paws as fists
+  const arm = F, paw = C;
+  if (pose === "punch") { r(5 + tx, -21, 8, 3, arm); r(13 + tx, -22, 3, 4, paw); r(-7 + tx, -21, 3, 6, arm); r(-7 + tx, -15, 3, 2, paw); }
+  else if (pose === "hit") { r(5 + tx, -26, 3, 5, arm); r(5 + tx, -29, 3, 3, paw); r(-8 + tx, -26, 3, 6, arm); r(-8 + tx, -29, 3, 3, paw); }
+  else if (pose === "win") { r(-9 + tx, -33, 3, 11, arm); r(-9 + tx, -36, 3, 3, paw); r(6 + tx, -21, 3, 6, arm); r(6 + tx, -15, 3, 2, paw); }
+  else { r(6 + tx, -22, 3, 3, arm); r(9 + tx, -23, 3, 3, arm); r(10 + tx, -26, 3, 3, paw); r(-8 + tx, -22, 3, 4, arm); r(-8 + tx, -24, 3, 2, paw); }
+  // "Ba" on the harness chest plate
+  if (L.label && !flashWhite) {
+    const k = U >= 2 && g === ctx ? 2 : 1, tw = textW(L.label, k);
+    const cx = face > 0 ? x + (tx + 1) * U : x - (tx + 1) * U;
+    text(g, L.label, cx - tw / 2, footY - 20 * U, "#ffffff", k);
+  }
+  // head: neck, skull, tall pointed ears with dark insides, grey brow mask, brown eyes, white muzzle, black nose
+  const hx = tx + (lean > 0 ? 1 : 0), hy = -33;
+  r(-2 + hx, -26, 5, 2, F);
+  r(-5 + hx, hy, 9, 7, F); r(-4 + hx, hy - 1, 7, 1, F); r(-5 + hx, hy + 6, 9, 1, D);
+  // ears: wide at the base, pointed, dark inside (back ear a shade darker); folded back when hit
+  const ear = (x0, shade) => {
+    if (pose === "hit") { r(x0, hy - 2, 4, 2, shade); r(x0 - 1, hy - 1, 2, 1, shade); r(x0 + 1, hy - 1, 2, 1, L.ear); return; }
+    r(x0 + 1, hy - 7, 1, 1, shade); r(x0 + 1, hy - 6, 2, 1, shade); r(x0, hy - 5, 3, 2, shade); r(x0, hy - 3, 4, 2, shade);
+    r(x0 + 1, hy - 5, 1, 1, L.ear); r(x0 + 1, hy - 4, 2, 2, L.ear);
+  };
+  ear(-5 + hx, D); ear(0 + hx, F);
+  r(-1 + hx, hy - 1, 2, 4, C);
+  r(-4 + hx, hy + 2, 3, 1, L.mask); r(1 + hx, hy + 2, 3, 1, L.mask);
+  const eye = pose === "hit" ? "#140a10" : L.eye;
+  r(-3 + hx, hy + 3, 2, 1, eye); r(2 + hx, hy + 3, 1, 1, eye); r(-3 + hx, hy + 4, 1, 1, L.mask);
+  r(1 + hx, hy + 4, 3, 3, C); r(4 + hx, hy + 3, 4, 3, C); r(4 + hx, hy + 5, 3, 1, "#cfc6bc");
+  r(7 + hx, hy + 2, 2, 2, L.nose);
+  if (pose === "win") { r(4 + hx, hy + 6, 3, 1, "#3a1010"); r(5 + hx, hy + 7, 2, 2, "#e8708a"); }
+  else if (pose === "hit" || pose === "punch") { r(4 + hx, hy + 6, 3, 1, "#3a1010"); }
+  else { r(4 + hx, hy + 6, 3, 1, L.mask); }
+}
 function drawDuelist(g, L, x, footY, face, pose, U, flashWhite) {
+  if (L.dog) return drawDog(g, L, x, footY, face, pose, U, flashWhite);
   const W2 = (c) => (flashWhite ? "#ffffff" : c);
   // r(dx, dy, w, h): a rectangle in sprite units, mirrored when facing left
   const r = (dx, dy, w, h, c) => { const sx = face > 0 ? x + dx * U : x - (dx + w) * U; rect(g, sx, footY + dy * U, w * U, h * U, W2(c)); };
@@ -6435,7 +6501,7 @@ function drawBust(canvas, key) {
   const grd = g.createLinearGradient(0, 0, 0, canvas.height); grd.addColorStop(0, "#2a1640"); grd.addColorStop(1, "#140e22");
   g.fillStyle = grd; g.fillRect(0, 0, canvas.width, canvas.height);
   const U = canvas.width / 16;
-  drawDuelist(g, L, canvas.width / 2 + (key === "hero" ? -U : U), 34 * U + 4, key === "hero" ? 1 : -1, "idle", U, false);
+  drawDuelist(g, L, canvas.width / 2 + (key === "hero" ? -U : U) + (L.dog ? -U : 0), 34 * U + 4 + (L.dog ? 6 * U : 0), key === "hero" ? 1 : -1, "idle", U, false);
 }
 
 /* ---------- drawing ---------- */
@@ -6458,7 +6524,7 @@ function draw() {
       for (let i = 0; i < full; i++) { const on = i < segs; px(x + i * (sw + 2), 13, sw, 6, "#140e1e"); if (on) px(x + i * (sw + 2) + 1, 14, sw - 2, 4, col); }
     };
     bar(8, "TITRATOR", S.hp, MAXHP, "#4fe0d0", false);
-    bar(LW - 118, (g.boss ? "MR. X" : g.name.toUpperCase()), S.ohp, g.boss ? SHOW.HITS.boss : SHOW.HITS.gang, g.boss ? "#ffd85a" : "#ff5fae", true);
+    bar(LW - 118, (g.boss ? "LORD BARKIUM" : g.name.toUpperCase()), S.ohp, g.boss ? SHOW.HITS.boss : SHOW.HITS.gang, g.boss ? "#ffd85a" : "#ff5fae", true);
     text(ctx, "VS", LW / 2 - textW("VS") / 2, 10, "#ffd85a");
   } else if (S.phase === "title" || S.phase === "ladder" || S.phase === "report") {
     // attract: the hero shadow-boxes on the street
@@ -6542,9 +6608,9 @@ function showLadder() {
   $("gang").innerHTML = GANG.map((g, i) => `<li class="fighter${S.beaten.includes(i) ? " done" : ""}${i === i0 ? " next" : ""}${g.boss ? " boss" : ""}"><div class="pic" data-k="${g.key}"></div><b>${g.name}</b><span class="fm">${g.boss ? "The boss" : sub(g.formula)}</span><small>${g.topic}</small></li>`).join("");
   $("gang").querySelectorAll(".pic").forEach((el) => fillPic(el, el.dataset.k));
   const g = GANG[i0];
-  $("ladderSub").textContent = S.beaten.length ? `${S.beaten.length} down, ${GANG.length - S.beaten.length} to go.` : "Beat all five, then take on Mr. X.";
-  $("ladderNote").innerHTML = g.boss ? "The whole gang is down. Mr. X takes three hits: one balancing question, one mole question and one Lewis structure." : `Next up: <b>${g.name}</b> (${sub(g.formula)}), on ${g.topic.toLowerCase()}. Two right answers win the fight.`;
-  $("fightBtn").textContent = g.boss ? "Fight Mr. X" : `Fight ${g.name}`;
+  $("ladderSub").textContent = S.beaten.length ? `${S.beaten.length} down, ${GANG.length - S.beaten.length} to go.` : "Beat all five, then take on Lord Barkium.";
+  $("ladderNote").innerHTML = g.boss ? "The whole gang is down. Lord Barkium (Ba) takes three hits: one balancing question, one mole question and one Lewis structure." : `Next up: <b>${g.name}</b> (${sub(g.formula)}), on ${g.topic.toLowerCase()}. Two right answers win the fight.`;
+  $("fightBtn").textContent = g.boss ? "Fight Lord Barkium" : `Fight ${g.name}`;
   showPanel("ladder"); updateHUD(); renderCheckpoints();
   if (S.beaten.length) SND.startMusic(SND.song = "brawl");
   setTimeout(() => $("fightBtn").focus({ preventScroll: true }), 30);
@@ -6559,7 +6625,7 @@ function startVS() {
   const g = GANG[S.opp];
   S.phase = "vs"; W.scene = SCENE_OF[g.key];
   fillPic($("vsOppPic"), g.key); drawBust($("vsHero"), "hero");
-  $("vsName").innerHTML = g.boss ? "Mr. X" : `${g.name} <span style="color:var(--teal)">${sub(g.formula)}</span>`;
+  $("vsName").innerHTML = g.boss ? `Lord Barkium <span style="color:var(--teal)">${sub(g.formula)}</span>` : `${g.name} <span style="color:var(--teal)">${sub(g.formula)}</span>`;
   $("vsTopic").textContent = g.topic;
   $("vs").hidden = false; $("logo").hidden = true;
   showPanel(null);
@@ -6575,9 +6641,9 @@ function startDuel() {
   S.phase = "duel"; S.hp = MAXHP; S.ohp = g.boss ? SHOW.HITS.boss : SHOW.HITS.gang; S.correct = 0; S.tries = 0; S.hitThisDuel = 0;
   S.duelStart = { score: S.score, stats: { ...S.stats } };
   W.hero = { x: HERO_X - 40, pose: "idle", t: 0 }; W.opp = { x: OPP_X + 40, pose: "idle", t: 0 }; W.anim = null;
-  $("duelTitle").innerHTML = g.boss ? "Final fight: Mr. X" : `${g.name} <span class="fm">${sub(g.formula)}</span> · ${g.topic}`;
+  $("duelTitle").innerHTML = g.boss ? `Final fight: Lord Barkium <span class="fm">${sub(g.formula)}</span>` : `${g.name} <span class="fm">${sub(g.formula)}</span> · ${g.topic}`;
   $("duelTag").textContent = `Hits to win: ${S.ohp}`;
-  $("tauntWho").textContent = g.boss ? "Mr. X" : g.name; $("tauntText").textContent = TAUNTS[g.key];
+  $("tauntWho").textContent = g.boss ? "Lord Barkium" : g.name; $("tauntText").textContent = TAUNTS[g.key];
   showPanel("console"); updateHUD(); renderCheckpoints();
   banner("FIGHT!", "#ffd85a", 1); sfx.fight();
   nextQuestion();
@@ -6634,7 +6700,7 @@ function duelWon() {
   const perfect = S.hitThisDuel === 0;
   addScore(50 + (perfect ? 100 : 0));
   if (perfect) { S.stats.perfects++; setTimeout(() => banner("PERFECT!", "#4fe0d0", 1.3), 900); }
-  $("tauntWho").textContent = g.boss ? "Mr. X" : g.name; $("tauntText").textContent = OUCH[g.key];
+  $("tauntWho").textContent = g.boss ? "Lord Barkium" : g.name; $("tauntText").textContent = OUCH[g.key];
   $("fb").innerHTML += `<br><b style="margin-top:6px">${perfect ? "Perfect fight! +150" : "Fight won! +50"}</b>`;
   S.phase = "won"; renderCheckpoints();
   setTimeout(() => { if (g.boss) finish(); else showLadder(); }, perfect ? 2600 : 2000);
@@ -6642,7 +6708,7 @@ function duelWon() {
 function heroKO() {
   S.phase = "ko";
   const g = GANG[S.opp];
-  $("koText").textContent = `${g.boss ? "Mr. X" : g.name} knocked you out. Rematch with a fresh set of questions and full shields. Your score goes back to ${S.duelStart.score}, where it was when this fight started.`;
+  $("koText").textContent = `${g.boss ? "Lord Barkium" : g.name} knocked you out. Rematch with a fresh set of questions and full shields. Your score goes back to ${S.duelStart.score}, where it was when this fight started.`;
   showPanel("ko"); SND.stopMusic();
   setTimeout(() => $("rematchBtn").focus({ preventScroll: true }), 30);
 }
@@ -6701,7 +6767,7 @@ function updateHUD() {
   $("hudShields").innerHTML = Array.from({ length: MAXHP }, (_, i) => `<i class="shield ${i < hp ? "on" : ""}"></i>`).join("");
   $("hudShields").setAttribute("aria-label", `${hp} of ${MAXHP} shields`);
   const g = GANG[S.opp];
-  $("hudSector").textContent = S.phase === "title" ? "Reaction Brawl" : S.phase === "report" ? "Stage complete" : S.phase === "ladder" ? "The Reaction Gang" : g.boss ? "Final fight · Mr. X" : `Fight ${S.opp + 1} of 6 · ${g.name}`;
+  $("hudSector").textContent = S.phase === "title" ? "Reaction Brawl" : S.phase === "report" ? "Stage complete" : S.phase === "ladder" ? "The Reaction Gang" : g.boss ? "Final fight · Lord Barkium" : `Fight ${S.opp + 1} of 6 · ${g.name}`;
 }
 let lastTimer = null;
 function updateTimer() {
@@ -6713,7 +6779,7 @@ function updateTimer() {
 }
 function renderCheckpoints() {
   const ol = $("cps");
-  if (!ol.children.length) ol.innerHTML = GANG.map((g) => `<li>${g.boss ? "X" : sub(g.formula)}</li>`).join("");
+  if (!ol.children.length) ol.innerHTML = GANG.map((g) => `<li>${sub(g.formula)}</li>`).join("");
   [...ol.children].forEach((li, i) => { li.classList.toggle("done", S.beaten.includes(i)); li.classList.toggle("now", !["title", "report"].includes(S.phase) && i === S.opp && !S.beaten.includes(i)); });
 }
 function finish() {
@@ -6786,7 +6852,7 @@ function start() {
   bind();
   try { const n = localStorage.getItem("rr-name") || localStorage.getItem("cp-name"); if (n) $("pilotName").value = n; } catch (err) { /* storage unavailable */ }
   showPanel("title"); updateHUD(); renderCheckpoints();
-  if (location.hash === "#debug") window.__rs = { S, W, speedup: 1, startDuel, answerRight: () => answer(S.q.answer), answerWrong: () => answer((S.q.answer + 1) % 3) };
+  if (location.hash === "#debug") window.__rs = { S, W, speedup: 1, startDuel, drawDuelist, drawBust, LOOKS, showLadder, answerRight: () => answer(S.q.answer), answerWrong: () => answer((S.q.answer + 1) % 3) };
   requestAnimationFrame(frame);
 }
 if (window.RR) { start(); window.RR.register("s4", { launch: (n, m) => launch(n, m) }); }
