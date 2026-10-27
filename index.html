@@ -6274,7 +6274,7 @@ const LOOKS = {
   ch4: { skin: "#f0c8b0", hair: "short", hairC: "#f4f4f4", beard: "full", beardC: "#f4f4f4", glasses: "thin", glassC: "#8a8a92", shirt: "#4ad08a", vest: true, label: "CH4" },
   nh3: { skin: "#f0c4a8", hair: "curly", hairC: "#6a4a30", hairHi: "#b08a5a", glasses: "rect", glassC: "#2a2030", shirt: "#4fe0d0", vest: true, label: "NH3", lips: true },
   // Lord Barkium (Ba): Alastair, cream-tan with a white muzzle, chest and paws, a grey brow mask, tall ears, a black tail tip and his teal harness
-  ba: { dog: true, fur: "#e2c49c", furHi: "#eed7b4", furDk: "#c9a57a", cream: "#f6efe2", mask: "#6e6772", ear: "#5a4448", nose: "#141014", eye: "#6a3a1a",
+  ba: { dog: true, fur: "#e2c49c", furHi: "#eed7b4", furDk: "#c9a57a", cream: "#f6efe2", mask: "#6e6772", ear: "#dca8a2", earRim: "#9a8682", muzzleDk: "#3a3337", nose: "#141014", eye: "#b8721e",
         harness: "#3e9f98", harnessDk: "#2b7a74", buckle: "#5cc6e6", ring: "#c8ccd4", tailTip: "#2a2226", label: "Ba", big: true }
 };
 const SCENE_OF = { h2: 0, o2: 1, n2: 2, ch4: 0, nh3: 1, ba: 3 };
@@ -6410,19 +6410,19 @@ function drawDog(g, L, x, footY, face, pose, U, flashWhite) {
   // ears: wide at the base, pointed, dark inside (back ear a shade darker); folded back when hit
   const ear = (x0, shade) => {
     if (pose === "hit") { r(x0, hy - 2, 4, 2, shade); r(x0 - 1, hy - 1, 2, 1, shade); r(x0 + 1, hy - 1, 2, 1, L.ear); return; }
-    r(x0 + 1, hy - 7, 1, 1, shade); r(x0 + 1, hy - 6, 2, 1, shade); r(x0, hy - 5, 3, 2, shade); r(x0, hy - 3, 4, 2, shade);
+    r(x0 + 1, hy - 7, 1, 1, L.earRim); r(x0 + 1, hy - 6, 2, 1, shade); r(x0, hy - 5, 3, 2, shade); r(x0, hy - 3, 4, 2, shade);
     r(x0 + 1, hy - 5, 1, 1, L.ear); r(x0 + 1, hy - 4, 2, 2, L.ear);
   };
   ear(-5 + hx, D); ear(0 + hx, F);
   r(-1 + hx, hy - 1, 2, 4, C);
   r(-4 + hx, hy + 2, 3, 1, L.mask); r(1 + hx, hy + 2, 3, 1, L.mask);
   const eye = pose === "hit" ? "#140a10" : L.eye;
-  r(-3 + hx, hy + 3, 2, 1, eye); r(2 + hx, hy + 3, 1, 1, eye); r(-3 + hx, hy + 4, 1, 1, L.mask);
-  r(1 + hx, hy + 4, 3, 3, C); r(4 + hx, hy + 3, 4, 3, C); r(4 + hx, hy + 5, 3, 1, "#cfc6bc");
+  r(-4 + hx, hy + 3, 1, 1, "#2a2024"); r(-3 + hx, hy + 3, 2, 1, eye); r(2 + hx, hy + 3, 1, 1, eye); r(3 + hx, hy + 3, 1, 1, "#2a2024");
+  r(1 + hx, hy + 4, 3, 2, C); r(4 + hx, hy + 3, 4, 2, C);
+  r(2 + hx, hy + 6, 2, 1, L.mask); r(4 + hx, hy + 5, 4, 2, L.muzzleDk);
   r(7 + hx, hy + 2, 2, 2, L.nose);
-  if (pose === "win") { r(4 + hx, hy + 6, 3, 1, "#3a1010"); r(5 + hx, hy + 7, 2, 2, "#e8708a"); }
-  else if (pose === "hit" || pose === "punch") { r(4 + hx, hy + 6, 3, 1, "#3a1010"); }
-  else { r(4 + hx, hy + 6, 3, 1, L.mask); }
+  if (pose === "win") { r(5 + hx, hy + 6, 2, 2, "#e8708a"); }
+  else if (pose === "hit" || pose === "punch") { r(5 + hx, hy + 6, 2, 1, "#1a0c0c"); }
 }
 function drawDuelist(g, L, x, footY, face, pose, U, flashWhite) {
   if (L.dog) return drawDog(g, L, x, footY, face, pose, U, flashWhite);
